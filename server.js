@@ -1,27 +1,23 @@
-
 import express from 'express'
 import cors from 'cors'
 import axios from 'axios'
-
+import path from 'path'
+import { fileURLToPath } from 'url'
 
 const app = express();
 app.use(cors());
 
-// Debug middleware - log all incoming requests
-app.use((req, res, next) => {
-  console.log(`Incoming request: ${req.method} ${req.url}`);
-  next();
-});
+// Get __dirname equivalent in ES modules
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename);
 
+// API endpoint
 app.get('/api/horoscope', async (req, res) => {
   try {
     const { sign } = req.query;
     const apiUrl = `https://horoscope-app-api.vercel.app/api/v1/get-horoscope/daily?sign=${sign}&day=today`;
     
     const response = await axios.get(apiUrl);
-    
-    // Disable caching for this endpoint
-    res.setHeader('Cache-Control', 'no-store, max-age=0');
     res.json(response.data);
     
   } catch (error) {
@@ -29,8 +25,15 @@ app.get('/api/horoscope', async (req, res) => {
   }
 });
 
+// Serve static files from the dist directory (built frontend)
+app.use(express.static(path.join(__dirname, 'dist')));
+
+// For any other route, serve the index.html
+app.get('*', (req, res) => {
+  res.sendFile(path.join(__dirname, 'dist', 'index.html'));
+});
+
 const PORT = process.env.PORT || 3001;
 app.listen(PORT, () => {
-  console.log(`Proxy server running on http://localhost:${PORT}`);
-  console.log(`Test endpoint: http://localhost:${PORT}/api/horoscope?sign=aries`);
+  console.log(`✅ Combined server running on http://localhost:${PORT}`);
 });

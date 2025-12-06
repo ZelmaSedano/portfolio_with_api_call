@@ -9,11 +9,13 @@
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
+    "start": "node server.js",
     "start-backend": "node server.js",
     "dev-full": "concurrently \"npm run dev\" \"npm run start-backend\""
   },
   "dependencies": {
     "@emailjs/browser": "^4.4.1",
+    "@types/express": "^5.0.6",
     "axios": "^1.11.0",
     "concurrently": "^8.2.2",
     "cors": "^2.8.5",
