@@ -4,12 +4,11 @@ import axios from 'axios'
 import path from 'path'
 import { fileURLToPath } from 'url'
 
-const app = express();
-app.use(cors());
-
-// Get __dirname equivalent in ES modules
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
+
+const app = express();
+app.use(cors());
 
 // API endpoint
 app.get('/api/horoscope', async (req, res) => {
@@ -25,8 +24,9 @@ app.get('/api/horoscope', async (req, res) => {
   }
 });
 
-// Serve static files from the dist directory (built frontend)
+// Serve static files from multiple locations
 app.use(express.static(path.join(__dirname, 'dist')));
+app.use('/src/assets', express.static(path.join(__dirname, 'src/assets')));
 
 // For any other route, serve the index.html
 app.get('*', (req, res) => {
