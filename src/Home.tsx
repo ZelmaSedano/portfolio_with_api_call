@@ -14,6 +14,12 @@ import './components/DesktopIcon.css'; // contains both icon + modal styles
 import cat from './assets/cat.png'
 import evil_cat from './assets/evil_cat.gif'
 import wassup from './assets/wassup.gif'
+import scream from './assets/scream.png'
+import scandique from './assets/scandique.jpg'
+import clippy from './assets/mad_clippy.png'
+
+
+
 import connections from './assets/connections.ico'
 import starfield from './assets/Starfield.ico'
 import painting from './assets/Painting.ico'
@@ -269,7 +275,7 @@ function Home() {
             {/* scream icon */}
             <div className="desktop">
                 <DesktopIcon
-                    icon="/src/assets/scream.png"
+                    icon={scream}
                     label="RING RING"
                     x={50}
                     y={145}
@@ -296,7 +302,7 @@ function Home() {
             {/* horoscope icon */}
             <div className="desktop">
                 <DesktopIcon
-                    icon="/src/assets/scandique.jpg"
+                    icon={scandique}
                     label="horoscope"
                     x={50}
                     y={300}
@@ -360,7 +366,7 @@ function Home() {
             <div className="desktop">
                 {/* when you click the desktop icon, setShowModal is set to true */}
                 <DesktopIcon
-                    icon="/src/assets/mad_clippy.png"
+                    icon={clippy}
                     label="click me"
                     x={clippyPosition.x}
                     y={clippyPosition.y}
