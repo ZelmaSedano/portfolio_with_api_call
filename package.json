@@ -3,39 +3,33 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "proxy": "http://localhost:3001",
   "scripts": {
     "dev": "vite",
-    "build": "tsc -b && vite build",
-    "lint": "eslint .",
+    "build": "tsc && vite build",
     "preview": "vite preview",
     "start": "node server.js",
-    "start-backend": "node server.js",
-    "dev-full": "concurrently \"npm run dev\" \"npm run start-backend\""
+    "vercel-build": "npm run build",
+    "dev-full": "concurrently -n 'vite,server' -c 'green,blue' \"npm run dev\" \"npm run start\""
   },
   "dependencies": {
     "@emailjs/browser": "^4.4.1",
-    "@types/express": "^5.0.6",
     "axios": "^1.11.0",
     "concurrently": "^8.2.2",
     "cors": "^2.8.5",
     "express": "^4.21.2",
-    "node-fetch": "^3.3.2",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-router-dom": "^6.30.0"
   },
   "devDependencies": {
-    "@eslint/js": "^9.21.0",
+    "@types/express": "^5.0.6",
     "@types/react": "^19.0.10",
     "@types/react-dom": "^19.0.4",
     "@vitejs/plugin-react": "^4.3.4",
-    "eslint": "^9.21.0",
-    "eslint-plugin-react-hooks": "^5.0.0",
-    "eslint-plugin-react-refresh": "^0.4.19",
-    "globals": "^15.15.0",
     "typescript": "~5.7.2",
-    "typescript-eslint": "^8.24.1",
     "vite": "^6.1.1"
+  },
+  "engines": {
+    "node": ">=18.0.0"
   }
 }

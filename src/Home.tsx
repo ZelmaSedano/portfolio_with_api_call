@@ -10,6 +10,9 @@ import './components/Taskbar.css'
 import DesktopIcon from './components/DesktopIcon';
 import './components/DesktopIcon.css'; // contains both icon + modal styles
 
+// import images
+import cat from './assets/cat.png'
+
 type HoroscopeData = {
     data: {
         date: string;
@@ -174,7 +177,7 @@ function Home() {
             <div className="desktop">
                 {/* when you click the desktop icon, setShowModal is set to true */}
                 <DesktopIcon
-                    icon="/src/assets/cat.png"
+                    icon={cat}
                     label="meowdy"
                     x={50}
                     y={35}
