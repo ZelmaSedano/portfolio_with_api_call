@@ -29,7 +29,7 @@ import computer_1 from './assets/computer_1.png'
 import computer_2 from './assets/computer-2.png'
 import earth from './assets/earth.ico'
 
-
+console.log(cat)
 
 type HoroscopeData = {
     data: {
@@ -305,7 +305,7 @@ function Home() {
                     icon={scandique}
                     label="horoscope"
                     x={50}
-                    y={300}
+                    y={150}
                     onClick={() => setShowHoroscopeModal(true)}
                     className=''
                     imgClassName='horoscope-icon'
