@@ -12,6 +12,18 @@ import './components/DesktopIcon.css'; // contains both icon + modal styles
 
 // import images
 import cat from './assets/cat.png'
+import evil_cat from './assets/evil_cat.gif'
+import wassup from './assets/wassup.gif'
+import connections from './assets/connections.ico'
+import starfield from './assets/Starfield.ico'
+import painting from './assets/Painting.ico'
+import resume from './assets/resume.png'
+import send from './assets/send.png'
+import computer_1 from './assets/computer_1.png'
+import computer_2 from './assets/computer-2.png'
+import earth from './assets/earth.ico'
+
+
 
 type HoroscopeData = {
     data: {
@@ -231,7 +243,7 @@ function Home() {
                             </div>
                             <div className="modal-body">
                                 <div className="image-container">
-                                    <img src="/src/assets/evil_cat.gif" alt="evil_cat" />
+                                    <img src={evil_cat} alt="evil_cat" />
                                 </div>
                             </div>
                         </div>
@@ -247,7 +259,7 @@ function Home() {
                             </div>
                             <div className="modal-body">
                                 <div className="image-container">
-                                    <img src="/src/assets/evil_cat.gif" alt="evil_cat" />
+                                    <img src={evil_cat}alt="evil_cat" />
                                 </div>
                             </div>
                         </div>
@@ -274,7 +286,7 @@ function Home() {
                         </div>
 
                         <div className="modal-body">
-                            <img src='/src/assets/wassup.gif' className='wassupp' alt='wassup_gif'></img>
+                            <img src={wassup}className='wassupp' alt='wassup_gif'></img>
                         </div>
                         </div>
                     </div>
@@ -402,7 +414,7 @@ function Home() {
                             </div>
                             <div className="modal-body">
                                 <div className="image-container">
-                                    <img src="/src/assets/evil_cat.gif" alt="evil_cat" />
+                                    <img src={evil_cat}alt="evil_cat" />
                                 </div>
                             </div>
                         </div>
@@ -443,7 +455,7 @@ function Home() {
                     {/* header */}
                     <header>
                         <section className='blue-bar'>
-                            <img src="/src/assets/connections.ico" className='icon' alt="icon"/>
+                            <img src={connections} className='icon' alt="icon"/>
                             <section className='blue-bar-text'>DevScape - Valentia Sedano</section>
 
                             <div className="button-container">
@@ -458,19 +470,19 @@ function Home() {
                                 {/* allows you to style the Home button when it's the router path */}
                                 <li className={`button left-button ${location.pathname === '/' ? 'active-home' : ''}`}>
                                     <Link to="/">
-                                        <img src="/src/assets/Starfield.ico" className='home-icon' alt='home'/>
+                                        <img src={starfield} className='home-icon' alt='home'/>
                                         <p>Home</p>
                                     </Link>
                                 </li>
                                 <li className='button'>
                                     <Link to="/portfolio">
-                                        <img src="/src/assets/painting.ico" className='paint-icon' alt='portfolio'/>
+                                        <img src={painting}className='paint-icon' alt='portfolio'/>
                                         <p>Portfolio</p>
                                     </Link>
                                 </li>
                                 <li className='button'>
                                     <Link to="/resume">
-                                        <img src="/src/assets/resume.png" className='resume-icon' alt='resume'></img>
+                                        <img src={resume}className='resume-icon' alt='resume'></img>
                                         <p>Resume</p>
                                     </Link>
                                 </li>
@@ -482,7 +494,7 @@ function Home() {
                                 </li> */}
                                 <li className='button'>
                                     <Link to="/contact">
-                                        <img src="/src/assets/send.png" className='contact-icon' alt='contact'></img>
+                                        <img src={send}className='contact-icon' alt='contact'></img>
                                         <p>Contact</p>
                                     </Link>
                                 </li>   
@@ -508,12 +520,12 @@ function Home() {
                     {/* window content */}
                     <div className='content'>
                         <div className='homepage-banners'>
-                            <img className='computer' src="/src/assets/computer-2.png" alt="evil_cat" />
+                            <img className='computer' src={computer_1} alt="evil_cat" />
                             <div className='inner-banner-text'>
                                 <p className='banner'>Valentia's Portolio</p>
                                 <p className='banner-1'>Nostalgia Design Expert</p>
                             </div>
-                            <img className='computer' src="/src/assets/computer-2.png" alt="evil_cat" />
+                            <img className='computer' src={computer_2}alt="evil_cat" />
                         </div>
 
                         <div className='bio-section'>
@@ -533,7 +545,7 @@ function Home() {
                             <div className = 'footer-section footer-small'></div>
                             <div className = 'footer-section footer-small'></div>
                             <div className='footer-section footer-medium'>
-                                <img src="/src/assets/earth.ico" className='content-footer-icon' alt='content_footer'></img>
+                                <img src={earth} className='content-footer-icon' alt='content_footer'></img>
                                 <p className='footer-section-text'>Internet</p>
                             </div>
                         </div>
