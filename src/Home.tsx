@@ -14,7 +14,7 @@ import './components/DesktopIcon.css'; // contains both icon + modal styles
 import cat from './assets/cat.png'
 import evil_cat from './assets/evil_cat.gif'
 import wassup from './assets/wassup.gif'
-import scream from './assets/scream.png'
+import scream from './assets/scream_2.png'
 import scandique from './assets/scandique.jpg'
 import clippy from './assets/mad_clippy.png'
 
@@ -305,7 +305,7 @@ function Home() {
                     icon={scandique}
                     label="horoscope"
                     x={50}
-                    y={300}
+                    y={255}
                     onClick={() => setShowHoroscopeModal(true)}
                     className=''
                     imgClassName='horoscope-icon'
@@ -528,8 +528,8 @@ function Home() {
                         <div className='homepage-banners'>
                             <img className='computer' src={computer_1} alt="evil_cat" />
                             <div className='inner-banner-text'>
-                                <p className='banner'>Valentia's Portolio</p>
-                                <p className='banner-1'>Nostalgia Design Expert</p>
+                                <p className='banner'>-- Val Sedano --</p>
+                                <p className='banner-1'>RetroWave Designer & Developer</p>
                             </div>
                             <img className='computer' src={computer_2}alt="evil_cat" />
                         </div>
