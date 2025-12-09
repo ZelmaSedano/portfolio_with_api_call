@@ -462,7 +462,7 @@ function Home() {
                     <header>
                         <section className='blue-bar'>
                             <img src={connections} className='icon' alt="icon"/>
-                            <section className='blue-bar-text'>DevScape - Valentia Sedano</section>
+                            <section className='blue-bar-text'>DevScape - Val Sedano</section>
 
                             <div className="button-container">
                                 <button className='x-button' onClick={toggleWindow}>✕</button>
@@ -514,7 +514,7 @@ function Home() {
                             <div className = 'url-bar-small-1'>Address</div>
                             <div className = 'url-bar-large'>
                                 <div className='dropdown-container'>
-                                    <div className='url-text'>http://www.geocities.com/valentia_is_best_dev</div>
+                                    <div className='url-text'>http://www.geocities.com/val_is_best_dev</div>
                                 </div>
                                 <button className='url-dropdown-button'>▼</button>
                             </div>
