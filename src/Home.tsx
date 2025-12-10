@@ -12,7 +12,6 @@ import './components/DesktopIcon.css'; // contains both icon + modal styles
 
 // import images
 
-import painting from './assets/Painting.ico'
 import resume from './assets/resume.png'
 import send from './assets/send.png'
 import computer_1 from './assets/computer_1.png'
@@ -472,7 +471,7 @@ function Home() {
                                 </li>
                                 <li className='button'>
                                     <Link to="/portfolio">
-                                        <img src={painting}className='paint-icon' alt='portfolio'/>
+                                        <img src="/images/Painting.ico" className='paint-icon' alt='portfolio'/>
                                         <p>Portfolio</p>
                                     </Link>
                                 </li>

@@ -7,7 +7,6 @@ import './components/Taskbar.css'
 import DesktopIcon from './components/DesktopIcon';
 import './components/DesktopIcon.css';
 
-import painting from './assets/Painting.ico'
 import resume from './assets/resume.png'
 import send from './assets/send.png'
 import earth from './assets/earth.ico'
@@ -360,7 +359,7 @@ function Portfolio() {
                             </li>
                             <li className={`button ${location.pathname === '/portfolio' ? 'active-portfolio' : ''}`}>
                                 <Link to="/portfolio">
-                                    <img src={painting} className='paint-icon' alt="portfolio"/>
+                                    <img src="/images/Painting.ico" className='paint-icon' alt='portfolio'/>
                                     <p>Portfolio</p>
                                 </Link>
                             </li>

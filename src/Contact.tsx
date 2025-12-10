@@ -8,7 +8,6 @@ import './components/Taskbar.css'
 import DesktopIcon from './components/DesktopIcon';
 import './components/DesktopIcon.css'; // contains both icon + modal 
 
-import painting from './assets/Painting.ico'
 import resume from './assets/resume.png'
 import send from './assets/send.png'
 import earth from './assets/earth.ico'
@@ -507,7 +506,7 @@ function Contact() {
                                 </li>
                                 <li className='button'>
                                     <Link to="/portfolio">
-                                        <img src={painting} className='paint-icon' alt="portfolio"/>
+                                        <img src="/images/Painting.ico" className='paint-icon' alt='portfolio'/>
                                         <p>Portfolio</p>
                                     </Link>
                                 </li>

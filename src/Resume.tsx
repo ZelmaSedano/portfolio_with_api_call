@@ -331,7 +331,7 @@ function Resume() {
                         </li>
                         <li className='button'>
                             <Link to="/portfolio">
-                                <img src="/src/assets/painting.ico" className='paint-icon' alt="portfolio"/>
+                                <img src="/images/Painting.ico" className='paint-icon' alt='portfolio'/>
                                 <p>Portfolio</p>
                             </Link>
                         </li>
