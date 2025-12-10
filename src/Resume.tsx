@@ -8,7 +8,8 @@ import DesktopIcon from './components/DesktopIcon';
 import './components/DesktopIcon.css'; // contains both icon + modal 
 
 import send from './assets/send.png'
-import matrix from '../public/images/matrix.gif'
+import matrix from './assets/matrix.gif'
+import world from './assets/world.gif'
 
 function Resume() {
     const windowRef = useRef<HTMLDivElement | null>(null);
@@ -517,7 +518,7 @@ function Resume() {
                                     </div>
                                     <div className='image-section'>
                                         <div className='widescreen-image'>
-                                            <img src='/src/assets/world.gif' className='obra-dinn'></img>
+                                            <img src={world} className='obra-dinn'></img>
                                         </div>
                                     </div>
                                 </div>
@@ -533,7 +534,7 @@ function Resume() {
                                 </div>
                             </div>
                             <div className='middle-resume-column-3'>
-                                <img src='/src/assets/world.gif' className='obra-dinn'></img>
+                                <img src={world} className='obra-dinn'></img>
                             </div>
                             <div className='bottom-resume-column-3'>
                                 <div className='resume-about-section'>
