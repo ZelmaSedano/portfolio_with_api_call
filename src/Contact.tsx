@@ -8,6 +8,25 @@ import './components/Taskbar.css'
 import DesktopIcon from './components/DesktopIcon';
 import './components/DesktopIcon.css'; // contains both icon + modal 
 
+// import images
+import cat from './assets/cat.png'
+import evil_cat from './assets/evil_cat.gif'
+import wassup from './assets/wassup.gif'
+import scream from './assets/scream_2.png'
+// import scandique from './assets/scandique.jpg'
+// import clippy from './assets/mad_clippy.png'
+
+
+
+// import connections from './assets/connections.ico'
+// import starfield from './assets/Starfield.ico'
+// import painting from './assets/Painting.ico'
+// import resume from './assets/resume.png'
+// import send from './assets/send.png'
+// import computer_1 from './assets/computer_1.png'
+// import computer_2 from './assets/computer-2.png'
+// import earth from './assets/earth.ico'
+
 
 function Contact() {
     const windowRef = useRef<HTMLDivElement | null>(null)
@@ -218,7 +237,7 @@ function Contact() {
             <div className="desktop">
                 {/* when you click the desktop icon, setShowModal is set to true */}
                 <DesktopIcon
-                    icon="/src/assets/cat.png"
+                    icon={cat}
                     label="meowdy"
                     x={50}
                     y={35}
@@ -271,7 +290,7 @@ function Contact() {
                             </div>
                             <div className="modal-body">
                                 <div className="image-container">
-                                    <img src="/src/assets/evil_cat.gif" alt="evil_cat" />
+                                    <img src={evil_cat} alt="evil_cat" />
                                 </div>
                             </div>
                         </div>
@@ -287,7 +306,7 @@ function Contact() {
                             </div>
                             <div className="modal-body">
                                 <div className="image-container">
-                                    <img src="/src/assets/evil_cat.gif" alt="evil_cat" />
+                                    <img src={evil_cat} alt="evil_cat" />
                                 </div>
                             </div>
                         </div>
@@ -297,7 +316,7 @@ function Contact() {
             {/* scream icon */}
             <div className="desktop">
                 <DesktopIcon
-                    icon="/src/assets/scream.png"
+                    icon={scream}
                     label="RING RING"
                     x={50}
                     y={145}
@@ -314,7 +333,7 @@ function Contact() {
                         </div>
 
                         <div className="modal-body">
-                            <img src='/src/assets/wassup.gif' className='gif'></img>
+                            <img src={wassup} className='wassup_gif'></img>
                         </div>
                         </div>
                     </div>

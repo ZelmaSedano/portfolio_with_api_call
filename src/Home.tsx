@@ -526,12 +526,12 @@ function Home() {
                     {/* window content */}
                     <div className='content'>
                         <div className='homepage-banners'>
-                            <img className='computer' src={computer_1} alt="evil_cat" />
+                            <img className='computer' src={computer_1} alt="computer_1" />
                             <div className='inner-banner-text'>
                                 <p className='banner'>-- Val Sedano --</p>
                                 <p className='banner-1'>RetroWave Designer & Developer</p>
                             </div>
-                            <img className='computer' src={computer_2}alt="evil_cat" />
+                            <img className='computer' src={computer_2}alt="computer_2" />
                         </div>
 
                         <div className='bio-section'>
