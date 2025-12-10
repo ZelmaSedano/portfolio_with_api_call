@@ -311,7 +311,7 @@ function Resume() {
                 {/* header */}
             <header>
                 <section className='blue-bar'>
-                    <img src="/src/assets/connections.ico" className='icon' alt="icon"/>
+                    <img src="/images/connections.ico" className='icon' alt="icon"/>
                     <section className='blue-bar-text'>DevScape - Valentia Sedano</section>
 
                     <div className="button-container">

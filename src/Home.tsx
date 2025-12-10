@@ -13,7 +13,6 @@ import './components/DesktopIcon.css'; // contains both icon + modal styles
 // import images
 
 
-import connections from './assets/connections.ico'
 import starfield from './assets/Starfield.ico'
 import painting from './assets/Painting.ico'
 import resume from './assets/resume.png'
@@ -454,7 +453,7 @@ function Home() {
                     {/* header */}
                     <header>
                         <section className='blue-bar'>
-                            <img src={connections} className='icon' alt="icon"/>
+                            <img src="/images/connections.ico" className='icon' alt="icon"/>
                             <section className='blue-bar-text'>DevScape - Val Sedano</section>
 
                             <div className="button-container">

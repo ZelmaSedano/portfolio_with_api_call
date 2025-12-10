@@ -8,7 +8,6 @@ import DesktopIcon from './components/DesktopIcon';
 import './components/DesktopIcon.css';
 
 
-import connections from './assets/connections.ico'
 import starfield from './assets/Starfield.ico'
 import painting from './assets/Painting.ico'
 import resume from './assets/resume.png'
@@ -345,7 +344,7 @@ function Portfolio() {
                 {/* header */}
                 <header>
                     <section className='blue-bar'>
-                        <img src={connections} className='icon' alt="icon"/>
+                        <img src="/images/connections.ico" className='icon' alt="icon"/>
                         <section className='blue-bar-text'>DevScape - Valentia Sedano</section>
                         <div className="button-container">
                             <button className='x-button' onClick={toggleWindow}>✕</button>
