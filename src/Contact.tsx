@@ -16,16 +16,12 @@ import scream from './assets/scream_2.png'
 import scandique from './assets/scandique.jpg'
 import clippy from './assets/mad_clippy.png'
 
-
-
-// import connections from './assets/connections.ico'
-// import starfield from './assets/Starfield.ico'
-// import painting from './assets/Painting.ico'
-// import resume from './assets/resume.png'
-// import send from './assets/send.png'
-// import computer_1 from './assets/computer_1.png'
-// import computer_2 from './assets/computer-2.png'
-// import earth from './assets/earth.ico'
+import connections from './assets/connections.ico'
+import starfield from './assets/Starfield.ico'
+import painting from './assets/Painting.ico'
+import resume from './assets/resume.png'
+import send from './assets/send.png'
+import earth from './assets/earth.ico'
 
 type HoroscopeData = {
     data: {
@@ -501,7 +497,7 @@ function Contact() {
                     {/* header */}
                     <header>
                         <section className='blue-bar'>
-                            <img src="/src/assets/connections.ico" className='icon' alt="icon"/>
+                            <img src={connections} className='icon' alt="icon"/>
                             <section className='blue-bar-text'>DevScape - Valentia Sedano</section>
 
                             <div className="button-container">
@@ -515,19 +511,20 @@ function Contact() {
                             <ul>
                                 <li className='button left-button'>
                                     <Link to="/">
-                                        <img src="/src/assets/Starfield.ico" className='home-icon' alt="home"/>
+                                        <img src={starfield}className='home-icon' alt="home"/>
                                         <p>Home</p>
                                     </Link>
                                 </li>
                                 <li className='button'>
                                     <Link to="/portfolio">
-                                        <img src="/src/assets/painting.ico" className='paint-icon' alt="portfolio"/>
+                                        <img src={painting} className='paint-icon' alt="portfolio"/>
                                         <p>Portfolio</p>
                                     </Link>
                                 </li>
                                 <li className='button'>
                                     <Link to="/resume">
-                                        <img src="/src/assets/resume.png" className='resume-icon'></img>
+                                        <img src={resume}
+                                        className='resume-icon'></img>
                                         <p>Resume</p>
                                     </Link>
                                 </li>
@@ -539,7 +536,8 @@ function Contact() {
                                 </li> */}
                                 <li className={`button ${location.pathname === '/contact' ? 'active-contact' : ''}`}>
                                     <Link to="/contact">
-                                        <img src="/src/assets/send.png" className='contact-icon'></img>
+                                        <img src={send}
+                                        className='contact-icon'></img>
                                         <p>Contact</p>
                                     </Link>
                                 </li>   
@@ -642,7 +640,8 @@ function Contact() {
                             <div className = 'footer-section footer-small'></div>
                             <div className = 'footer-section footer-small'></div>
                             <div className='footer-section footer-medium'>
-                                <img src="/src/assets/earth.ico" className='content-footer-icon'></img>
+                                <img src={earth}
+                                className='content-footer-icon'></img>
                                 <p className='footer-section-text'>Internet</p>
                             </div>
                         </div>
