@@ -10,6 +10,7 @@ import './components/DesktopIcon.css'; // contains both icon + modal
 import send from './assets/send.png'
 import matrix from './assets/matrix.gif'
 import world from './assets/world.gif'
+import earth from './assets/earth.ico'
 
 function Resume() {
     const windowRef = useRef<HTMLDivElement | null>(null);
@@ -570,7 +571,7 @@ function Resume() {
                     <div className = 'footer-section footer-small'></div>
                     <div className = 'footer-section footer-small'></div>
                     <div className='footer-section footer-medium'>
-                        <img src="/src/assets/earth.ico" className='content-footer-icon'></img>
+                        <img src={earth} className='content-footer-icon'></img>
                         <p className='footer-section-text'>Internet</p>
                     </div>
                 </div>
