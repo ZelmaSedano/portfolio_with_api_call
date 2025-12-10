@@ -7,6 +7,20 @@ import './components/Taskbar.css'
 import DesktopIcon from './components/DesktopIcon';
 import './components/DesktopIcon.css';
 
+import cat from './assets/cat.png'
+import evil_cat from './assets/evil_cat.gif'
+import wassup from './assets/wassup.gif'
+import scream from './assets/scream_2.png'
+// import scandique from './assets/scandique.jpg'
+import clippy from './assets/mad_clippy.png'
+
+
+import connections from './assets/connections.ico'
+import starfield from './assets/Starfield.ico'
+import painting from './assets/Painting.ico'
+import resume from './assets/resume.png'
+import send from './assets/send.png'
+import earth from './assets/earth.ico'
 
 function Portfolio() {
     const windowRef = useRef<HTMLDivElement | null>(null)
@@ -164,7 +178,7 @@ function Portfolio() {
         <div className="desktop">
             {/* when you click the desktop icon, setShowModal is set to true */}
             <DesktopIcon
-                icon="/src/assets/cat.png"
+                icon={cat}
                 label="meowdy"
                 x={50}
                 y={35}
@@ -219,7 +233,7 @@ function Portfolio() {
                         </div>
                         <div className="modal-body">
                             <div className="image-container">
-                                <img src="/src/assets/evil_cat.gif" alt="evil_cat" />
+                                <img src={evil_cat} alt="evil_cat" />
                             </div>
                         </div>
                     </div>
@@ -235,7 +249,7 @@ function Portfolio() {
                         </div>
                         <div className="modal-body">
                             <div className="image-container">
-                                <img src="/src/assets/evil_cat.gif" alt="evil_cat" />
+                                <img src={evil_cat} alt="evil_cat" />
                             </div>
                         </div>
                     </div>
@@ -245,7 +259,7 @@ function Portfolio() {
         {/* scream icon */}
             <div className="desktop">
                 <DesktopIcon
-                    icon="/src/assets/scream.png"
+                    icon={scream}
                     label="RING RING"
                     x={50}
                     y={145}
@@ -262,7 +276,7 @@ function Portfolio() {
                         </div>
 
                         <div className="modal-body">
-                            <img src='/src/assets/wassup.gif' className='gif'></img>
+                            <img src={wassup} className='gif'></img>
                         </div>
                         </div>
                     </div>
@@ -273,7 +287,7 @@ function Portfolio() {
             <div className="desktop">
                 {/* when you click the desktop icon, setShowModal is set to true */}
                 <DesktopIcon
-                    icon="/src/assets/mad_clippy.png"
+                    icon={clippy}
                     label="click me"
                     x={clippyPosition.x}
                     y={clippyPosition.y}
@@ -333,7 +347,7 @@ function Portfolio() {
                 {/* header */}
                 <header>
                     <section className='blue-bar'>
-                        <img src="/src/assets/connections.ico" className='icon' alt="icon"/>
+                        <img src={connections} className='icon' alt="icon"/>
                         <section className='blue-bar-text'>DevScape - Valentia Sedano</section>
                         <div className="button-container">
                             <button className='x-button' onClick={toggleWindow}>✕</button>
@@ -345,19 +359,19 @@ function Portfolio() {
                         <ul>
                             <li className='button left-button'>
                                 <Link to="/">
-                                    <img src="/src/assets/Starfield.ico" className='home-icon' alt="home"/>
+                                    <img src={starfield} className='home-icon' alt="home"/>
                                     <p>Home</p>
                                 </Link>
                             </li>
                             <li className={`button ${location.pathname === '/portfolio' ? 'active-portfolio' : ''}`}>
                                 <Link to="/portfolio">
-                                    <img src="/src/assets/painting.ico" className='paint-icon' alt="portfolio"/>
+                                    <img src={painting} className='paint-icon' alt="portfolio"/>
                                     <p>Portfolio</p>
                                 </Link>
                             </li>
                             <li className='button'>
                                     <Link to="/resume">
-                                        <img src="/src/assets/resume.png" className='resume-icon'></img>
+                                        <img src={resume}className='resume-icon'></img>
                                         <p>Resume</p>
                                     </Link>
                             </li>
@@ -369,7 +383,7 @@ function Portfolio() {
                             </li> */}
                             <li className='button'>
                                 <Link to="/contact">
-                                        <img src="/src/assets/send.png" className='contact-icon'></img>
+                                        <img src={send}className='contact-icon'></img>
                                         <p>Contact</p>
                                 </Link>
                             </li>   
@@ -449,7 +463,7 @@ function Portfolio() {
                     <div className='footer-section footer-small'></div>
                     <div className='footer-section footer-small'></div>
                     <div className='footer-section footer-medium'>
-                        <img src="/src/assets/earth.ico" className='content-footer-icon' alt="internet"/>
+                        <img src={earth}className='content-footer-icon' alt="internet"/>
                         <p className='footer-section-text'>Internet</p>
                     </div>
                 </div>
