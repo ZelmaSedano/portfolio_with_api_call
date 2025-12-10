@@ -7,7 +7,6 @@ import './components/Taskbar.css'
 import DesktopIcon from './components/DesktopIcon';
 import './components/DesktopIcon.css';
 
-import cat from './assets/cat.png'
 import evil_cat from './assets/evil_cat.gif'
 import wassup from './assets/wassup.gif'
 import scream from './assets/scream_2.png'
@@ -183,7 +182,7 @@ function Portfolio() {
         <div className="desktop">
             {/* when you click the desktop icon, setShowModal is set to true */}
             <DesktopIcon
-                icon={cat}
+                icon="/public/images/cat.png"
                 label="meowdy"
                 x={50}
                 y={35}
