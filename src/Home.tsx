@@ -12,8 +12,6 @@ import './components/DesktopIcon.css'; // contains both icon + modal styles
 
 // import images
 
-
-import starfield from './assets/Starfield.ico'
 import painting from './assets/Painting.ico'
 import resume from './assets/resume.png'
 import send from './assets/send.png'
@@ -468,7 +466,7 @@ function Home() {
                                 {/* allows you to style the Home button when it's the router path */}
                                 <li className={`button left-button ${location.pathname === '/' ? 'active-home' : ''}`}>
                                     <Link to="/">
-                                        <img src={starfield} className='home-icon' alt='home'/>
+                                        <img src="/images/Starfield.ico" className='home-icon' alt='home'/>
                                         <p>Home</p>
                                     </Link>
                                 </li>

@@ -7,8 +7,6 @@ import './components/Taskbar.css'
 import DesktopIcon from './components/DesktopIcon';
 import './components/DesktopIcon.css';
 
-
-import starfield from './assets/Starfield.ico'
 import painting from './assets/Painting.ico'
 import resume from './assets/resume.png'
 import send from './assets/send.png'
@@ -356,7 +354,7 @@ function Portfolio() {
                         <ul>
                             <li className='button left-button'>
                                 <Link to="/">
-                                    <img src={starfield} className='home-icon' alt="home"/>
+                                    <img src="/images/Starfield.ico" className='home-icon' alt='home'/>
                                     <p>Home</p>
                                 </Link>
                             </li>

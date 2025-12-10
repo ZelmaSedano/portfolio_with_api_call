@@ -325,7 +325,7 @@ function Resume() {
                     <ul>
                         <li className='button left-button'>
                             <Link to="/">
-                                <img src="/src/assets/Starfield.ico" className='home-icon' alt="home"/>
+                                <img src="/images/Starfield.ico" className='home-icon' alt='home'/>
                                 <p>Home</p>
                             </Link>
                         </li>
