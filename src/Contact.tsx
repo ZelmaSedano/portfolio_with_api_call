@@ -13,8 +13,8 @@ import cat from './assets/cat.png'
 import evil_cat from './assets/evil_cat.gif'
 import wassup from './assets/wassup.gif'
 import scream from './assets/scream_2.png'
-// import scandique from './assets/scandique.jpg'
-// import clippy from './assets/mad_clippy.png'
+import scandique from './assets/scandique.jpg'
+import clippy from './assets/mad_clippy.png'
 
 
 
@@ -27,6 +27,12 @@ import scream from './assets/scream_2.png'
 // import computer_2 from './assets/computer-2.png'
 // import earth from './assets/earth.ico'
 
+type HoroscopeData = {
+    data: {
+        date: string;
+        horoscope_data: string;
+    };
+};
 
 function Contact() {
     const windowRef = useRef<HTMLDivElement | null>(null)
@@ -53,6 +59,13 @@ function Contact() {
     
     const [showScreamModal, setShowScreamModal] = useState(false);
 
+    // horoscope API states
+    const [showHoroscopeModal, setShowHoroscopeModal] = useState(false);
+    const [horoscopeData, setHoroscopeData] = useState<HoroscopeData | null>(null);
+    const [isLoading, setIsLoading] = useState(false);
+    const [error, setError] = useState<string | null>(null);
+    const [sign, setSign] = useState('aries'); // Default sign
+
     const [clippyPosition, setClippyPosition] = useState({ x: 0, y: 0 });
     const [showClippyModal, setShowClippyModal] = useState(false);
 
@@ -65,7 +78,44 @@ function Contact() {
         height: window.innerHeight
     });
 
-    // useEffects - 'save state to session storage'?
+    // calculate available height for textarea
+    const calculateTextareaHeight = () => {
+        // approximate values for header, form elements, etc.
+        const otherElementsHeight = 300; 
+        const minHeight = 180;
+        
+        // calculate available height
+        const availableHeight = windowSize.height - otherElementsHeight - position.y;
+        
+        // return the larger of available height or minimum height
+        return Math.max(minHeight, availableHeight);
+    };
+
+    // fetch - VITE WAS BLOCKING THIS FROM WORKING, REMEMBER TO UPDATE VITE.CONFIG NEXT
+    const fetchHoroscope = async (sign: string) => {
+        setIsLoading(true);
+        setError(null);
+        
+        try {
+            const response = await fetch(`/api/horoscope?sign=${sign.toLowerCase()}`); // <-- No full URL needed
+            if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
+
+            const data = await response.json();
+            setHoroscopeData(data);
+        } catch (error) {
+            const errorMessage = error instanceof Error ? error.message : "Failed to fetch horoscope";
+            setError(errorMessage);
+        } finally {
+            setIsLoading(false);
+        }
+    };
+
+    const handleGetHoroscope = () => {
+    fetchHoroscope(sign);
+    };
+
+/////////////////////////////////////////////////////////////////////////////////////////////////
+    // use effects
 
     // window position - window loads in middle of page
     useEffect(() => {
@@ -132,19 +182,6 @@ function Contact() {
             window.removeEventListener('load', updateClippyPosition);
         };
     }, []);
-
-    // calculate available height for textarea
-    const calculateTextareaHeight = () => {
-        // approximate values for header, form elements, etc.
-        const otherElementsHeight = 300; 
-        const minHeight = 180;
-        
-        // calculate available height
-        const availableHeight = windowSize.height - otherElementsHeight - position.y;
-        
-        // return the larger of available height or minimum height
-        return Math.max(minHeight, availableHeight);
-    };
 
 
     // mouse event handlers for React events (used in onMouseDown)
@@ -340,11 +377,68 @@ function Contact() {
                 )}
             </div>
 
+            {/* horoscope icon */}
+            <div className="desktop">
+                <DesktopIcon
+                    icon={scandique}
+                    label="horoscope"
+                    x={50}
+                    y={255}
+                    onClick={() => setShowHoroscopeModal(true)}
+                    className=''
+                    imgClassName='horoscope-icon'
+                />
+
+                {showHoroscopeModal && (
+                    <div className="modal-overlay" onClick={() => setShowHoroscopeModal(false)}>
+                        <div className="modal" onClick={(e) => e.stopPropagation()}>
+                        <div className="modal-header">
+                            <span>Your Horoscope</span>
+                            <button className='x-button' onClick={() => setShowHoroscopeModal(false)}>✕</button>
+                        </div>
+                        <div className="modal-body">
+                            <div className="horoscope-controls">
+                            <select 
+                                value={sign} 
+                                onChange={(e) => setSign(e.target.value)}
+                                className="horoscope-select"
+                            >
+                                {["aries", "taurus", "gemini", "cancer", "leo", "virgo", "libra", "scorpio", "sagittarius", "capricorn", "aquarius", "pisces"].map((sign) => (
+                                <option key={sign} value={sign}>
+                                    {sign.charAt(0).toUpperCase() + sign.slice(1)}
+                                </option>
+                                ))}
+                            </select>
+                            
+                            <button 
+                                onClick={handleGetHoroscope}
+                                className="horoscope-button"
+                                disabled={isLoading}
+                            >
+                                {isLoading ? "Loading..." : "Get Horoscope"}
+                            </button>
+                            </div>
+
+                            {error && <div className="error">{error}</div>}
+
+                            {horoscopeData && (
+                            <div className="horoscope-results">
+                                <h3>{sign.charAt(0).toUpperCase() + sign.slice(1)}</h3>
+                                <p><strong>Date:</strong> {horoscopeData.data.date}</p>
+                                <p><strong>Horoscope Data:</strong> {horoscopeData.data.horoscope_data}</p>
+                            </div>
+                            )}
+                        </div>
+                        </div>
+                    </div>
+                    )}
+            </div>
+
             {/* clippy */}
             <div className="desktop">
                 {/* when you click the desktop icon, setShowModal is set to true */}
                 <DesktopIcon
-                    icon="/src/assets/mad_clippy.png"
+                    icon={clippy}
                     label="click me"
                     x={clippyPosition.x}
                     y={clippyPosition.y}

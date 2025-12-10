@@ -11,14 +11,18 @@ import DesktopIcon from './components/DesktopIcon';
 import './components/DesktopIcon.css'; // contains both icon + modal styles
 
 // import images
+// check
 import cat from './assets/cat.png'
+// check
 import evil_cat from './assets/evil_cat.gif'
+// check
 import wassup from './assets/wassup.gif'
+// check
 import scream from './assets/scream_2.png'
+// check
 import scandique from './assets/scandique.jpg'
+// check
 import clippy from './assets/mad_clippy.png'
-
-
 
 import connections from './assets/connections.ico'
 import starfield from './assets/Starfield.ico'
