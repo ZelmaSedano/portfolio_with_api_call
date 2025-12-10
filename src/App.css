@@ -1076,6 +1076,7 @@ input:focus, textarea:focus {
   .bio-section {
     width: 70%;
   }
+  
 }
 
 /* Switch to 2 columns when window is less than 1200px wide */

@@ -62,17 +62,20 @@ function Contact() {
         height: window.innerHeight
     });
 
-    // calculate available height for textarea
     const calculateTextareaHeight = () => {
-        // approximate values for header, form elements, etc.
-        const otherElementsHeight = 300; 
+        // this sets the height for the form-textarea
+        const otherElementsHeight = 500; 
         const minHeight = 180;
         
-        // calculate available height
         const availableHeight = windowSize.height - otherElementsHeight - position.y;
         
-        // return the larger of available height or minimum height
-        return Math.max(minHeight, availableHeight);
+        let height = Math.max(minHeight, availableHeight);
+        
+        if (windowSize.width >= 901 && windowSize.width <= 1400) {
+            height = Math.min(height, 185);
+        }
+        
+        return height;
     };
 
     // fetch - VITE WAS BLOCKING THIS FROM WORKING, REMEMBER TO UPDATE VITE.CONFIG NEXT
@@ -523,7 +526,7 @@ function Contact() {
                                 </li> */}
                                 <li className={`button ${location.pathname === '/contact' ? 'active-contact' : ''}`}>
                                     <Link to="/contact">
-                                        <img src="/images/send.png" className='contact-icon' alt='contact'></img>
+                                        <img src={send} className='contact-icon' alt='contact'></img>
                                         <p>Contact</p>
                                     </Link>
                                 </li>   
