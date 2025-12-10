@@ -383,7 +383,7 @@ function Resume() {
                         {isWideScreen ? (
                             <>
                                 <div className='top-resume-column-1'>
-                                    <img src='/images/matrix.gif' className='gif' />
+                                    <img src={matrix} className='gif' />
                                 </div>
                                 <div className='widescreen-middle-resume-column-1'>
                                     <div className='resume-about-section'>
