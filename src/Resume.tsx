@@ -224,7 +224,7 @@ function Resume() {
         {/* scream icon */}
         <div className="desktop">
             <DesktopIcon
-                icon="/public/images/scream_2.png"
+                icon="/images/scream_2.png"
                 label="RING RING"
                 x={50}
                 y={145}
