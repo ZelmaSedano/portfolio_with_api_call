@@ -63,21 +63,22 @@ function Contact() {
     });
 
     const calculateTextareaHeight = () => {
-        // this sets the height for the form-textarea
-        const otherElementsHeight = 500; 
-        const minHeight = 180;
-        
-        const availableHeight = windowSize.height - otherElementsHeight - position.y;
-        
-        let height = Math.max(minHeight, availableHeight);
-        
-        if (windowSize.width >= 901 && windowSize.width <= 1400) {
-            height = Math.min(height, 185);
-        }
-        
-        return height;
-    };
-
+    const otherElementsHeight = 500; // Adjust this value based on your layout
+    const minHeight = 180;
+    const maxHeight = 400; // Add a maximum height for sanity
+    
+    // Base calculation on the window's height, not screen position
+    const availableHeight = windowSize.height - otherElementsHeight - 100; // Fixed offset
+    
+    let height = Math.max(minHeight, Math.min(availableHeight, maxHeight));
+    
+    // Optional: Keep your width-based constraints
+    if (windowSize.width >= 901 && windowSize.width <= 1400) {
+        height = Math.min(height, 185);
+    }
+    
+    return height;
+};
     // fetch - VITE WAS BLOCKING THIS FROM WORKING, REMEMBER TO UPDATE VITE.CONFIG NEXT
     const fetchHoroscope = async (sign: string) => {
         setIsLoading(true);
