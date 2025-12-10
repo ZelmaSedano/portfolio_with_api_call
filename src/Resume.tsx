@@ -240,7 +240,7 @@ function Resume() {
                     </div>
 
                     <div className="modal-body">
-                        <img src='/src/assets/wassup.gif' className='gif'></img>
+                        <img src="/images/wassup.gif" className='gif' alt="evil_cat" />
                     </div>
                     </div>
                 </div>
