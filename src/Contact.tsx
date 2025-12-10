@@ -8,9 +8,7 @@ import './components/Taskbar.css'
 import DesktopIcon from './components/DesktopIcon';
 import './components/DesktopIcon.css'; // contains both icon + modal 
 
-// import image
-import scandique from './assets/scandique.jpg'
-import clippy from './assets/mad_clippy.png'
+
 
 import connections from './assets/connections.ico'
 import starfield from './assets/Starfield.ico'
@@ -372,7 +370,7 @@ function Contact() {
             {/* horoscope icon */}
             <div className="desktop">
                 <DesktopIcon
-                    icon={scandique}
+                    icon="/images/scandique.png"
                     label="horoscope"
                     x={50}
                     y={255}
@@ -430,7 +428,7 @@ function Contact() {
             <div className="desktop">
                 {/* when you click the desktop icon, setShowModal is set to true */}
                 <DesktopIcon
-                    icon={clippy}
+                    icon="/images/mad_clippy.png"
                     label="click me"
                     x={clippyPosition.x}
                     y={clippyPosition.y}

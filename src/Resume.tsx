@@ -251,7 +251,7 @@ function Resume() {
             <div className="desktop">
                 {/* when you click the desktop icon, setShowModal is set to true */}
                 <DesktopIcon
-                    icon="/src/assets/mad_clippy.png"
+                    icon="/images/mad_clippy.png"
                     label="click me"
                     x={clippyPosition.x}
                     y={clippyPosition.y}
