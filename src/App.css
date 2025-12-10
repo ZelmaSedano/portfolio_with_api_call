@@ -535,14 +535,19 @@ nav ul li a p{
 .portfolio-content {
   /* make sure this wraps so the entire page is scrollable */
   overflow-y: auto;
-  display: flex;
 }
 
 
 .portfolio-container {
   display: flex;
 }
+.portfolio-navbar {
+  display: flex;
+  margin: 0 auto;
+}
+
 .portfolio-ul {
+  display: flex;
   list-style: none;
   font-family: "Single Day", cursive;
   color: #AF1CD4;
@@ -578,7 +583,7 @@ nav ul li a p{
 
   /* CENTER IMAGES WITHOUT CENTERING THE SCROLLBAR */
   justify-items: center;
-  max-width: 80%;
+  max-width: 60%;
   margin: 0 auto;
 }
 .img-grid img {

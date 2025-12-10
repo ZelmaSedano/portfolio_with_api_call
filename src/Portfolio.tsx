@@ -313,7 +313,7 @@ function Portfolio() {
             {/* horoscope icon */}
             <div className="desktop">
                 <DesktopIcon
-                    icon="/images/scandique.png"
+                    icon="/images/scandique.jpg"
                     label="horoscope"
                     x={50}
                     y={255}
@@ -493,6 +493,7 @@ function Portfolio() {
                 <div className='content'>
                     <div className='portfolio-content'>
 
+                    <div className='portfolio-container'>
                         <div className='portfolio-navbar'>
                             {/* conditional operators can only return one single parent element, so you have to wrap the 2 ul's in JSX fragments */}
                             {isSmallScreen ? (
@@ -517,6 +518,7 @@ function Portfolio() {
                                 </ul>
                             )}
                         </div>
+                        </div>
                     {/* <div className='portfolio-banner'>PORTFOLIO</div> */}
 
                         <div className="img-grid">
@@ -528,7 +530,7 @@ function Portfolio() {
                                             <img
                                                 src={`/images/${image.id}.jpg`} // Changed to use public folder path
                                                 title={`${image.id} website`}
-                                                style={{ width: '320px', height: '180px' }}
+                                                style={{ width: '320px', height: '160px' }}
                                                 alt={image.id}
                                                 className='image clickable-image'
                                             />

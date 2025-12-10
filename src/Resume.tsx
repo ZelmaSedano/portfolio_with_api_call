@@ -295,7 +295,7 @@ function Resume() {
             {/* horoscope icon */}
             <div className="desktop">
                 <DesktopIcon
-                    icon="/images/scandique.png"
+                    icon="/images/scandique.jpg"
                     label="horoscope"
                     x={50}
                     y={255}
