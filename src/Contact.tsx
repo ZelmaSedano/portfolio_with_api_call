@@ -8,8 +8,7 @@ import './components/Taskbar.css'
 import DesktopIcon from './components/DesktopIcon';
 import './components/DesktopIcon.css'; // contains both icon + modal 
 
-import resume from './assets/resume.png'
-import send from './assets/send.png'
+import send from '../public/images/send.png'
 import earth from './assets/earth.ico'
 
 type HoroscopeData = {
@@ -512,8 +511,7 @@ function Contact() {
                                 </li>
                                 <li className='button'>
                                     <Link to="/resume">
-                                        <img src={resume}
-                                        className='resume-icon'></img>
+                                        <img src="/images/resume.png" className='resume-icon' alt='resume'></img>
                                         <p>Resume</p>
                                     </Link>
                                 </li>
@@ -525,8 +523,7 @@ function Contact() {
                                 </li> */}
                                 <li className={`button ${location.pathname === '/contact' ? 'active-contact' : ''}`}>
                                     <Link to="/contact">
-                                        <img src={send}
-                                        className='contact-icon'></img>
+                                        <img src="/images/send.png" className='contact-icon' alt='contact'></img>
                                         <p>Contact</p>
                                     </Link>
                                 </li>   

@@ -11,9 +11,8 @@ import DesktopIcon from './components/DesktopIcon';
 import './components/DesktopIcon.css'; // contains both icon + modal styles
 
 // import images
-
-import resume from './assets/resume.png'
-import send from './assets/send.png'
+// don't remove thesend one lol 
+import send from '../public/images/send.png'
 import computer_1 from './assets/computer_1.png'
 import computer_2 from './assets/computer-2.png'
 import earth from './assets/earth.ico'
@@ -477,7 +476,7 @@ function Home() {
                                 </li>
                                 <li className='button'>
                                     <Link to="/resume">
-                                        <img src={resume}className='resume-icon' alt='resume'></img>
+                                        <img src="/images/resume.png"className='resume-icon' alt='resume'></img>
                                         <p>Resume</p>
                                     </Link>
                                 </li>
@@ -489,7 +488,7 @@ function Home() {
                                 </li> */}
                                 <li className='button'>
                                     <Link to="/contact">
-                                        <img src={send}className='contact-icon' alt='contact'></img>
+                                        <img src={send} className='contact-icon' alt='contact'></img>
                                         <p>Contact</p>
                                     </Link>
                                 </li>   

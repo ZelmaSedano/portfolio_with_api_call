@@ -337,7 +337,7 @@ function Resume() {
                         </li>
                         <li className={`button ${location.pathname === '/resume' ? 'active-resume' : ''}`}>
                             <Link to="/resume">
-                                <img src="/src/assets/resume.png" className='resume-icon'></img>
+                                <img src="/images/resume.png"className='resume-icon' alt='resume'></img>
                                 <p>Resume</p>
                             </Link>
                         </li>
@@ -349,7 +349,7 @@ function Resume() {
                         </li> */}
                         <li className='button'>
                             <Link to="/contact">
-                                <img src="/src/assets/send.png" className='contact-icon'></img>
+                                <img src="/images/send.png" className='contact-icon' alt='contact'></img>
                                 <p>Contact</p>
                             </Link>
                         </li>   
