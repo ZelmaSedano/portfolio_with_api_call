@@ -12,7 +12,7 @@ import './components/DesktopIcon.css'; // contains both icon + modal styles
 
 // import images
 // don't remove thesend one lol 
-import send from '../public/images/send.png'
+import send from './assets/send.png'
 import computer_1 from './assets/computer_1.png'
 import computer_2 from './assets/computer-2.png'
 import earth from './assets/earth.ico'

@@ -8,7 +8,7 @@ import './components/Taskbar.css'
 import DesktopIcon from './components/DesktopIcon';
 import './components/DesktopIcon.css'; // contains both icon + modal 
 
-import send from '../public/images/send.png'
+import send from './assets/send.png'
 import earth from './assets/earth.ico'
 
 type HoroscopeData = {

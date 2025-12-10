@@ -7,7 +7,7 @@ import './components/Taskbar.css'
 import DesktopIcon from './components/DesktopIcon';
 import './components/DesktopIcon.css';
 
-import send from '../public/images/send.png'
+import send from './assets/send.png'
 import earth from './assets/earth.ico'
 
 // import webcraft from './assets/webcraft.jpg';

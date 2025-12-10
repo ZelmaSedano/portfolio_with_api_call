@@ -7,6 +7,7 @@ import './components/Taskbar.css'
 import DesktopIcon from './components/DesktopIcon';
 import './components/DesktopIcon.css'; // contains both icon + modal 
 
+import send from './assets/send.png'
 
 function Resume() {
     const windowRef = useRef<HTMLDivElement | null>(null);
@@ -349,7 +350,7 @@ function Resume() {
                         </li> */}
                         <li className='button'>
                             <Link to="/contact">
-                                <img src="/images/send.png" className='contact-icon' alt='contact'></img>
+                                <img src={send} className='contact-icon' alt='contact'></img>
                                 <p>Contact</p>
                             </Link>
                         </li>   
@@ -381,7 +382,7 @@ function Resume() {
                         {isWideScreen ? (
                             <>
                                 <div className='top-resume-column-1'>
-                                    <img src='/src/assets/matrix.gif' className='gif' />
+                                    <img src='/images/matrix.gif' className='gif' />
                                 </div>
                                 <div className='widescreen-middle-resume-column-1'>
                                     <div className='resume-about-section'>
@@ -424,7 +425,7 @@ function Resume() {
                             <>
                                 {/* laptop & mobile version */}
                                 <div className='top-resume-column-1'>
-                                    <img src='/src/assets/matrix.gif' className='gif'></img>
+                                    <img src='/images/matrix.gif' className='gif'></img>
                                 </div>
 
                                 <div className='middle-resume-column-1'>
