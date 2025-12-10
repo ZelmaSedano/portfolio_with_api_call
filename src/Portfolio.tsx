@@ -172,7 +172,7 @@ function Portfolio() {
         },
         {
             title:'AI & Python',
-            id: 'AI',
+            id: 'ai',
             url: 'https://www.pinterest.com/pin/9077636744660963/'
         }
     ];
