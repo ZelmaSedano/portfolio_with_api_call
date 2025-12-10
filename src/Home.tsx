@@ -13,8 +13,9 @@ import './components/DesktopIcon.css'; // contains both icon + modal styles
 // import images
 // don't remove thesend one lol 
 import send from './assets/send.png'
-import computer_1 from './assets/computer_1.png'
-import computer_2 from './assets/computer-2.png'
+
+
+
 import earth from './assets/earth.ico'
 
 
@@ -514,12 +515,12 @@ function Home() {
                     {/* window content */}
                     <div className='content'>
                         <div className='homepage-banners'>
-                            <img className='computer' src={computer_1} alt="computer_1" />
+                            <img className='computer' src="/images/computer_1.png" alt="computer_1" />
                             <div className='inner-banner-text'>
                                 <p className='banner'>-- Val Sedano --</p>
                                 <p className='banner-1'>RetroWave Designer & Developer</p>
                             </div>
-                            <img className='computer' src={computer_2}alt="computer_2" />
+                            <img className='computer' src="/images/computer-2.png" alt="computer_2" />
                         </div>
 
                         <div className='bio-section'>

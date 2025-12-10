@@ -8,6 +8,7 @@ import DesktopIcon from './components/DesktopIcon';
 import './components/DesktopIcon.css'; // contains both icon + modal 
 
 import send from './assets/send.png'
+import matrix from '../public/images/matrix.gif'
 
 function Resume() {
     const windowRef = useRef<HTMLDivElement | null>(null);
@@ -425,7 +426,7 @@ function Resume() {
                             <>
                                 {/* laptop & mobile version */}
                                 <div className='top-resume-column-1'>
-                                    <img src='/images/matrix.gif' className='gif'></img>
+                                    <img src={matrix} className='gif'></img>
                                 </div>
 
                                 <div className='middle-resume-column-1'>
