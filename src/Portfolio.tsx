@@ -401,28 +401,31 @@ function Portfolio() {
                 {/* window content */}
                 <div className='content'>
                     <div className='portfolio-content'>
-                        {/* conditional operators can only return one single parent element, so you have to wrap the 2 ul's in JSX fragments */}
-                        {isSmallScreen ? (
-                            <>
+
+                        <div className='portfolio-navbar'>
+                            {/* conditional operators can only return one single parent element, so you have to wrap the 2 ul's in JSX fragments */}
+                            {isSmallScreen ? (
+                                <>
+                                    <ul className='portfolio-ul'>
+                                        <li>Portfolio</li>
+                                        <li>WebCraft</li>
+                                        <li>Personal</li>
+                                    </ul>
+                                    <ul className='portfolio-ul'>
+                                            <li>AI/Python</li>
+                                            <li>UX/UI</li>
+                                    </ul>
+                                </>
+                            ) : (
                                 <ul className='portfolio-ul'>
                                     <li>Portfolio</li>
                                     <li>WebCraft</li>
                                     <li>Personal</li>
+                                    <li>AI/Python</li>
+                                    <li>UX/UI</li>
                                 </ul>
-                                <ul className='portfolio-ul'>
-                                        <li>AI/Python</li>
-                                        <li>UX/UI</li>
-                                </ul>
-                            </>
-                        ) : (
-                            <ul className='portfolio-ul'>
-                                <li>Portfolio</li>
-                                <li>WebCraft</li>
-                                <li>Personal</li>
-                                <li>AI/Python</li>
-                                <li>UX/UI</li>
-                            </ul>
-                        )}
+                            )}
+                        </div>
                     {/* <div className='portfolio-banner'>PORTFOLIO</div> */}
 
                         <div className="img-grid">

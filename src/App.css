@@ -535,12 +535,14 @@ nav ul li a p{
 .portfolio-content {
   /* make sure this wraps so the entire page is scrollable */
   overflow-y: auto;
+  display: flex;
 }
+
+
 .portfolio-container {
   display: flex;
 }
 .portfolio-ul {
-  display: flex;
   list-style: none;
   font-family: "Single Day", cursive;
   color: #AF1CD4;
