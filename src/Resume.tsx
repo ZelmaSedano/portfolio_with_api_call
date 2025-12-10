@@ -144,7 +144,7 @@ function Resume() {
         <div className="desktop">
             {/* when you click the desktop icon, setShowModal is set to true */}
             <DesktopIcon
-                icon="/public/images/cat.png"
+                icon="/images/cat.png"
                 label="meowdy"
                 x={50}
                 y={35}
