@@ -199,7 +199,7 @@ function Resume() {
                     </div>
                     <div className="modal-body">
                         <div className="image-container">
-                            <img src="/src/assets/evil_cat.gif" alt="evil_cat" />
+                            <img src="/images/evil_cat.gif" alt="evil_cat" />
                         </div>
                     </div>
                 </div>
@@ -214,7 +214,7 @@ function Resume() {
                     </div>
                     <div className="modal-body">
                         <div className="image-container">
-                            <img src="/src/assets/evil_cat.gif" alt="evil_cat" />
+                            <img src="/images/evil_cat.gif" alt="evil_cat" />
                         </div>
                     </div>
                 </div>

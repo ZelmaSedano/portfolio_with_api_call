@@ -7,7 +7,6 @@ import './components/Taskbar.css'
 import DesktopIcon from './components/DesktopIcon';
 import './components/DesktopIcon.css';
 
-import evil_cat from './assets/evil_cat.gif'
 import wassup from './assets/wassup.gif'
 import scream from './assets/scream_2.png'
 // import scandique from './assets/scandique.jpg'
@@ -237,7 +236,7 @@ function Portfolio() {
                         </div>
                         <div className="modal-body">
                             <div className="image-container">
-                                <img src={evil_cat} alt="evil_cat" />
+                                <img src="/images/evil_cat.gif" alt="evil_cat" />
                             </div>
                         </div>
                     </div>
@@ -253,7 +252,7 @@ function Portfolio() {
                         </div>
                         <div className="modal-body">
                             <div className="image-container">
-                                <img src={evil_cat} alt="evil_cat" />
+                                <img src="/images/evil_cat.gif" alt="evil_cat" />
                             </div>
                         </div>
                     </div>
