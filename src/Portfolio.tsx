@@ -22,6 +22,11 @@ import resume from './assets/resume.png'
 import send from './assets/send.png'
 import earth from './assets/earth.ico'
 
+// import webcraft from './assets/webcraft.jpg';
+// import scandique from './assets/scandique.jpg';
+// import uwu from './assets/uwu.jpg';
+// import AI from './assets/AI.jpg';
+
 function Portfolio() {
     const windowRef = useRef<HTMLDivElement | null>(null)
     const location = useLocation();
@@ -437,10 +442,9 @@ function Portfolio() {
                                 <div key={index}>
                                     <div className='image-container'>
                                         <div className='image-title'>{image.title}</div>
-
                                         <a href={image.url} target="_blank" rel="noopener noreferrer">
                                             <img
-                                                src={`/src/assets/${image.id}.jpg`}
+                                                src={`/images/${image.id}.jpg`} // Changed to use public folder path
                                                 title={`${image.id} website`}
                                                 style={{ width: '320px', height: '180px' }}
                                                 alt={image.id}
