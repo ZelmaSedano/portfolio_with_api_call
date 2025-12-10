@@ -9,7 +9,6 @@ import DesktopIcon from './components/DesktopIcon';
 import './components/DesktopIcon.css'; // contains both icon + modal 
 
 // import image
-import scream from './assets/scream_2.png'
 import scandique from './assets/scandique.jpg'
 import clippy from './assets/mad_clippy.png'
 
@@ -346,7 +345,7 @@ function Contact() {
             {/* scream icon */}
             <div className="desktop">
                 <DesktopIcon
-                    icon={scream}
+                    icon="/public/images/scream_2.png"
                     label="RING RING"
                     x={50}
                     y={145}
