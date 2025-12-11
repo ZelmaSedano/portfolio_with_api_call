@@ -505,7 +505,7 @@ function Home() {
                                     className="portfolio-link-wrapper"
                                     onClick={handlePortfolioClick}
                                     >
-                                        <img src="/public/images/Painting.ico" className='paint-icon' alt='portfolio'/>
+                                        <img src="/images/Painting.ico" className='paint-icon' alt='portfolio'/>
                                         <p>Portfolio</p>
                                         <div className="dropdown-arrow">
                                             <img src="/images/arrow.png" className='caret-down' alt='portfolio'/>
