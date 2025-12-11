@@ -15,7 +15,6 @@ import './components/DesktopIcon.css'; // contains both icon + modal styles
 import send from './assets/send.png'
 
 
-
 import earth from './assets/earth.ico'
 
 
