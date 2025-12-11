@@ -58,7 +58,7 @@ body {
 /* icons */
 .modal .modal-body {
   background-color: #c3c3c3;
-  margin-left: 20px;
+  margin-left: 10px;
 }
 .modal .modal-body.scream-modal{
   background-color: #c3c3c3;
@@ -267,6 +267,7 @@ nav ul li a {
   margin-left: 5px;
   display: flex;
 }
+
 nav ul li::first-letter {
   text-decoration: underline;
 }
@@ -274,6 +275,95 @@ nav ul li a p{
   margin-top: 3px;
   margin-bottom: 1px;
 }
+
+/* PORTFOLIO dropdown menu */
+.portfolio-link-wrapper {
+  color: black;
+  font-weight: 400;
+  font-style: normal;
+  letter-spacing: -0.5px;
+  margin-left: 5px;
+  display: flex;
+  align-items: center;
+  text-decoration: none; /* Remove underline */
+  padding: 0;
+  /* need a solid height, otherwise it's WAY too tall */
+  height: 25px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+.portfolio-link-wrapper img {
+  margin-top: 0px;
+}
+.portfolio-link-wrapper p {
+  color: black;
+  margin-top: 18px;
+  margin-left: 3px;
+}
+
+.dropdown-arrow {
+  margin-top: 5px;
+}
+.caret-down {
+  width: 18px;
+  margin-left: 3px;
+}
+
+.portfolio-dropdown-container {
+  padding-right: 3px !important;
+}
+
+/* PARENT to dropdown */
+.portfolio-dropdown-container {
+  position: relative;
+}
+
+.portfolio-dropdown {
+  /* remember, removes from flow */
+  position: absolute;
+  top: 100%;
+  left: 0;
+  z-index: 1000;
+  background-color: #c3c3c3;
+  border: 1px solid #000;
+  box-shadow: 2px 2px 0px #000;
+  min-width: 200px;
+  margin-top: 2px;
+}
+
+.dropdown-item {
+  display: flex;
+  align-items: center;
+  padding: 8px 12px;
+  text-decoration: none;
+  color: black;
+  cursor: pointer;
+}
+
+.dropdown-item:hover {
+  background-color: #000080;
+  color: white;
+}
+
+.dropdown-icon {
+  margin-right: 8px;
+  font-size: 14px;
+}
+
+.dropdown-divider {
+  height: 1px;
+  background-color: #808080;
+  margin: 4px 0;
+}
+
+/* helps fix drag issue that dropdown interferes with*/
+.portfolio-dropdown * {
+  pointer-events: auto; 
+}
+
+
+
 
 /************ entire window ***************/
 .window {
@@ -471,7 +561,7 @@ nav ul li a p{
   justify-content: center;
 }
 .computer {
-  height: 100px;
+  height: 110px;
 }
 /* homepage */
 .homepage-banners .banner,
@@ -536,16 +626,9 @@ nav ul li a p{
   /* make sure this wraps so the entire page is scrollable */
   overflow-y: auto;
 }
-
-
 .portfolio-container {
   display: flex;
 }
-.portfolio-navbar {
-  display: flex;
-  margin: 0 auto;
-}
-
 .portfolio-ul {
   display: flex;
   list-style: none;
@@ -583,7 +666,7 @@ nav ul li a p{
 
   /* CENTER IMAGES WITHOUT CENTERING THE SCROLLBAR */
   justify-items: center;
-  max-width: 60%;
+  max-width: 80%;
   margin: 0 auto;
 }
 .img-grid img {
@@ -816,6 +899,7 @@ input:focus, textarea:focus {
 .resume-column-2 {
   border-top: 3px solid grey;
   border-right: 3px solid grey;
+  height: 98%;
   width: 33.33%;
 }
 .resume-column-3 {
@@ -1015,7 +1099,7 @@ input:focus, textarea:focus {
 }
 
 /* widescreen */
-@media (min-width: 1450px) {
+@media (min-width: 1445px) {
   /* left column */
   .resume-column-2 {
     display: none;
@@ -1082,7 +1166,6 @@ input:focus, textarea:focus {
   .bio-section {
     width: 70%;
   }
-  
 }
 
 /* Switch to 2 columns when window is less than 1200px wide */

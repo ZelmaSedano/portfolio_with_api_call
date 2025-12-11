@@ -17,8 +17,6 @@ import send from './assets/send.png'
 
 import earth from './assets/earth.ico'
 
-
-
 type HoroscopeData = {
     data: {
         date: string;
@@ -27,7 +25,11 @@ type HoroscopeData = {
 };
 
 function Home() {
+    // portfolio dropdown
+    const portfolioRef = useRef<HTMLLIElement>(null);
+    // dragging feature
     const windowRef = useRef<HTMLDivElement | null>(null);
+    // clock
     const location = useLocation();
 
     // STATES
@@ -66,6 +68,8 @@ function Home() {
     const [showClippyYesModal, setShowClippyYesModal] = useState(false);
     const [showClippyNoModal, setShowClippyNoModal] = useState(false);
 
+    // portfolio dropdown
+    const [isPortfolioDropdownOpen, setIsPortfolioDropdownOpen] = useState(false);
 
     // fetch - VITE WAS BLOCKING THIS FROM WORKING, REMEMBER TO UPDATE VITE.CONFIG NEXT
     const fetchHoroscope = async (sign: string) => {
@@ -135,15 +139,20 @@ function Home() {
     }, [location.pathname]);
 
 
-    // event handler functions
     const handleMouseDown = (e: React.MouseEvent) => {
-        if ((e.target as HTMLElement).closest('.blue-bar') && !(e.target as HTMLElement).closest('.x-button')) {
+    // Don't start dragging if clicking on dropdown or its children
+        if (
+            (e.target as HTMLElement).closest('.blue-bar') && 
+            !(e.target as HTMLElement).closest('.x-button') &&
+            !(e.target as HTMLElement).closest('.portfolio-dropdown') &&
+            !(e.target as HTMLElement).closest('.portfolio-link-wrapper')
+        ) {
             const rect = windowRef.current?.getBoundingClientRect();
-            if (!rect) return; // guard: abort if ref isn't set
+            if (!rect) return;
             setIsDragging(true);
             setDragOffset({
-                x: e.clientX - rect.left,
-                y: e.clientY - rect.top
+            x: e.clientX - rect.left,
+            y: e.clientY - rect.top
             });
         }
     };
@@ -173,6 +182,23 @@ function Home() {
         };
     }, [isDragging, dragOffset]);
 
+    // portfolio dropdown
+    const handlePortfolioClick = (e: React.MouseEvent) => {
+        // fixes window drag breaking, if you don't include this the blue-bar drag 
+        e.stopPropagation();
+        setIsPortfolioDropdownOpen(!isPortfolioDropdownOpen);
+    };
+    useEffect(() => {
+        const handleClickOutside = (event: MouseEvent) => {
+            if (portfolioRef.current && !portfolioRef.current.contains(event.target as Node)) {
+            setIsPortfolioDropdownOpen(false);
+            }
+        };
+        document.addEventListener('mousedown', handleClickOutside);
+            return () => {
+                document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, []);
 
     // toggle visibility
     const toggleWindow = () => setIsVisible(!isVisible);
@@ -468,12 +494,92 @@ function Home() {
                                         <p>Home</p>
                                     </Link>
                                 </li>
-                                <li className='button'>
+
+
+
+                                <li 
+                                    ref={portfolioRef}
+                                    className='button portfolio-dropdown-container'
+                                >
+                                    <div 
+                                    className="portfolio-link-wrapper"
+                                    onClick={handlePortfolioClick}
+                                    >
+                                        <img src="/public/images/Painting.ico" className='paint-icon' alt='portfolio'/>
+                                        <p>Portfolio</p>
+                                        <div className="dropdown-arrow">
+                                            <img src="/images/arrow.png" className='caret-down' alt='portfolio'/>
+                                        </div>
+                                    </div>
+
+                                    {/* <Link to="/portfolio">
+                                        <img src="/src/assets/painting.ico" className='paint-icon' alt='portfolio'/>
+                                        <p>Portfolio</p>
+                                        <span className="dropdown-arrow">▼</span>
+                                    </Link> */}
+
+                                    {isPortfolioDropdownOpen && (
+                                    
+                                        <div 
+                                            className="portfolio-dropdown"
+                                            onClick={(e) => e.stopPropagation()}
+    >
+                                            <Link 
+                                                to="/portfolio" 
+                                                className="dropdown-item"
+                                                onClick={() => setIsPortfolioDropdownOpen(false)}
+                                            >
+                                                <span className="dropdown-icon">📁</span>
+                                                <span>All Projects</span>
+                                            </Link>
+                                            <Link 
+                                                to="/"
+                                                className="dropdown-item"
+                                                onClick={() => setIsPortfolioDropdownOpen(false)}
+                                            >
+                                                <span className="dropdown-icon">🌐</span>
+                                                <span>WebCraft</span>
+                                            </Link>
+                                            <Link 
+                                                to="/"
+                                                className="dropdown-item"
+                                                onClick={() => setIsPortfolioDropdownOpen(false)}
+                                            >
+                                                <span className="dropdown-icon">🎨</span>
+                                                <span>Personal</span>
+                                            </Link>
+                                            <Link 
+                                                to="/"
+                                                className="dropdown-item"
+                                                onClick={() => setIsPortfolioDropdownOpen(false)}
+                                            >
+                                                <span className="dropdown-icon">🎮</span>
+                                                <span>UX/UI Design</span>
+                                            </Link>
+                                            <Link 
+                                                to="/"
+                                                className="dropdown-item"
+                                                onClick={() => setIsPortfolioDropdownOpen(false)}
+                                            >
+                                                <span className="dropdown-icon">🕐</span>
+                                                <span>AI & Python</span>
+                                            </Link>
+                                        </div>
+                                    )}
+                                </li>
+
+                                {/* <li className='button'>
                                     <Link to="/portfolio">
                                         <img src="/images/Painting.ico" className='paint-icon' alt='portfolio'/>
                                         <p>Portfolio</p>
                                     </Link>
-                                </li>
+                                </li> */}
+
+
+
+
+
+
                                 <li className='button'>
                                     <Link to="/resume">
                                         <img src="/images/resume.png"className='resume-icon' alt='resume'></img>
