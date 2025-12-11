@@ -32,7 +32,7 @@ function Resume() {
             y: Math.max(0, (window.innerHeight - 600) / 2)
         };
     });
-    const [isWideScreen, setIsWideScreen] = useState(window.innerWidth > 1445);
+    const [isWideScreen, setIsWideScreen] = useState(window.innerWidth > 1450);
 
     const [currentTime, setCurrentTime] = useState(new Date());
     const [isVisible, setIsVisible] = useState(true);
@@ -140,7 +140,6 @@ function Resume() {
         window.addEventListener('resize', handleResize);
         return () => window.removeEventListener('resize', handleResize);
     }, []);
-
 
     // clippy useEffect, keeps him stuck to the bottom-right
     useEffect(() => {

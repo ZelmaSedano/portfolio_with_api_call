@@ -816,7 +816,6 @@ input:focus, textarea:focus {
 .resume-column-2 {
   border-top: 3px solid grey;
   border-right: 3px solid grey;
-  height: 98%;
   width: 33.33%;
 }
 .resume-column-3 {
@@ -1016,7 +1015,7 @@ input:focus, textarea:focus {
 }
 
 /* widescreen */
-@media (min-width: 1445px) {
+@media (min-width: 1450px) {
   /* left column */
   .resume-column-2 {
     display: none;
