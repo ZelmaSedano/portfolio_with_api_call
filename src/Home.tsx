@@ -496,10 +496,10 @@ function Home() {
                                 </li>
 
 
-
+                                {/* portfolio navbar button*/}
                                 <li 
                                     ref={portfolioRef}
-                                    className='button portfolio-dropdown-container'
+                                    className={`button portfolio-dropdown-container ${isPortfolioDropdownOpen ? 'active-portfolio' : ''}`}
                                 >
                                     <div 
                                     className="portfolio-link-wrapper"
@@ -512,18 +512,12 @@ function Home() {
                                         </div>
                                     </div>
 
-                                    {/* <Link to="/portfolio">
-                                        <img src="/src/assets/painting.ico" className='paint-icon' alt='portfolio'/>
-                                        <p>Portfolio</p>
-                                        <span className="dropdown-arrow">▼</span>
-                                    </Link> */}
-
                                     {isPortfolioDropdownOpen && (
                                     
                                         <div 
                                             className="portfolio-dropdown"
                                             onClick={(e) => e.stopPropagation()}
-    >
+                                        >
                                             <Link 
                                                 to="/portfolio" 
                                                 className="dropdown-item"
