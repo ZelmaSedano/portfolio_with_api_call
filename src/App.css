@@ -233,17 +233,17 @@ nav ul li {
 }
 .home-icon{
   margin-left: 1px;
-  margin-top: 4px;
+  margin-top: 3px;
   margin-right: 5px;
   width: 22px;
   height: 22px;
 }
 .paint-icon{
   margin-left: 1px;
-  margin-top: 4px;
+  margin-top: 3.5px;
   margin-right: 5px;
-  width: 20px;
-  height: 20px;
+  width: 20.5px;
+  height: 20.5px;
 }
 .resume-icon{
   margin-left: 1px;
@@ -303,15 +303,14 @@ nav ul li a p{
 }
 
 .dropdown-arrow {
-  margin-top: 5px;
+  margin-top: 8px;
 }
 .caret-down {
-  width: 18px;
-  margin-left: 3px;
+  width: 40px;
 }
 
 .portfolio-dropdown-container {
-  padding-right: 3px !important;
+  padding-right: 0px !important;
 }
 
 /* PARENT to dropdown */
