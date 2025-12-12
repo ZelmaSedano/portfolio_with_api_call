@@ -13,8 +13,6 @@ import './components/DesktopIcon.css'; // contains both icon + modal styles
 // import images
 // don't remove thesend one lol 
 import send from './assets/send.png'
-
-
 import earth from './assets/earth.ico'
 
 type HoroscopeData = {
@@ -373,9 +371,6 @@ function Home() {
 
 
 
-
-
-
             {/* clippy */}
             <div className="desktop">
                 {/* when you click the desktop icon, setShowModal is set to true */}
@@ -458,7 +453,7 @@ function Home() {
                 )}
 
 
-
+        {/* content window - draggable */}
             {/* if isVisible is true, */}
             {isVisible && (
                 <div 
@@ -508,7 +503,7 @@ function Home() {
                                         <img src="/images/Painting.ico" className='paint-icon' alt='portfolio'/>
                                         <p>Portfolio</p>
                                         <div className="dropdown-arrow">
-                                            <img src="/images/arrow-meow.png" className='caret-down' alt='portfolio'/>
+                                            <img src="/images/cute-arrow.png" className='caret-down' alt='portfolio'/>
                                         </div>
                                     </div>
 
