@@ -552,7 +552,7 @@ function Contact() {
                                         <img src="/images/Painting.ico" className='paint-icon' alt='portfolio'/>
                                         <p>Portfolio</p>
                                         <div className="dropdown-arrow">
-                                            <img src="/images//cute-arrow.png" className='caret-down' alt='portfolio'/>
+                                            <img src="/images/downward-arrow.png" className='caret-down' alt='portfolio'/>
                                         </div>
                                     </div>
 
