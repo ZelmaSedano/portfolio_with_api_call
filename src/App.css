@@ -965,6 +965,7 @@ input:focus, textarea:focus {
 .education-title-text {
   text-align: center;
   margin: 5px;
+  margin-bottom: 0px;
 }
 
 .top-resume-column-3 {
