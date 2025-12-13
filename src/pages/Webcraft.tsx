@@ -1,14 +1,14 @@
 import { useState, useEffect, useRef } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import './App.css';
+import '../App.css';
 
-import Taskbar from './components/Taskbar'
-import './components/Taskbar.css'
-import DesktopIcon from './components/DesktopIcon';
-import './components/DesktopIcon.css';
+import Taskbar from '../components/Taskbar'
+import '../components/Taskbar.css'
+import DesktopIcon from '../components/DesktopIcon';
+import '../components/DesktopIcon.css';
 
-import send from './assets/send.png'
-import earth from './assets/earth.ico'
+import send from '../assets/send.png'
+import earth from '../assets/earth.ico'
 
 type HoroscopeData = {
     data: {
@@ -512,7 +512,7 @@ function Portfolio() {
                                         <span>All Projects</span>
                                             </Link>
                                             <Link 
-                                                to="/webcraft"
+                                                to="/portfolio"
                                                 className="dropdown-item"
                                                 onClick={() => setIsPortfolioDropdownOpen(false)}
                                             >
@@ -621,6 +621,7 @@ function Portfolio() {
                         </div>
                     {/* <div className='portfolio-banner'>PORTFOLIO</div> */}
 
+                        <p className='webcraft-portfolio-banner'>WebCraft</p>
                         <div className="img-grid">
                             {images.map((image, index) => (
                                 <div key={index}>

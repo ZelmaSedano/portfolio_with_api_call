@@ -706,6 +706,12 @@ nav ul li a p{
   position: relative;
 }
 
+.webcraft-portfolio-banner {
+  font-family: "Single Day", cursive;
+  color: #AF1CD4;
+  font-size: 28px;
+}
+
 
 
 /* CONTACT FORM (extract) */
