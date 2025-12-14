@@ -18,7 +18,7 @@ type HoroscopeData = {
 };
 
 
-function Personal() {
+function AI() {
     // portfolio dropdown
     const portfolioRef = useRef<HTMLLIElement>(null);
     const windowRef = useRef<HTMLDivElement | null>(null)
@@ -485,7 +485,7 @@ function Personal() {
                             {/* portfolio navbar button*/}
                                 <li 
                                     ref={portfolioRef}
-                                    className={`button portfolio-dropdown-container ${location.pathname === '/personal' ? 'active-portfolio' : ''}`}
+                                    className={`button portfolio-dropdown-container ${location.pathname === '/ai' ? 'active-portfolio' : ''}`}
                                 >
                                     <div 
                                     className="portfolio-link-wrapper"
@@ -601,20 +601,20 @@ function Personal() {
                                     <ul className='portfolio-ul'>
                                         <li>Portfolio</li>
                                         <li>WebCraft</li>
-                                        <li className='portfolio-active'>Personal</li>
+                                        <li>Personal</li>
                                     </ul>
                                     <ul className='portfolio-ul'>
                                             <li>UX/UI</li>
-                                            <li>AI/Python</li>
+                                            <li className='portfolio-active'>AI/Python</li>
                                     </ul>
                                 </>
                             ) : (
                                 <ul className='portfolio-ul'>
                                     <li>Portfolio</li>
-                                    <li>WebCraft</li>
-                                    <li className='portfolio-active'>Personal</li>
+                                    <li className='portfolio-active'>WebCraft</li>
+                                    <li>Personal</li>
                                     <li>UX/UI</li>
-                                    <li>AI/Python</li>
+                                    <li className='portfolio-active'>AI/Python</li>
                                 </ul>
                             )}
                         </div>
@@ -667,4 +667,4 @@ function Personal() {
 );
 }
 
-export default Personal;
+export default AI;

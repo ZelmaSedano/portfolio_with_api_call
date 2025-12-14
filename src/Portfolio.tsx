@@ -529,7 +529,7 @@ function Portfolio() {
                                                 <span>Personal</span>
                                             </Link>
                                             <Link 
-                                                to="/portfolio"
+                                                to="/ux"
                                                 className="dropdown-item"
                                                 onClick={() => setIsPortfolioDropdownOpen(false)}
                                             >
@@ -537,7 +537,7 @@ function Portfolio() {
                                                 <span>UX/UI Design</span>
                                             </Link>
                                             <Link 
-                                                to="/portfolio"
+                                                to="/ai"
                                                 className="dropdown-item"
                                                 onClick={() => setIsPortfolioDropdownOpen(false)}
                                             >
@@ -605,8 +605,8 @@ function Portfolio() {
                                         <li>Personal</li>
                                     </ul>
                                     <ul className='portfolio-ul'>
-                                            <li>AI/Python</li>
                                             <li>UX/UI</li>
+                                            <li>AI/Python</li>
                                     </ul>
                                 </>
                             ) : (
@@ -614,8 +614,8 @@ function Portfolio() {
                                     <li className='portfolio-active'>Portfolio</li>
                                     <li>WebCraft</li>
                                     <li>Personal</li>
-                                    <li>AI/Python</li>
                                     <li>UX/UI</li>
+                                    <li>AI/Python</li>
                                 </ul>
                             )}
                         </div>

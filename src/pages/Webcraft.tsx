@@ -512,7 +512,7 @@ function Webcraft() {
                                         <span>All Projects</span>
                                             </Link>
                                             <Link 
-                                                to="/portfolio"
+                                                to="/webcraft"
                                                 className="dropdown-item"
                                                 onClick={() => setIsPortfolioDropdownOpen(false)}
                                             >
@@ -520,7 +520,7 @@ function Webcraft() {
                                                 <span>WebCraft</span>
                                             </Link>
                                             <Link 
-                                                to="/webcraft"
+                                                to="/personal"
                                                 className="dropdown-item"
                                                 onClick={() => setIsPortfolioDropdownOpen(false)}
                                             >
@@ -528,7 +528,7 @@ function Webcraft() {
                                                 <span>Personal</span>
                                             </Link>
                                             <Link 
-                                                to="/personal"
+                                                to="/ux"
                                                 className="dropdown-item"
                                                 onClick={() => setIsPortfolioDropdownOpen(false)}
                                             >
@@ -536,7 +536,7 @@ function Webcraft() {
                                                 <span>UX/UI Design</span>
                                             </Link>
                                             <Link 
-                                                to="/portfolio"
+                                                to="/ai"
                                                 className="dropdown-item"
                                                 onClick={() => setIsPortfolioDropdownOpen(false)}
                                             >
@@ -604,8 +604,8 @@ function Webcraft() {
                                         <li>Personal</li>
                                     </ul>
                                     <ul className='portfolio-ul'>
-                                            <li>AI/Python</li>
                                             <li>UX/UI</li>
+                                            <li>AI/Python</li>
                                     </ul>
                                 </>
                             ) : (
@@ -613,8 +613,8 @@ function Webcraft() {
                                     <li>Portfolio</li>
                                     <li className='portfolio-active'>WebCraft</li>
                                     <li>Personal</li>
-                                    <li>AI/Python</li>
                                     <li>UX/UI</li>
+                                    <li>AI/Python</li>
                                 </ul>
                             )}
                         </div>

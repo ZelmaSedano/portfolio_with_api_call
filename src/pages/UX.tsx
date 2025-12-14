@@ -18,7 +18,7 @@ type HoroscopeData = {
 };
 
 
-function Personal() {
+function UX() {
     // portfolio dropdown
     const portfolioRef = useRef<HTMLLIElement>(null);
     const windowRef = useRef<HTMLDivElement | null>(null)
@@ -485,7 +485,7 @@ function Personal() {
                             {/* portfolio navbar button*/}
                                 <li 
                                     ref={portfolioRef}
-                                    className={`button portfolio-dropdown-container ${location.pathname === '/personal' ? 'active-portfolio' : ''}`}
+                                    className={`button portfolio-dropdown-container ${location.pathname === '/ux' ? 'active-portfolio' : ''}`}
                                 >
                                     <div 
                                     className="portfolio-link-wrapper"
@@ -536,7 +536,7 @@ function Personal() {
                                                 <span>UX/UI Design</span>
                                             </Link>
                                             <Link 
-                                                to="/ai"
+                                                to="/portfolio"
                                                 className="dropdown-item"
                                                 onClick={() => setIsPortfolioDropdownOpen(false)}
                                             >
@@ -601,10 +601,10 @@ function Personal() {
                                     <ul className='portfolio-ul'>
                                         <li>Portfolio</li>
                                         <li>WebCraft</li>
-                                        <li className='portfolio-active'>Personal</li>
+                                        <li>Personal</li>
                                     </ul>
                                     <ul className='portfolio-ul'>
-                                            <li>UX/UI</li>
+                                            <li className='portfolio-active'>UX/UI</li>
                                             <li>AI/Python</li>
                                     </ul>
                                 </>
@@ -612,8 +612,8 @@ function Personal() {
                                 <ul className='portfolio-ul'>
                                     <li>Portfolio</li>
                                     <li>WebCraft</li>
-                                    <li className='portfolio-active'>Personal</li>
-                                    <li>UX/UI</li>
+                                    <li>Personal</li>
+                                    <li className='portfolio-active'>UX/UI</li>
                                     <li>AI/Python</li>
                                 </ul>
                             )}
@@ -667,4 +667,4 @@ function Personal() {
 );
 }
 
-export default Personal;
+export default UX;
