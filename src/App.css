@@ -646,6 +646,10 @@ nav ul li a p{
   padding: 0 25px;
 }
 
+.portfolio-active {
+  text-decoration: underline;
+}
+
 
 .portfolio-banner {
   font-family: "Single Day", cursive;

@@ -18,7 +18,7 @@ type HoroscopeData = {
 };
 
 
-function Portfolio() {
+function Webcraft() {
     // portfolio dropdown
     const portfolioRef = useRef<HTMLLIElement>(null);
     const windowRef = useRef<HTMLDivElement | null>(null)
@@ -485,7 +485,7 @@ function Portfolio() {
                             {/* portfolio navbar button*/}
                                 <li 
                                     ref={portfolioRef}
-                                    className={`button portfolio-dropdown-container ${location.pathname === '/portfolio' ? 'active-portfolio' : ''}`}
+                                    className={`button portfolio-dropdown-container ${location.pathname === '/webcraft' ? 'active-portfolio' : ''}`}
                                 >
                                     <div 
                                     className="portfolio-link-wrapper"
@@ -520,7 +520,7 @@ function Portfolio() {
                                                 <span>WebCraft</span>
                                             </Link>
                                             <Link 
-                                                to="/portfolio"
+                                                to="/webcraft"
                                                 className="dropdown-item"
                                                 onClick={() => setIsPortfolioDropdownOpen(false)}
                                             >
@@ -528,7 +528,7 @@ function Portfolio() {
                                                 <span>Personal</span>
                                             </Link>
                                             <Link 
-                                                to="/portfolio"
+                                                to="/personal"
                                                 className="dropdown-item"
                                                 onClick={() => setIsPortfolioDropdownOpen(false)}
                                             >
@@ -600,7 +600,7 @@ function Portfolio() {
                                 <>
                                     <ul className='portfolio-ul'>
                                         <li>Portfolio</li>
-                                        <li>WebCraft</li>
+                                        <li className='portfolio-active'>WebCraft</li>
                                         <li>Personal</li>
                                     </ul>
                                     <ul className='portfolio-ul'>
@@ -611,7 +611,7 @@ function Portfolio() {
                             ) : (
                                 <ul className='portfolio-ul'>
                                     <li>Portfolio</li>
-                                    <li>WebCraft</li>
+                                    <li className='portfolio-active'>WebCraft</li>
                                     <li>Personal</li>
                                     <li>AI/Python</li>
                                     <li>UX/UI</li>
@@ -620,8 +620,6 @@ function Portfolio() {
                         </div>
                         </div>
                     {/* <div className='portfolio-banner'>PORTFOLIO</div> */}
-
-                        <p className='webcraft-portfolio-banner'>WebCraft</p>
                         <div className="img-grid">
                             {images.map((image, index) => (
                                 <div key={index}>
@@ -669,4 +667,4 @@ function Portfolio() {
 );
 }
 
-export default Portfolio;
+export default Webcraft;

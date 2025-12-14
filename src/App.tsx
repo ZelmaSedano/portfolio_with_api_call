@@ -5,6 +5,7 @@ import Resume from './Resume'
 import Contact from './Contact'
 import About from './About'
 import Webcraft from './pages/Webcraft'
+import Personal from './pages/Personal'
 
 function App() {
   return (
@@ -12,6 +13,7 @@ function App() {
       <Route path="/" element={<Home />} />
       <Route path="/portfolio" element={<Portfolio />} />
         <Route path="/webcraft" element={<Webcraft />} />
+        <Route path="/personal" element={<Personal />} />
       <Route path="/resume" element={<Resume />} />
       <Route path="/about" element={<About />} />
       <Route path="/contact" element={<Contact />} />
