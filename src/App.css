@@ -918,12 +918,11 @@ input:focus, textarea:focus {
 .resume-column-2 {
   border-top: 3px solid grey;
   border-right: 3px solid grey;
-  height: 98%;
+  height: 100%;
   width: 33.33%;
 }
 .resume-column-3 {
   border-top: 3px solid grey;
-  height: 98%;
   width: 33.33%;
 }
 /* laptop view (not widescreen) */
