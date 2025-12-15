@@ -504,7 +504,7 @@ function Portfolio() {
                                         onClick={(e) => e.stopPropagation()}
                                     >
                                         <Link 
-                                        to="/webcraft" 
+                                        to="/portfolio" 
                                         className="dropdown-item"
                                         onClick={() => setIsPortfolioDropdownOpen(false)}
                                         >
@@ -600,22 +600,22 @@ function Portfolio() {
                             {isSmallScreen ? (
                                 <>
                                     <ul className='portfolio-ul'>
-                                        <li className='portfolio-active'>Portfolio</li>
-                                        <li>WebCraft</li>
-                                        <li>Personal</li>
+                                        <li className='portfolio-active'><Link to='/portfolio'>Portfolio</Link></li>
+                                        <li><Link to='/webcraft'>WebCraft</Link></li>
+                                        <li><Link to='/personal'>Personal</Link></li>
                                     </ul>
                                     <ul className='portfolio-ul'>
-                                            <li>UX/UI</li>
-                                            <li>AI/Python</li>
+                                            <li><Link to='/ux'>UX/UI</Link></li>
+                                            <li><Link to='/ai'>AI/Pyhthon</Link></li>
                                     </ul>
                                 </>
                             ) : (
                                 <ul className='portfolio-ul'>
-                                    <li className='portfolio-active'>Portfolio</li>
-                                    <li>WebCraft</li>
-                                    <li>Personal</li>
-                                    <li>UX/UI</li>
-                                    <li>AI/Python</li>
+                                    <li className='portfolio-active'> <Link to='/portfolio'>Portfolio</Link></li>
+                                    <li><Link to='/webcraft'>WebCraft</Link></li>
+                                    <li><Link to='/personal'>Personal</Link></li>
+                                    <li><Link to='/ux'>UX/UI</Link></li>
+                                    <li><Link to='/ai'>AI/Python</Link></li>
                                 </ul>
                             )}
                         </div>

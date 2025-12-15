@@ -562,7 +562,7 @@ function Contact() {
                                             className="portfolio-dropdown"
                                             onClick={(e) => e.stopPropagation()}
                                         >
-                                            <Link 
+                                            <Link
                                                 to="/portfolio" 
                                                 className="dropdown-item"
                                                 onClick={() => setIsPortfolioDropdownOpen(false)}
@@ -571,7 +571,7 @@ function Contact() {
                                                 <span>All Projects</span>
                                             </Link>
                                             <Link 
-                                                to="/"
+                                                to="/webcraft"
                                                 className="dropdown-item"
                                                 onClick={() => setIsPortfolioDropdownOpen(false)}
                                             >
@@ -579,7 +579,7 @@ function Contact() {
                                                 <span>WebCraft</span>
                                             </Link>
                                             <Link 
-                                                to="/"
+                                                to="/personal"
                                                 className="dropdown-item"
                                                 onClick={() => setIsPortfolioDropdownOpen(false)}
                                             >
@@ -587,7 +587,7 @@ function Contact() {
                                                 <span>Personal</span>
                                             </Link>
                                             <Link 
-                                                to="/"
+                                                to="/ux"
                                                 className="dropdown-item"
                                                 onClick={() => setIsPortfolioDropdownOpen(false)}
                                             >
@@ -595,7 +595,7 @@ function Contact() {
                                                 <span>UX/UI Design</span>
                                             </Link>
                                             <Link 
-                                                to="/"
+                                                to="/ai"
                                                 className="dropdown-item"
                                                 onClick={() => setIsPortfolioDropdownOpen(false)}
                                             >

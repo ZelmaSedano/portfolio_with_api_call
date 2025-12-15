@@ -630,8 +630,17 @@ nav ul li a p{
 }
 .portfolio-navbar {
   margin: 0 auto;
+  display: flex;
 }
 .portfolio-ul {
+  display: flex; /* Add this line */
+  flex-wrap: wrap; /* Optional: allows wrapping on smaller screens */
+  justify-content: center; /* Center the items horizontally */
+  margin: 0 auto; /* Center the ul itself */
+  padding: 0; /* Remove default padding */
+  list-style: none;
+}
+.portfolio-ul a {
   display: flex;
   list-style: none;
   font-family: "Single Day", cursive;
@@ -645,12 +654,10 @@ nav ul li a p{
 .portfolio-ul li {
   padding: 0 25px;
 }
-
 .portfolio-active {
   text-decoration: underline;
+  text-underline-offset: 3px;
 }
-
-
 .portfolio-banner {
   font-family: "Single Day", cursive;
   color: #AF1CD4;

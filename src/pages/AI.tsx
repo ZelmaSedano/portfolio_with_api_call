@@ -599,22 +599,22 @@ function AI() {
                             {isSmallScreen ? (
                                 <>
                                     <ul className='portfolio-ul'>
-                                        <li>Portfolio</li>
-                                        <li>WebCraft</li>
-                                        <li>Personal</li>
+                                        <li><Link to='/portfolio'>Portfolio</Link></li>
+                                        <li><Link to='/webcraft'>WebCraft</Link></li>
+                                        <li><Link to='/personal'>Personal</Link></li>
                                     </ul>
                                     <ul className='portfolio-ul'>
-                                            <li>UX/UI</li>
-                                            <li className='portfolio-active'>AI/Python</li>
+                                            <li><Link to='/ux'>UX/UI</Link></li>
+                                            <li className='portfolio-active'><Link to='/ai'>AI/Pyhthon</Link></li>
                                     </ul>
                                 </>
                             ) : (
                                 <ul className='portfolio-ul'>
-                                    <li>Portfolio</li>
-                                    <li className='portfolio-active'>WebCraft</li>
-                                    <li>Personal</li>
-                                    <li>UX/UI</li>
-                                    <li className='portfolio-active'>AI/Python</li>
+                                    <li><Link to='/portfolio'>Portfolio</Link></li>
+                                    <li><Link to='/webcraft'>WebCraft</Link></li>
+                                    <li><Link to='/personal'>Personal</Link></li>
+                                    <li><Link to='/ux'>UX/UI</Link></li>
+                                    <li className='portfolio-active'><Link to='/ai'>AI/Python</Link></li>
                                 </ul>
                             )}
                         </div>

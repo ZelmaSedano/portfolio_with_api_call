@@ -538,7 +538,7 @@ function Home() {
                                                 <span>Personal</span>
                                             </Link>
                                             <Link 
-                                                to="/"
+                                                to="/ux"
                                                 className="dropdown-item"
                                                 onClick={() => setIsPortfolioDropdownOpen(false)}
                                             >
@@ -546,7 +546,7 @@ function Home() {
                                                 <span>UX/UI Design</span>
                                             </Link>
                                             <Link 
-                                                to="/"
+                                                to="/ai"
                                                 className="dropdown-item"
                                                 onClick={() => setIsPortfolioDropdownOpen(false)}
                                             >
