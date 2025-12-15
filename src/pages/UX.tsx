@@ -536,7 +536,7 @@ function UX() {
                                                 <span>UX/UI Design</span>
                                             </Link>
                                             <Link 
-                                                to="/portfolio"
+                                                to="/ai"
                                                 className="dropdown-item"
                                                 onClick={() => setIsPortfolioDropdownOpen(false)}
                                             >
