@@ -609,6 +609,7 @@ nav ul li a p{
 }
 .homepage-pic {
   height: 265px;
+  border-radius: 5%;
 }
 .sub-bio-text {
   margin-top: -5px;
