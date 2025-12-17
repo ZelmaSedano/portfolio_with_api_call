@@ -218,7 +218,7 @@ function Portfolio() {
         },
         {
             title:'UX/UI Design',
-            id: 'uwu',
+            id: 'desktop',
             url: 'https://www.pinterest.com/pin/9077636744660963/' // Keep url for external links
         },
         {
@@ -619,7 +619,7 @@ function Portfolio() {
                                 </ul>
                             )}
                         </div>
-                        </div>
+                    </div>
                     {/* <div className='portfolio-banner'>PORTFOLIO</div> */}
 
                         <div className="img-grid">

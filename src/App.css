@@ -602,6 +602,13 @@ nav ul li a p{
 .sub-bio-section {
   margin-top: 30px;
   text-align: center;
+  display: flex;
+}
+.bio-container {
+  display: inline-block;
+}
+.homepage-pic {
+  height: 265px;
 }
 .sub-bio-text {
   margin-top: -5px;
@@ -609,7 +616,7 @@ nav ul li a p{
   text-decoration: underline;
 }
 .sub-bio-p {
-  width: 80%;
+  width: 70%;
   text-align: center;
   align-items: center;
   margin: 0 auto;
@@ -693,7 +700,6 @@ nav ul li a p{
 .image-container {
   position: relative;
   display: inline-block;
-  /* filter: drop-shadow(15px 15px 0px rgba(0, 0, 0, 0.3)); */
 }
 .image-title {
   justify-content: center;

@@ -620,10 +620,13 @@ function Home() {
                         <div className='bio-section'>
 
                             <div className='sub-bio-section'>
-                                <p className='sub-bio-text'>Slow Tech Design</p>
-                                <p className='sub-bio-p'>
-                                    In an ever-changing world where users sense of safety is paramount, let's create environments that address their needs and provide a feeling of security to users via NOSTALGIA DESIGN
-                                </p>
+                                <img src='/public/images/thunderlegs.png' className='homepage-pic' />
+                                <div className='bio-container'>
+                                    <p className='sub-bio-text'>Slow Tech Design</p>
+                                    <p className='sub-bio-p'>
+                                        In an ever-changing world where users sense of safety is paramount, let's create environments that address their needs and provide a feeling of security to users via NOSTALGIA DESIGN
+                                    </p>
+                                </div>
                             </div>
                         </div>
 
