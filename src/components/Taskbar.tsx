@@ -65,6 +65,7 @@ const Taskbar: React.FC<TaskbarProps> = ({isVisible, toggleWindow, currentTime})
                 </div>
             )}
 
+
             <div className='devscape-section'>
                 <button 
                 className={`devscape-button ${isVisible ? 'window-visible' : ''}`}
