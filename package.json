@@ -7,7 +7,7 @@
     "dev": "vite",
     "build": "tsc && vite build",
     "preview": "vite preview",
-    "start": "node server.js",
+    "start": "node api/server.js",
     "vercel-build": "npm run build",
     "dev-full": "concurrently -n 'vite,server' -c 'green,blue' \"npm run dev\" \"npm run start\""
   },

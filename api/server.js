@@ -23,6 +23,7 @@ app.use(express.static(path.join(__dirname, 'dist')));
 
 // API endpoint
 app.get('/api/horoscope', async (req, res) => {
+  console.log('hi there I am the horoscope')
   try {
     const { sign } = req.query;
     if (!sign) {
