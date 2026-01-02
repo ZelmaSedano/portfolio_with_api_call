@@ -96,54 +96,50 @@ function Home() {
     fetchHoroscope(sign);
     };
 
-    // Add this function
-    const handleChatbotSubmit = async (e: React.FormEvent) => {
-        e.preventDefault();
-        if (!chatbotInput.trim()) return;
-
-        // Add user message to history
-        const userMessage = chatbotInput;
-        setChatHistory(prev => [...prev, { sender: 'user', message: userMessage }]);
-        setChatbotInput('');
-
-        // Get chatbot response
-        const response = await getChatbotResponse(userMessage);
+    const getChatbotResponse = async (input: string): Promise<string> => {
+    try {
+        const response = await fetch('/api/chatbot', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({ message: input })
+        });
         
-        // Add bot response to history
-        setChatHistory(prev => [...prev, { sender: 'bot', message: response }]);
-    };
-
-    // Add this function to fetch responses
-    const getChatbotResponse = async (input: string) => {
-        try {
-            // If you want to serve JSON from server.js:
-            // const response = await fetch('/api/chatbot', {
-            //   method: 'POST',
-            //   headers: { 'Content-Type': 'application/json' },
-            //   body: JSON.stringify({ message: input })
-            // });
-            // return await response.json();
-            
-            // Simple local version:
-            const responses = {
-            greetings: ["Hello! How can I help?", "Hi there!", "Hey! 👋"],
-            help: ["I can help you navigate this portfolio!", "Check the menu for different sections!"],
-            default: ["I'm here to help!", "Ask me about the portfolio!"]
-            };
-            
-            const lowerInput = input.toLowerCase();
-            if (lowerInput.includes('hello') || lowerInput.includes('hi')) {
-            return responses.greetings[Math.floor(Math.random() * responses.greetings.length)];
-            }
-            if (lowerInput.includes('help')) {
-            return responses.help[Math.floor(Math.random() * responses.help.length)];
-            }
-            return responses.default[Math.floor(Math.random() * responses.default.length)];
-            
-        } catch (error) {
-            return "Oops, I'm having trouble responding right now!";
+        if (!response.ok) {
+            throw new Error(`HTTP error! status: ${response.status}`);
         }
-    };
+        
+        const data = await response.json();
+        return data.message;
+    } catch (error) {
+        console.error('Chatbot error:', error);
+        return "Sorry, I'm having trouble responding right now!";
+    }
+};
+
+// Update your handleChatbotSubmit function:
+const handleChatbotSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!chatbotInput.trim()) return;
+
+    // Add user message
+    const userMessage = chatbotInput;
+    setChatHistory(prev => [...prev, { 
+        sender: 'user', 
+        message: userMessage 
+    }]);
+    setChatbotInput('');
+
+    // Get bot response from server
+    const botMessage = await getChatbotResponse(userMessage);
+    
+    // Add bot message
+    setChatHistory(prev => [...prev, { 
+        sender: 'bot', 
+        message: botMessage 
+    }]);
+};
 
 
     // save the position of the window to session storage
