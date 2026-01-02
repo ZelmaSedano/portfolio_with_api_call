@@ -620,7 +620,7 @@ function Home() {
                         <div className='bio-section'>
 
                             <div className='sub-bio-section'>
-                                <img src='/public/images/thunderlegs.png' className='homepage-pic' />
+                                <img src='/images/thunderlegs.png' className='homepage-pic' />
                                 <div className='bio-container'>
                                     <p className='sub-bio-text'>Slow Tech Design</p>
                                     <p className='sub-bio-p'>
