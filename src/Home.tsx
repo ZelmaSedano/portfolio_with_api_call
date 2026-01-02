@@ -65,6 +65,10 @@ function Home() {
     const [showClippyModal, setShowClippyModal] = useState(false);
     const [showClippyYesModal, setShowClippyYesModal] = useState(false);
     const [showClippyNoModal, setShowClippyNoModal] = useState(false);
+    const [chatbotInput, setChatbotInput] = useState('');
+    const [chatHistory, setChatHistory] = useState<Array<{sender: string, message: string}>>([]);
+    const [showChatbotModal, setShowChatbotModal] = useState(false);
+
 
     // portfolio dropdown
     const [isPortfolioDropdownOpen, setIsPortfolioDropdownOpen] = useState(false);
@@ -91,6 +95,56 @@ function Home() {
     const handleGetHoroscope = () => {
     fetchHoroscope(sign);
     };
+
+    // Add this function
+    const handleChatbotSubmit = async (e: React.FormEvent) => {
+        e.preventDefault();
+        if (!chatbotInput.trim()) return;
+
+        // Add user message to history
+        const userMessage = chatbotInput;
+        setChatHistory(prev => [...prev, { sender: 'user', message: userMessage }]);
+        setChatbotInput('');
+
+        // Get chatbot response
+        const response = await getChatbotResponse(userMessage);
+        
+        // Add bot response to history
+        setChatHistory(prev => [...prev, { sender: 'bot', message: response }]);
+    };
+
+    // Add this function to fetch responses
+    const getChatbotResponse = async (input: string) => {
+        try {
+            // If you want to serve JSON from server.js:
+            // const response = await fetch('/api/chatbot', {
+            //   method: 'POST',
+            //   headers: { 'Content-Type': 'application/json' },
+            //   body: JSON.stringify({ message: input })
+            // });
+            // return await response.json();
+            
+            // Simple local version:
+            const responses = {
+            greetings: ["Hello! How can I help?", "Hi there!", "Hey! 👋"],
+            help: ["I can help you navigate this portfolio!", "Check the menu for different sections!"],
+            default: ["I'm here to help!", "Ask me about the portfolio!"]
+            };
+            
+            const lowerInput = input.toLowerCase();
+            if (lowerInput.includes('hello') || lowerInput.includes('hi')) {
+            return responses.greetings[Math.floor(Math.random() * responses.greetings.length)];
+            }
+            if (lowerInput.includes('help')) {
+            return responses.help[Math.floor(Math.random() * responses.help.length)];
+            }
+            return responses.default[Math.floor(Math.random() * responses.default.length)];
+            
+        } catch (error) {
+            return "Oops, I'm having trouble responding right now!";
+        }
+    };
+
 
     // save the position of the window to session storage
     useEffect(() => {
@@ -383,40 +437,40 @@ function Home() {
                     className='clippy'
                 />
                 {showClippyModal && (
-                    <div className="modal-overlay" onClick={() => setShowClippyModal(false)}>{/* when the user clicks again, setShowModal is set to false (modal isn't shown) */}
-                    {/* if you click inside the modal, then setShowModal ISN'T set to false */}
-                    {/* onClick takes the event, and returns 'don't propogate this event' function */}
-                        <div className="modal" onClick={(e) => e.stopPropagation()}>
-                            <div className="modal-header">
-                                <span>Hi, I'm ANGRY CLIPPY</span>
-                                <button className='x-button' onClick={() => setShowClippyModal(false)}>✕</button>
+                    <div className="modal-overlay" onClick={() => setShowClippyModal(false)}>
+                        <div className="modal chatbot-modal" onClick={(e) => e.stopPropagation()}>
+                        <div className="modal-header">
+                            <span>💬 Chatbot Assistant</span>
+                            <button className='x-button' onClick={() => setShowClippyModal(false)}>✕</button>
+                        </div>
+                        
+                        <div className="modal-body chatbot-body">
+                            {/* Chat history */}
+                            <div className="chat-history">
+                            {chatHistory.map((chat, index) => (
+                                <div key={index} className={`chat-message ${chat.sender}`}>
+                                {chat.message}
+                                </div>
+                            ))}
                             </div>
-                            {/* body of modal */}
-                            <div className="modal-body">Are you kidding me??</div>
-                            {/* CHALLENGE: add two buttons to this modal, 'yes', and 'I love them!', and return a message to the user based on their selection */}
-                            <div className='cat-buttons'>
-                                <button 
-                                className='cat-button'
-                                onClick={() => {
-                                    setShowClippyModal(false);
-                                    setShowClippyYesModal(true);
-                                }}
-                                >
-                                    Yes
-                                </button>
-                                <button 
-                                    className='cat-button'
-                                    onClick={() => {
-                                        setShowClippyModal(false);
-                                        setShowClippyNoModal(true);
-                                    }}
-                                >
-                                    No
-                                </button>
-                            </div>
+                            
+                            {/* Chat input */}
+                            <form onSubmit={handleChatbotSubmit} className="chat-input-form">
+                            <input
+                                type="text"
+                                value={chatbotInput}
+                                onChange={(e) => setChatbotInput(e.target.value)}
+                                placeholder="Type your message..."
+                                className="chat-input"
+                            />
+                            <button type="submit" className="chat-send-button">
+                                <img src={send} alt="Send" className="send-icon" />
+                            </button>
+                            </form>
+                        </div>
                         </div>
                     </div>
-                )}
+                    )}
             </div>
 
                 {/* define what showYesModal is */}

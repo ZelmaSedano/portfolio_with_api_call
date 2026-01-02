@@ -1,0 +1,39 @@
+{
+    "greetings": {
+        "patterns": ["hello", "hi", "hey", "greetings"],
+        "responses": [
+            "Hello! I'm your helpful assistant.",
+            "Hi there! How can I help?",
+            "Hey! What's on your mind today?"
+        ]
+    },
+    "farewell": {
+        "patterns": ["bye", "goodbye", "see you", "later"],
+        "responses": [
+            "Goodbye! Have a great day!",
+            "See you later! 👋",
+            "Bye! Come back anytime!"
+        ]
+    },
+    "help": {
+        "patterns": ["help", "what can you do", "features"],
+        "responses": [
+            "I can help you navigate this portfolio! Try asking about projects, skills, or experience.",
+            "I'm here to help! You can ask me about Val's work, skills, or just chat!"
+        ]
+    },
+    "projects": {
+        "patterns": ["projects", "portfolio", "work", "examples"],
+        "responses": [
+            "Val has worked on WebCraft projects, UX/UI designs, and AI applications. Check the Portfolio section!",
+            "There are several projects in the portfolio including web development, design work, and Python/AI projects."
+        ]
+    },
+    "default": {
+        "responses": [
+            "I'm not sure about that. Try asking about projects or help!",
+            "Hmm, I don't understand. Maybe ask something else?",
+            "Could you rephrase that? I'm here to help!"
+        ]
+    }
+}
