@@ -11,6 +11,7 @@ const __dirname = path.dirname(__filename);
 // initiate that app using express
 const app = express();
 
+
 // middleware
 app.use(cors());
 // parses the incoming JSON data
