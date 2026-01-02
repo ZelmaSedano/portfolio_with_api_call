@@ -45,7 +45,7 @@ const chatbotResponses = {
         ]
     },
     "projects": {
-        "patterns": ["projects", "portfolio", "work", "examples"],
+        "patterns": ["projects", "portfolio", "work", "examples", "val"],
         "responses": [
             "Val has worked on WebCraft projects, UX/UI designs, and AI applications. Check the Portfolio section!",
             "There are several projects in the portfolio including web development, design work, and Python/AI projects."

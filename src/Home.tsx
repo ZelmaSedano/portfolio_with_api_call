@@ -126,8 +126,8 @@ const handleChatbotSubmit = async (e: React.FormEvent) => {
     // Add user message
     const userMessage = chatbotInput;
     setChatHistory(prev => [...prev, { 
-        sender: 'user', 
-        message: userMessage 
+        sender: 'user',
+        message: userMessage
     }]);
     setChatbotInput('');
 
@@ -435,19 +435,25 @@ const handleChatbotSubmit = async (e: React.FormEvent) => {
                 {showClippyModal && (
                     <div className="modal-overlay" onClick={() => setShowClippyModal(false)}>
                         <div className="modal chatbot-modal" onClick={(e) => e.stopPropagation()}>
-                        <div className="modal-header">
-                            <span>💬 Chatbot Assistant</span>
+                        <div className='modal-header'>
+                            <span>Clippy's Cousin</span>
                             <button className='x-button' onClick={() => setShowClippyModal(false)}>✕</button>
                         </div>
                         
                         <div className="modal-body chatbot-body">
-                            {/* Chat history */}
                             <div className="chat-history">
-                            {chatHistory.map((chat, index) => (
-                                <div key={index} className={`chat-message ${chat.sender}`}>
-                                {chat.message}
-                                </div>
-                            ))}
+                                {chatHistory.map((chat, index) => (
+                                    <div key={index} className={`chat-message ${chat.sender}`}>
+                                        <div className="message-header">
+                                            <span className="message-sender">
+                                                {chat.sender === 'user' ? 'You' : 'Clippy'}
+                                            </span>
+                                        </div>
+                                        <div className="message-content">
+                                            {chat.message}
+                                        </div>
+                                    </div>
+                                ))}
                             </div>
                             
                             {/* Chat input */}

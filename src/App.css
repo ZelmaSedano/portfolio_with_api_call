@@ -34,19 +34,16 @@ html, body {
 }
 
 /* clippy icon design, why not here since it's above window in home.tsx */
-/* In your CSS file */
 .chatbot-modal {
   width: 400px;
   max-width: 90vw;
 }
-
 .chatbot-body {
   display: flex;
   flex-direction: column;
   height: 400px;
   padding: 0;
 }
-
 .chat-history {
   flex: 1;
   overflow-y: auto;
@@ -54,36 +51,34 @@ html, body {
   background: #f5f5f5;
   border-radius: 4px 4px 0 0;
 }
-
+.chat-message.user .message-sender {
+    color: red;
+}
+.chat-message.bot .message-sender {
+    color: green;
+}
+/* the ACTUAL message */
 .chat-message {
-  margin-bottom: 10px;
-  padding: 8px 12px;
-  border-radius: 15px;
-  max-width: 80%;
-  word-wrap: break-word;
+  display: flex;
+  padding: 3px 12px;
 }
-
+.message-content {
+  padding-left: 15px;
+}
 .chat-message.user {
-  background: #0078d4;
-  color: white;
-  margin-left: auto;
-  border-bottom-right-radius: 5px;
+  color: black;
+  margin-right: auto;
 }
-
 .chat-message.bot {
-  background: #e1e1e1;
   color: #333;
   margin-right: auto;
-  border-bottom-left-radius: 5px;
 }
-
 .chat-input-form {
   display: flex;
   padding: 10px;
   border-top: 1px solid #ddd;
   background: white;
 }
-
 .chat-input {
   flex: 1;
   padding: 8px 12px;
@@ -91,11 +86,9 @@ html, body {
   border-radius: 20px;
   outline: none;
 }
-
 .chat-input:focus {
   border-color: #0078d4;
 }
-
 .chat-send-button {
   background: #0078d4;
   border: none;
@@ -108,7 +101,6 @@ html, body {
   align-items: center;
   justify-content: center;
 }
-
 .send-icon {
   width: 16px;
   height: 16px;
