@@ -63,17 +63,14 @@ function Home() {
 
     const [clippyPosition, setClippyPosition] = useState({ x: 0, y: 0 });
     const [showClippyModal, setShowClippyModal] = useState(false);
-    const [showClippyYesModal, setShowClippyYesModal] = useState(false);
-    const [showClippyNoModal, setShowClippyNoModal] = useState(false);
     const [chatbotInput, setChatbotInput] = useState('');
     const [chatHistory, setChatHistory] = useState<Array<{sender: string, message: string}>>([]);
-    const [showChatbotModal, setShowChatbotModal] = useState(false);
-
+    const [shouldShake, setShouldShake] = useState(false);
 
     // portfolio dropdown
     const [isPortfolioDropdownOpen, setIsPortfolioDropdownOpen] = useState(false);
 
-    // fetch - VITE WAS BLOCKING THIS FROM WORKING, REMEMBER TO UPDATE VITE.CONFIG NEXT
+    // API fetches
     const fetchHoroscope = async (sign: string) => {
         setIsLoading(true);
         setError(null);
@@ -91,61 +88,59 @@ function Home() {
             setIsLoading(false);
         }
     };
-
     const handleGetHoroscope = () => {
     fetchHoroscope(sign);
     };
 
+    // getters
     const getChatbotResponse = async (input: string): Promise<string> => {
-    try {
-        const response = await fetch('/api/chatbot', {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({ message: input })
-        });
+        try {
+            const response = await fetch('/api/chatbot', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({ message: input })
+            });
+            if (!response.ok) {
+                throw new Error(`HTTP error! status: ${response.status}`);
+            }
+            const data = await response.json();
+            return data.message;
+            } catch (error) {
+                console.error('Chatbot error:', error);
+                return "Sorry, I'm having trouble responding right now!";
+            }
+    };
+    const handleChatbotSubmit = async (e: React.FormEvent) => {
+        e.preventDefault();
+        if (!chatbotInput.trim()) return;
+
+        // Add user message
+        const userMessage = chatbotInput;
+        setChatHistory(prev => [...prev, { 
+            sender: 'user',
+            message: userMessage
+        }]);
+        setChatbotInput('');
+
+        // Get bot response from server
+        const botMessage = await getChatbotResponse(userMessage);
         
-        if (!response.ok) {
-            throw new Error(`HTTP error! status: ${response.status}`);
-        }
-        
-        const data = await response.json();
-        return data.message;
-    } catch (error) {
-        console.error('Chatbot error:', error);
-        return "Sorry, I'm having trouble responding right now!";
-    }
-};
-
-// Update your handleChatbotSubmit function:
-const handleChatbotSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!chatbotInput.trim()) return;
-
-    // Add user message
-    const userMessage = chatbotInput;
-    setChatHistory(prev => [...prev, { 
-        sender: 'user',
-        message: userMessage
-    }]);
-    setChatbotInput('');
-
-    // Get bot response from server
-    const botMessage = await getChatbotResponse(userMessage);
-    
-    // Add bot message
-    setChatHistory(prev => [...prev, { 
-        sender: 'bot', 
-        message: botMessage 
-    }]);
-};
+        // Add bot message
+        setChatHistory(prev => [...prev, { 
+            sender: 'bot', 
+            message: botMessage 
+        }]);
+    };
 
 
+    // useEffects
     // save the position of the window to session storage
     useEffect(() => {
         sessionStorage.setItem('windowPosition', JSON.stringify(position));
     }, [position]);
+
     useEffect(() => {
         const timer = setInterval(() => {
             setCurrentTime(new Date());
@@ -153,6 +148,7 @@ const handleChatbotSubmit = async (e: React.FormEvent) => {
         return () => clearInterval(timer); // Cleanup
     }, []);
     
+    // CLIPPY
     // clippy useEffect, keeps him stuck to the bottom-right
     useEffect(() => {
         const updateClippyPosition = () => {
@@ -172,21 +168,46 @@ const handleChatbotSubmit = async (e: React.FormEvent) => {
             y: documentHeight - 150 // 120px from bottom
             });
         };
-
         // initial position
         updateClippyPosition();
-
         // update on window resize and load
         window.addEventListener('resize', updateClippyPosition);
         window.addEventListener('load', updateClippyPosition);
-
         return () => {
             window.removeEventListener('resize', updateClippyPosition);
             window.removeEventListener('load', updateClippyPosition);
         };
     }, [location.pathname]);
 
+    // clippy shake on initial page load
+    useEffect(() => {
+        // Check if shake has already been shown in this session
+        const hasShaken = sessionStorage.getItem('clippyShaken');
+        
+        if (!hasShaken) {
+            // Trigger the shake
+            setShouldShake(true);
+            // Mark as shaken for this session
+            sessionStorage.setItem('clippyShaken', 'true');
+            
+            // Reset after animation completes (adjust time to match your CSS animation duration)
+            const shakeTimer = setTimeout(() => {
+                setShouldShake(false);
+            }, 1000); // Adjust this time to match your animation duration
+            
+            return () => clearTimeout(shakeTimer);
+        }
+    }, []);
+    // clippy shakes on page reload, not just first visit
+    useEffect(() => {
+        return () => {
+            // Reset on page unload if you want it to shake on next visit
+            sessionStorage.removeItem('clippyShaken');
+        };
+    }, []);
 
+
+    // window dragging effect
     const handleMouseDown = (e: React.MouseEvent) => {
     // Don't start dragging if clicking on dropdown or its children
         if (
@@ -204,7 +225,6 @@ const handleChatbotSubmit = async (e: React.FormEvent) => {
             });
         }
     };
-
     // native DOM event handlers (used with addEventListener)
     const handleNativeMouseMove = (e: MouseEvent) => {
         if (isDragging && windowRef.current) {
@@ -218,9 +238,7 @@ const handleChatbotSubmit = async (e: React.FormEvent) => {
             });
         }
     };
-
     const handleNativeMouseUp = () => setIsDragging(false);
-
     useEffect(() => {
         document.addEventListener('mousemove', handleNativeMouseMove);
         document.addEventListener('mouseup', handleNativeMouseUp);
@@ -426,27 +444,27 @@ const handleChatbotSubmit = async (e: React.FormEvent) => {
                 {/* when you click the desktop icon, setShowModal is set to true */}
                 <DesktopIcon
                     icon="/images/mad_clippy.png"
-                    label="click me"
+                    label="Hello???"
                     x={clippyPosition.x}
                     y={clippyPosition.y}
                     onClick={() => setShowClippyModal(true)}
-                    className='clippy'
+                    className={`clippy ${shouldShake ? 'shake-animation' : ''}`}
                 />
                 {showClippyModal && (
                     <div className="modal-overlay" onClick={() => setShowClippyModal(false)}>
-                        <div className="modal chatbot-modal" onClick={(e) => e.stopPropagation()}>
-                        <div className='modal-header'>
-                            <span>Clippy's Cousin</span>
-                            <button className='x-button' onClick={() => setShowClippyModal(false)}>✕</button>
+                        <div className="chatbot-modal" onClick={(e) => e.stopPropagation()}>
+                        <div className='chatbot-modal-header'>
+                            <span>ClipBot Messenger</span>
+                            <button className='x-button clippy-x' onClick={() => setShowClippyModal(false)}>✕</button>
                         </div>
                         
-                        <div className="modal-body chatbot-body">
+                        <div className="chatbot-body">
                             <div className="chat-history">
                                 {chatHistory.map((chat, index) => (
                                     <div key={index} className={`chat-message ${chat.sender}`}>
                                         <div className="message-header">
                                             <span className="message-sender">
-                                                {chat.sender === 'user' ? 'You' : 'Clippy'}
+                                                {chat.sender === 'user' ? 'You:' : 'Clippy:'}
                                             </span>
                                         </div>
                                         <div className="message-content">
@@ -465,7 +483,7 @@ const handleChatbotSubmit = async (e: React.FormEvent) => {
                                 placeholder="Type your message..."
                                 className="chat-input"
                             />
-                            <button type="submit" className="chat-send-button">
+                            <button type="submit" className="end-button">
                                 <img src={send} alt="Send" className="send-icon" />
                             </button>
                             </form>
@@ -474,39 +492,6 @@ const handleChatbotSubmit = async (e: React.FormEvent) => {
                     </div>
                     )}
             </div>
-
-                {/* define what showYesModal is */}
-                {showClippyYesModal && (
-                    <div className="modal-overlay" onClick={() => setShowClippyYesModal(false)}>
-                        <div className="modal cat-response-modal" onClick={(e) => e.stopPropagation()}>
-                            <div className="modal-header">
-                                <span>WOWWWW</span>
-                                <button className='x-button' onClick={() => setShowClippyYesModal(false)}>✕</button>
-                            </div>
-                            <div className="modal-body">
-                                <div className="image-container">
-                                    <img src="/images/evil_cat.gif" alt="evil_cat" />
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                )}
-
-                {showClippyNoModal && (
-                    <div className="modal-overlay" onClick={() => setShowClippyNoModal(false)}>
-                        <div className="modal cat-response-modals" onClick={(e) => e.stopPropagation()}>
-                            <div className="modal-header">
-                                <span>I feel like you ARE</span>
-                                <button className='x-button' onClick={() => setShowClippyNoModal(false)}>✕</button>
-                            </div>
-                            <div className="modal-body">
-                                <div className="image-container">
-                                    <img src="/images/evil_cat.gif" alt="evil_cat" />
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                )}
 
 
         {/* content window - draggable */}
