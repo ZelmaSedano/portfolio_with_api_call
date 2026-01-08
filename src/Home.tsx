@@ -179,6 +179,7 @@ function Home() {
         };
     }, [location.pathname]);
 
+    
     // clippy shake on initial page load
     useEffect(() => {
         // Check if shake has already been shown in this session
