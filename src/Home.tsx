@@ -654,19 +654,18 @@ function Home() {
                             <img className='computer' src="/images/computer_1.png" alt="computer_1" />
                             <div className='inner-banner-text'>
                                 <p className='banner'>-- Val Sedano --</p>
-                                <p className='banner-1'>RetroWave Designer & Developer</p>
+                                <p className='banner-1'>Nostalgic Design Developer</p>
                             </div>
                             <img className='computer' src="/images/computer-2.png" alt="computer_2" />
                         </div>
 
                         <div className='bio-section'>
-
                             <div className='sub-bio-section'>
-                                <img src='/images/thunderlegs.png' className='homepage-pic' />
+                                <img src='/images/webcraft_1.png' className='homepage-pic' />
                                 <div className='bio-container'>
                                     <p className='sub-bio-text'>Slow Tech Design</p>
                                     <p className='sub-bio-p'>
-                                        In an ever-changing world where users sense of safety is paramount, let's create environments that address their needs and provide a feeling of security to users via NOSTALGIA DESIGN
+                                        In an ever-changing world where users sense of safety is paramount, let's create environments that address their need for comfort
                                     </p>
                                 </div>
                             </div>
