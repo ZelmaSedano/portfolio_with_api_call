@@ -558,7 +558,7 @@ nav ul li a p{
   justify-content: center;
 }
 .computer {
-  height: 110px;
+  height: 120px;
 }
 /* homepage */
 .homepage-banners .banner,
@@ -572,12 +572,12 @@ nav ul li a p{
 }
 .homepage-banners .banner {
   padding-top: 0;
-  font-size: 50px;
+  font-size: 60px;
 }
 .homepage-banners .banner-1 {
   padding-top: 0;
-  font-size: 28px;
-  margin-top: -15px;
+  font-size: 33px;
+  margin-top: -22px;
 }
 
 .homepage-banners .bio-p {
@@ -590,7 +590,7 @@ nav ul li a p{
   align-items: center;
   margin: 0 auto;
   box-sizing: border-box;
-  margin-top: -50px;
+  margin-top: -30px;
   width: 70%;
 }
 .bio-section .bio-image{

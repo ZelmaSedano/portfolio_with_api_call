@@ -61,6 +61,8 @@ function Home() {
     const [error, setError] = useState<string | null>(null);
     const [sign, setSign] = useState('aries'); // Default sign
 
+    const [cdPlayerPosition, setCdPlayerPosition] = useState({ x: 0, y: 0 });
+
     const [clippyPosition, setClippyPosition] = useState({ x: 0, y: 0 });
     const [showClippyModal, setShowClippyModal] = useState(false);
     const [chatbotInput, setChatbotInput] = useState('');
@@ -148,6 +150,28 @@ function Home() {
         return () => clearInterval(timer); // Cleanup
     }, []);
     
+    // cd player
+    // cd player
+    useEffect(() => {
+        const updateCDPosition = () => {
+            // Top-right corner of viewport (not document)
+            setCdPlayerPosition({
+                x: window.innerWidth - 100, // 100px from right edge
+                y: 120 // 20px from top edge (adjust as needed)
+            });
+        };
+        
+        // initial position
+        updateCDPosition();
+        
+        // update on window resize
+        window.addEventListener('resize', updateCDPosition);
+        
+        return () => {
+            window.removeEventListener('resize', updateCDPosition);
+        };
+    }, [location.pathname]);
+
     // CLIPPY
     // clippy useEffect, keeps him stuck to the bottom-right
     useEffect(() => {
@@ -437,7 +461,31 @@ function Home() {
                     )}
             </div>
 
+            <div className="desktop">
+                <DesktopIcon
+                    icon="/images/play.ico"
+                    label="play"
+                    x={45}
+                    y={375}
+                    onClick={() => setShowScreamModal(true)}
+                />
 
+                {showScreamModal && (
+                    <div className="modal-overlay" onClick={() => setShowScreamModal(false)}>
+
+                    <div className="modal" onClick={(e) => e.stopPropagation()}>
+                        <div className="modal-header">
+                            <span className='scream-modal'>I know what you did last summer</span>
+                            <button className='x-button' onClick={() => setShowScreamModal(false)}>✕</button>
+                        </div>
+
+                        <div className="modal-body">
+                            <img src="/images/wassup.gif" className='gif' alt="evil_cat" />
+                        </div>
+                        </div>
+                    </div>
+                )}
+            </div>
 
 
             {/* clippy */}
