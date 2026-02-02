@@ -69,6 +69,16 @@ function Home() {
     const [chatHistory, setChatHistory] = useState<Array<{sender: string, message: string}>>([]);
     const [shouldShake, setShouldShake] = useState(false);
 
+        // Add this to your existing states
+    const [showPlayModal, setShowPlayModal] = useState(false);
+
+    // Add this audio state
+    const [audioPlayer, setAudioPlayer] = useState({
+    isPlaying: false,
+    currentTime: 0,
+    duration: 0,
+    });
+
     // portfolio dropdown
     const [isPortfolioDropdownOpen, setIsPortfolioDropdownOpen] = useState(false);
 
@@ -157,7 +167,7 @@ function Home() {
             // Top-right corner of viewport (not document)
             setCdPlayerPosition({
                 x: window.innerWidth - 100, // 100px from right edge
-                y: 120 // 20px from top edge (adjust as needed)
+                y: 20 // 20px from top edge (adjust as needed)
             });
         };
         
@@ -188,7 +198,7 @@ function Home() {
             
             // bottom-right corner of document
             setClippyPosition({
-            x: window.innerWidth - 80, // 100px from right edge
+            x: window.innerWidth - 100, // 80px from right edge
             y: documentHeight - 150 // 120px from bottom
             });
         };
@@ -231,7 +241,7 @@ function Home() {
         };
     }, []);
 
-
+    // handlers
     // window dragging effect
     const handleMouseDown = (e: React.MouseEvent) => {
     // Don't start dragging if clicking on dropdown or its children
@@ -272,6 +282,47 @@ function Home() {
             document.removeEventListener('mouseup', handleNativeMouseUp);
         };
     }, [isDragging, dragOffset]);
+
+    // Add this function after your other functions
+    const handlePlayAudio = () => {
+        const audioElement = document.getElementById('audio-player')  as HTMLAudioElement;
+        if (audioElement) {
+            if (audioPlayer.isPlaying) {
+            audioElement.pause();
+            } else {
+            audioElement.play();
+            }
+            setAudioPlayer(prev => ({ ...prev, isPlaying: !prev.isPlaying }));
+        }
+    };
+
+    // Add this function to handle time updates
+    const handleTimeUpdate = (e: React.SyntheticEvent<HTMLAudioElement>) => {
+        const audio = e.target as HTMLAudioElement;
+        setAudioPlayer(prev => ({
+            ...prev,
+            currentTime: audio.currentTime,
+            duration: audio.duration || 0
+        }));
+    };
+
+    // Function to handle seeking
+    const handleSeek = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const audioElement = document.getElementById('audio-player') as HTMLAudioElement;
+        const seekTime = parseFloat(e.target.value);
+        if (audioElement) {
+            audioElement.currentTime = seekTime;
+            setAudioPlayer(prev => ({ ...prev, currentTime: seekTime }));
+        }
+    };
+
+    // Function to format time (seconds to MM:SS)
+    const formatTime = (seconds: number) => {
+        if (!seconds || isNaN(seconds)) return '00:00';
+        const mins = Math.floor(seconds / 60);
+        const secs = Math.floor(seconds % 60);
+        return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+    };
 
     // portfolio dropdown
     const handlePortfolioClick = (e: React.MouseEvent) => {
@@ -465,27 +516,102 @@ function Home() {
                 <DesktopIcon
                     icon="/images/play.ico"
                     label="play"
-                    x={45}
-                    y={375}
-                    onClick={() => setShowScreamModal(true)}
+                    x={cdPlayerPosition.x}
+                    y={cdPlayerPosition.y}
+                    onClick={() => setShowPlayModal(true)}
                 />
 
-                {showScreamModal && (
-                    <div className="modal-overlay" onClick={() => setShowScreamModal(false)}>
-
-                    <div className="modal" onClick={(e) => e.stopPropagation()}>
+                {showPlayModal && (
+                    <div className="modal-overlay" onClick={() => setShowPlayModal(false)}>
+                    <div className="modal media-modal" onClick={(e) => e.stopPropagation()}>
                         <div className="modal-header">
-                            <span className='scream-modal'>I know what you did last summer</span>
-                            <button className='x-button' onClick={() => setShowScreamModal(false)}>✕</button>
+                        <span>Media Player</span>
+                        <button className='x-button' onClick={() => {
+                            setShowPlayModal(false);
+                            const audioElement = document.getElementById('audio-player') as HTMLAudioElement;
+                            if (audioElement) {
+                            audioElement.pause();
+                            setAudioPlayer({ isPlaying: false, currentTime: 0, duration: 0 });
+                            }
+                        }}>✕</button>
                         </div>
 
                         <div className="modal-body">
-                            <img src="/images/wassup.gif" className='gif' alt="evil_cat" />
+                        <div className="media-player-container">
+                            {/* Audio element - hidden but controls playback */}
+                            <audio 
+                                id="audio-player"
+                                src="/public/Miki_Matsubara_-_Stay_With_Me_(mp3.pm).mp3"
+                                onTimeUpdate={handleTimeUpdate}
+                                onLoadedMetadata={(e) => {
+                                    const audioElement = e.currentTarget as HTMLAudioElement;
+                                    setAudioPlayer(prev => ({ ...prev, duration: audioElement.duration }));
+                                }}
+                                onEnded={() => {
+                                    setAudioPlayer(prev => ({ ...prev, isPlaying: false, currentTime: 0 }));
+                                }}
+                            />
+                            
+                            {/* Player controls */}
+                            <div className="media-controls">
+                            <button 
+                                className="play-button"
+                                onClick={handlePlayAudio}
+                            >
+                                {audioPlayer.isPlaying ? '⏸️' : '▶️'}
+                            </button>
+                            
+                            <div className="progress-container">
+                                <span className="time-display current-time">
+                                {formatTime(audioPlayer.currentTime)}
+                                </span>
+                                
+                                <input
+                                type="range"
+                                className="progress-bar"
+                                min="0"
+                                max={audioPlayer.duration || 100}
+                                value={audioPlayer.currentTime}
+                                onChange={handleSeek}
+                                step="0.1"
+                                />
+                                
+                                <span className="time-display total-time">
+                                {formatTime(audioPlayer.duration)}
+                                </span>
+                            </div>
+                            
+                            <div className="volume-controls">
+                                <span className="volume-icon">🔊</span>
+                                <input
+                                type="range"
+                                className="volume-bar"
+                                min="0"
+                                max="1"
+                                step="0.01"
+                                defaultValue="1"
+                                onChange={(e) => {
+                                    const audioElement = document.getElementById('audio-player') as HTMLAudioElement;
+                                    if (audioElement) {
+                                    audioElement.volume = parseFloat(e.target.value);
+                                    }
+                                }}
+                                />
+                            </div>
+                            </div>
+                            
+                            {/* Track info */}
+                            <div className="track-info">
+                            <div className="track-title">Now Playing</div>
+                            <div className="track-name">Your Audio Track</div>
+                            <div className="track-artist">Artist Name</div>
+                            </div>
                         </div>
                         </div>
                     </div>
+                    </div>
                 )}
-            </div>
+                </div>
 
 
             {/* clippy */}
@@ -695,14 +821,13 @@ function Home() {
                         </div>
                     </div>
 
-
                     {/* window content */}
                     <div className='content'>
                         <div className='homepage-banners'>
                             <img className='computer' src="/images/computer_1.png" alt="computer_1" />
                             <div className='inner-banner-text'>
                                 <p className='banner'>-- Val Sedano --</p>
-                                <p className='banner-1'>Nostalgic Design Developer</p>
+                                <p className='banner-1'>Fully Immersive Nostalgia Expert</p>
                             </div>
                             <img className='computer' src="/images/computer-2.png" alt="computer_2" />
                         </div>
