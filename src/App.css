@@ -56,7 +56,7 @@ body {
 /* icons */
 .modal .modal-body {
   background-color: #c3c3c3;
-  margin-left: 10px;
+  text-align: center;
 }
 .modal .modal-body.scream-modal{
   background-color: #c3c3c3;
@@ -107,6 +107,18 @@ body {
   border: 2px solid black;
   margin-left: 20px;
   outline: none;
+}
+/* media player */
+.media-player-image {
+  display: flex;
+  justify-content: center;
+}
+.miki {
+  border: 1px solid black;
+}
+button.play-button {
+  padding: 10px;
+  border: 0;
 }
 
 
