@@ -121,6 +121,15 @@ button.play-button {
   border: 0;
 }
 
+.media-player-play, 
+.media-player-pause {
+  height: 17px;
+  width: 17px;
+}
+.volume-icon {
+  height: 22px;
+}
+
 
 
 /* content window */
@@ -177,7 +186,7 @@ header {
   font-family: 'MS Sans Serif';
   font-size: 12px;
   color: black;
-  padding: 9px;
+  padding: 8px;
   align-items: center;
   justify-content: center;
   border-top: 1px solid #ffffff;

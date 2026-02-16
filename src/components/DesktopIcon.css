@@ -73,15 +73,15 @@ you can just add the more specific selector in that case in front of the one tha
 .modal {
     width: 300px;
     background: #c0c0c0;
-    border: 3px solid #c3c3c3;
-    box-shadow: 4px 4px rgba(0,0,0,0.4);
+    border: 2px solid #c3c3c3;
+    box-shadow: 4px 4px 10px 2px rgba(0,0,0,0.4);
     font-family: 'MS Sans Serif';
 }
 .modal-header {
     background: linear-gradient(to right, #02198e, #1178c9);
-    height: 22px;
+    height: 20px;
     color: white;
-    padding: 4px 8px;
+    padding: 3px 4px;
     display: flex;
     justify-content: space-between;
 }

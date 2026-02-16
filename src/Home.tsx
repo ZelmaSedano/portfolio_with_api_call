@@ -531,12 +531,14 @@ function Home() {
                                 <span>Media Player</span>
                                 <button className='x-button' onClick={() => {
                                     setShowPlayModal(false);
+
                                     const audioElement = document.getElementById('audio-player') as HTMLAudioElement;
+
                                     if (audioElement) {
-                                    audioElement.pause();
-                                    setAudioPlayer({ isPlaying: false, currentTime: 0, duration: 0 });
+                                        audioElement.pause();
+                                        setAudioPlayer({ isPlaying: false, currentTime: 0, duration: 0 });
                                     }
-                                    }}>✕</button>
+                                }}>✕</button>
                             </div>
 
                             <div className="modal-body">
@@ -558,7 +560,7 @@ function Home() {
                                     {/* player controls */}
                                     <div className="media-controls">
                                         <div className='media-player-image'>
-                                            <img src='/public/images/miki.jpg' className='miki'></img>
+                                            <img src='/images/miki.jpg' className='miki'></img>
                                         </div>
                                         
                                         {/* song progress */}
@@ -568,7 +570,7 @@ function Home() {
                                                 className="play-button"
                                                 onClick={handlePlayAudio}
                                             >
-                                                {audioPlayer.isPlaying ? '⏸️' : '▶️'}
+                                                {audioPlayer.isPlaying ? <img src='/images/pause.png' className='media-player-pause'></img> : <img src='/images/play.png' className='media-player-play'></img>}
                                             </button>
                                             <span className="time-display current-time">
                                                 {formatTime(audioPlayer.currentTime)}
@@ -590,7 +592,9 @@ function Home() {
                                         </div>
                                         
                                         <div className="volume-controls">
-                                            <span className="volume-icon">🔊</span>
+                                            <span>
+                                                <img src='/images/Volume.ico' className="volume-icon"></img>
+                                            </span>
                                             <input
                                                 type="range"
                                                 className="volume-bar"
@@ -610,14 +614,14 @@ function Home() {
                                 
                                 {/* Track info */}
                                 <div className="track-info">
-                                <div className="track-title">Now Playing: "Stay with Me"</div>
-                                <div className="track-artist">Artist Name: Miki Matsubara</div>
+                                    <div className="track-title">Now Playing: "Stay with Me"</div>
+                                    <div className="track-artist">Artist: Miki Matsubara</div>
                                 </div>
                             </div>
                             </div>
                         </div>
                     </div>
-                )}
+                    )}
                 </div>
 
 
