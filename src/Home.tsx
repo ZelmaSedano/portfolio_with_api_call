@@ -59,7 +59,7 @@ function Home() {
     const [horoscopeData, setHoroscopeData] = useState<HoroscopeData | null>(null);
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
-    const [sign, setSign] = useState('aries'); // Default sign
+    const [sign, setSign] = useState('aries');
 
     const [cdPlayerPosition, setCdPlayerPosition] = useState({ x: 0, y: 0 });
 
@@ -69,7 +69,7 @@ function Home() {
     const [chatHistory, setChatHistory] = useState<Array<{sender: string, message: string}>>([]);
     const [shouldShake, setShouldShake] = useState(false);
 
-        // Add this to your existing states
+    // Add this to your existing states
     const [showPlayModal, setShowPlayModal] = useState(false);
 
     // Add this audio state
@@ -101,7 +101,7 @@ function Home() {
         }
     };
     const handleGetHoroscope = () => {
-    fetchHoroscope(sign);
+        fetchHoroscope(sign);
     };
 
     // getters
@@ -283,7 +283,7 @@ function Home() {
         };
     }, [isDragging, dragOffset]);
 
-    // Add this function after your other functions
+    // media player
     const handlePlayAudio = () => {
         const audioElement = document.getElementById('audio-player')  as HTMLAudioElement;
         if (audioElement) {
