@@ -631,7 +631,7 @@ function Home() {
                 {/* when you click the desktop icon, setShowModal is set to true */}
                 <DesktopIcon
                     icon="/images/mad_clippy.png"
-                    label="Hello???"
+                    label="Hello?"
                     x={clippyPosition.x}
                     y={clippyPosition.y}
                     onClick={() => setShowClippyModal(true)}
