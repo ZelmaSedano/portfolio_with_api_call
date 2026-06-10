@@ -438,6 +438,7 @@ function Home() {
                     onClick={() => setShowScreamModal(true)}
                 />
 
+
                 {showScreamModal && (
                     <div className="modal-overlay" onClick={() => setShowScreamModal(false)}>
 
@@ -845,7 +846,7 @@ function Home() {
 
                         <div className='bio-section'>
                             <div className='sub-bio-section'>
-                                <img src='/images/webcraft_1.png' className='homepage-pic' />
+                                <img src='/images/webcraft.png' className='homepage-pic' />
                                 <div className='bio-container'>
                                     <p className='sub-bio-text'>Slow Tech Design</p>
                                     <p className='sub-bio-p'>
