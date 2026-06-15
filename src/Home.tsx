@@ -18,7 +18,9 @@ import earth from './assets/earth.ico'
 type HoroscopeData = {
     data: {
         date: string;
-        horoscope_data: string;
+        period: string;
+        sign: string;
+        horoscope: string;
     };
 };
 
@@ -503,11 +505,12 @@ function Home() {
                             {error && <div className="error">{error}</div>}
 
                             {horoscopeData && (
-                            <div className="horoscope-results">
-                                <h3>{sign.charAt(0).toUpperCase() + sign.slice(1)}</h3>
-                                <p><strong>Date:</strong> {horoscopeData.data.date}</p>
-                                <p><strong>Horoscope Data:</strong> {horoscopeData.data.horoscope_data}</p>
-                            </div>
+                                <div className="horoscope-results">
+                                    <h3>{horoscopeData.data.sign}</h3>
+                                    <p><strong>Date:</strong> {horoscopeData.data.date}</p>
+                                    <p><strong>Period:</strong> {horoscopeData.data.period}</p>
+                                    <p><strong>Horoscope:</strong> {horoscopeData.data.horoscope}</p> 
+                                </div>
                             )}
                         </div>
                         </div>

@@ -112,7 +112,7 @@ app.post('/api/chatbot', (req, res) => {
         });
     }
 });
-
+https://freehoroscopeapi.com/api/v1/get-horoscope/daily?sign=scorpio
 // API endpoint for horoscope
 app.get('/api/horoscope', async (req, res) => {
     try {
@@ -120,7 +120,7 @@ app.get('/api/horoscope', async (req, res) => {
         if (!sign) {
             return res.status(400).json({ error: 'Sign parameter is required' });
         }
-        const apiUrl = `https://horoscope-app-api.vercel.app/api/v1/get-horoscope/daily?sign=${sign}&day=today`;
+        const apiUrl = `https://horoscope-app-api.vercel.app/api/v1/get-horoscope/daily?sign=${sign}`;
         
         const response = await axios.get(apiUrl);
         res.json(response.data);
