@@ -112,7 +112,7 @@ app.post('/api/chatbot', (req, res) => {
         });
     }
 });
-https://freehoroscopeapi.com/api/v1/get-horoscope/daily?sign=scorpio
+
 // API endpoint for horoscope
 app.get('/api/horoscope', async (req, res) => {
     try {
