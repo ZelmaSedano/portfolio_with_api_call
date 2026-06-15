@@ -29,6 +29,8 @@ function Home() {
     const portfolioRef = useRef<HTMLLIElement>(null);
     // dragging feature
     const windowRef = useRef<HTMLDivElement | null>(null);
+    // clock
+    const location = useLocation();
 
     // modal ref
     const catModalRef = useRef<HTMLDivElement | null>(null);
@@ -37,10 +39,6 @@ function Home() {
     const playModalRef = useRef<HTMLDivElement | null>(null);
     const yesModalRef = useRef<HTMLDivElement | null>(null);
     const loveModalRef = useRef<HTMLDivElement | null>(null);
-
-
-    // clock
-    const location = useLocation();
 
     // STATES
     const [position, setPosition] = useState(() => {
@@ -184,7 +182,7 @@ function Home() {
     useEffect(() => {
         sessionStorage.setItem('windowPosition', JSON.stringify(position));
     }, [position]);
-
+    // clock
     useEffect(() => {
         const timer = setInterval(() => {
             setCurrentTime(new Date());

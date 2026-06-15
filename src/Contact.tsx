@@ -14,15 +14,25 @@ import earth from './assets/earth.ico'
 type HoroscopeData = {
     data: {
         date: string;
-        horoscope_data: string;
+        period: string;
+        sign: string;
+        horoscope: string;
     };
 };
-
 function Contact() {
     // portfolio dropdown
     const portfolioRef = useRef<HTMLLIElement>(null);
     const windowRef = useRef<HTMLDivElement | null>(null)
     const location = useLocation();
+
+    // modal ref
+    const catModalRef = useRef<HTMLDivElement | null>(null);
+    const screamModalRef = useRef<HTMLDivElement | null>(null);
+    const horoscopeModalRef = useRef<HTMLDivElement | null>(null);
+    const playModalRef = useRef<HTMLDivElement | null>(null);
+    const yesModalRef = useRef<HTMLDivElement | null>(null);
+    const loveModalRef = useRef<HTMLDivElement | null>(null);
+
 
     // states
     const [position, setPosition] = useState(() => {
@@ -39,28 +49,62 @@ function Contact() {
     // dragging state
     const [isDragging, setIsDragging] = useState(false);
     const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
+
+    // ICON STATES
+    // cat 
     const [showCatModal, setShowCatModal] = useState(false);
     const [showYesModal, setShowYesModal] = useState(false);
     const [showLoveModal, setShowLoveModal] = useState(false);
-    
+    const [isDraggingCat, setIsDraggingCat] = useState(false);
+    const [catPosition, setCatPosition] = useState({ x: 200, y: 200 });
+    const [catDragOffset, setCatDragOffset] = useState({ x: 0, y: 0 });
+    // yes modal (for cat response)
+    const [isDraggingYes, setIsDraggingYes] = useState(false);
+    const [yesPosition, setYesPosition] = useState({ x: 250, y: 250 });
+    const [yesDragOffset, setYesDragOffset] = useState({ x: 0, y: 0 });
+    // love modal (for cat response)
+    const [isDraggingLove, setIsDraggingLove] = useState(false);
+    const [lovePosition, setLovePosition] = useState({ x: 300, y: 300 });
+    const [loveDragOffset, setLoveDragOffset] = useState({ x: 0, y: 0 });
+
+    // scream
     const [showScreamModal, setShowScreamModal] = useState(false);
+    const [isDraggingScream, setIsDraggingScream] = useState(false);
+    const [screamPosition, setScreamPosition] = useState({ x: 200, y: 200 });
+    const [screamDragOffset, setScreamDragOffset] = useState({ x: 0, y: 0 });
 
     // horoscope API states
     const [showHoroscopeModal, setShowHoroscopeModal] = useState(false);
     const [horoscopeData, setHoroscopeData] = useState<HoroscopeData | null>(null);
     const [isLoading, setIsLoading] = useState(false);
     const [error, setError] = useState<string | null>(null);
-    const [sign, setSign] = useState('aries'); // Default sign
+    const [sign, setSign] = useState('aries');
+    const [isDraggingHoroscope, setIsDraggingHoroscope] = useState(false);
+    const [horoscopePosition, setHoroscopePosition] = useState({ x: 200, y: 200 });
+    const [horoscopeDragOffset, setHoroscopeDragOffset] = useState({ x: 0, y: 0 });
+
+    // media player
+    const [cdPlayerPosition, setCdPlayerPosition] = useState({ x: 0, y: 0 });
+    const [showPlayModal, setShowPlayModal] = useState(false);
+    const [isDraggingPlay, setIsDraggingPlay] = useState(false);
+    const [playPosition, setPlayPosition] = useState({ x: 200, y: 200 });
+    const [playDragOffset, setPlayDragOffset] = useState({ x: 0, y: 0 });
 
     const [clippyPosition, setClippyPosition] = useState({ x: 0, y: 0 });
     const [showClippyModal, setShowClippyModal] = useState(false);
+
+    // Add this audio state
+    const [audioPlayer, setAudioPlayer] = useState({
+        isPlaying: false,
+        currentTime: 0,
+        duration: 0,
+    });
 
     // portfolio dropdown
     const [isPortfolioDropdownOpen, setIsPortfolioDropdownOpen] = useState(false);
 
     // Send button active state
     const [isButtonActive, setIsButtonActive] = useState(false);
-
 
 
     // contact window size state - check size of window to resize textarea
@@ -86,7 +130,7 @@ function Contact() {
     
     return height;
 };
-    // fetch - VITE WAS BLOCKING THIS FROM WORKING, REMEMBER TO UPDATE VITE.CONFIG NEXT
+    // API fetches
     const fetchHoroscope = async (sign: string) => {
         setIsLoading(true);
         setError(null);
@@ -109,20 +153,44 @@ function Contact() {
     fetchHoroscope(sign);
     };
 
-/////////////////////////////////////////////////////////////////////////////////////////////////
-    // use effects
-
+    // USEEFFECTS
+    // event listeners for native DOM events
+    useEffect(() => {
+        document.addEventListener('mousemove', handleNativeMouseMove);
+        document.addEventListener('mouseup', handleNativeMouseUp);
+        return () => {
+            document.removeEventListener('mousemove', handleNativeMouseMove);
+            document.removeEventListener('mouseup', handleNativeMouseUp);
+        };
+    }, [isDragging, dragOffset]);
     // window position - window loads in middle of page
     useEffect(() => {
         sessionStorage.setItem('windowPosition', JSON.stringify(position));
     }, [position]);
-    // timer 
+    // clock
     useEffect(() => {
         const timer = setInterval(() => {
             setCurrentTime(new Date());
         }, 1000);
         return () => clearInterval(timer); // Cleanup
     }, []);
+    // cd player
+    useEffect(() => {
+        const updateCDPosition = () => {
+            // Top-right corner of viewport (not document)
+            setCdPlayerPosition({
+                x: window.innerWidth - 100, // 100px from right edge
+                y: 20 // 20px from top edge (adjust as needed)
+            });
+        };
+        // initial position
+        updateCDPosition();
+        // update on window resize
+        window.addEventListener('resize', updateCDPosition);
+        return () => {
+            window.removeEventListener('resize', updateCDPosition);
+        };
+    }, [location.pathname]);
     // contact window size - resize textarea
     useEffect(() => {
         const handleResize = () => {
@@ -145,6 +213,158 @@ function Contact() {
             return () => clearTimeout(timer);
         }
     }, [isButtonActive]);
+
+    // USEEFFECTS MODALS
+    // cat modal
+    useEffect(() => {
+        const handleMouseMove = (e: MouseEvent) => {
+            if (isDraggingCat && catModalRef.current) {
+                setCatPosition({
+                    x: e.clientX - catDragOffset.x,
+                    y: e.clientY - catDragOffset.y
+                });
+            }
+        };
+        const handleMouseUp = () => setIsDraggingCat(false);
+        
+        if (isDraggingCat) {
+            document.addEventListener('mousemove', handleMouseMove);
+            document.addEventListener('mouseup', handleMouseUp);
+        }
+        return () => {
+            document.removeEventListener('mousemove', handleMouseMove);
+            document.removeEventListener('mouseup', handleMouseUp);
+        };
+    }, [isDraggingCat, catDragOffset]);
+    // Yes modal drag
+    useEffect(() => {
+        const handleMouseMove = (e: MouseEvent) => {
+            if (isDraggingYes && yesModalRef.current) {
+                setYesPosition({
+                    x: e.clientX - yesDragOffset.x,
+                    y: e.clientY - yesDragOffset.y
+                });
+            }
+        };
+        const handleMouseUp = () => setIsDraggingYes(false);
+        
+        if (isDraggingYes) {
+            document.addEventListener('mousemove', handleMouseMove);
+            document.addEventListener('mouseup', handleMouseUp);
+        }
+        return () => {
+            document.removeEventListener('mousemove', handleMouseMove);
+            document.removeEventListener('mouseup', handleMouseUp);
+        };
+    }, [isDraggingYes, yesDragOffset]);
+
+    // Love modal drag
+    useEffect(() => {
+        const handleMouseMove = (e: MouseEvent) => {
+            if (isDraggingLove && loveModalRef.current) {
+                setLovePosition({
+                    x: e.clientX - loveDragOffset.x,
+                    y: e.clientY - loveDragOffset.y
+                });
+            }
+        };
+        const handleMouseUp = () => setIsDraggingLove(false);
+        
+        if (isDraggingLove) {
+            document.addEventListener('mousemove', handleMouseMove);
+            document.addEventListener('mouseup', handleMouseUp);
+        }
+        return () => {
+            document.removeEventListener('mousemove', handleMouseMove);
+            document.removeEventListener('mouseup', handleMouseUp);
+        };
+    }, [isDraggingLove, loveDragOffset]);
+    // scream modal
+    useEffect(() => {
+        const handleMouseMove = (e: MouseEvent) => {
+            if (isDraggingScream && screamModalRef.current) {
+                setScreamPosition({
+                    x: e.clientX - screamDragOffset.x,
+                    y: e.clientY - screamDragOffset.y
+                });
+            }
+        };
+        const handleMouseUp = () => setIsDraggingScream(false);
+        
+        if (isDraggingScream) {
+            document.addEventListener('mousemove', handleMouseMove);
+            document.addEventListener('mouseup', handleMouseUp);
+        }
+        return () => {
+            document.removeEventListener('mousemove', handleMouseMove);
+            document.removeEventListener('mouseup', handleMouseUp);
+        };
+    }, [isDraggingScream, screamDragOffset]);
+    // scream modal
+    useEffect(() => {
+        const handleMouseMove = (e: MouseEvent) => {
+            if (isDraggingScream && screamModalRef.current) {
+                setScreamPosition({
+                    x: e.clientX - screamDragOffset.x,
+                    y: e.clientY - screamDragOffset.y
+                });
+            }
+        };
+        const handleMouseUp = () => setIsDraggingScream(false);
+        
+        if (isDraggingScream) {
+            document.addEventListener('mousemove', handleMouseMove);
+            document.addEventListener('mouseup', handleMouseUp);
+        }
+        return () => {
+            document.removeEventListener('mousemove', handleMouseMove);
+            document.removeEventListener('mouseup', handleMouseUp);
+        };
+    }, [isDraggingScream, screamDragOffset]);
+    // horoscope
+    useEffect(() => {
+        const handleMouseMove = (e: MouseEvent) => {
+            if (isDraggingHoroscope && horoscopeModalRef.current) {
+                setHoroscopePosition({
+                    x: e.clientX - horoscopeDragOffset.x,
+                    y: e.clientY - horoscopeDragOffset.y
+                });
+            }
+        };
+        const handleMouseUp = () => setIsDraggingHoroscope(false);
+        
+        if (isDraggingHoroscope) {
+            document.addEventListener('mousemove', handleMouseMove);
+            document.addEventListener('mouseup', handleMouseUp);
+        }
+        return () => {
+            document.removeEventListener('mousemove', handleMouseMove);
+            document.removeEventListener('mouseup', handleMouseUp);
+        };
+    }, [isDraggingHoroscope, horoscopeDragOffset]);
+    // play modal
+    useEffect(() => {
+        const handleMouseMove = (e: MouseEvent) => {
+            if (isDraggingPlay && playModalRef.current) {
+                setPlayPosition({
+                    x: e.clientX - playDragOffset.x,
+                    y: e.clientY - playDragOffset.y
+                });
+            }
+        };
+        const handleMouseUp = () => setIsDraggingPlay(false);
+        
+        if (isDraggingPlay) {
+            document.addEventListener('mousemove', handleMouseMove);
+            document.addEventListener('mouseup', handleMouseUp);
+        }
+        return () => {
+            document.removeEventListener('mousemove', handleMouseMove);
+            document.removeEventListener('mouseup', handleMouseUp);
+        };
+    }, [isDraggingPlay, playDragOffset]);
+
+
     // clippy useEffect, keeps him stuck to the bottom-right
     useEffect(() => {
         const updateClippyPosition = () => {
@@ -178,7 +398,7 @@ function Contact() {
         };
     }, []);
 
-
+    // HANDLERS
     // mouse event handlers for React events (used in onMouseDown)
     const handleMouseDown = (e: React.MouseEvent) => {
     // Don't start dragging if clicking on dropdown or its children
@@ -214,15 +434,123 @@ function Contact() {
 
     const handleNativeMouseUp = () => setIsDragging(false);
 
-    // event listeners for native DOM events
-    useEffect(() => {
-        document.addEventListener('mousemove', handleNativeMouseMove);
-        document.addEventListener('mouseup', handleNativeMouseUp);
-        return () => {
-            document.removeEventListener('mousemove', handleNativeMouseMove);
-            document.removeEventListener('mouseup', handleNativeMouseUp);
-        };
-    }, [isDragging, dragOffset]);
+        // media player
+    const handlePlayAudio = () => {
+        const audioElement = document.getElementById('audio-player')  as HTMLAudioElement;
+        if (audioElement) {
+            if (audioPlayer.isPlaying) {
+            audioElement.pause();
+            } else {
+            audioElement.play();
+            }
+            setAudioPlayer(prev => ({ ...prev, isPlaying: !prev.isPlaying }));
+        }
+    };
+    // seek/media player
+    const handleSeek = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const audioElement = document.getElementById('audio-player') as HTMLAudioElement;
+        const seekTime = parseFloat(e.target.value);
+        if (audioElement) {
+            audioElement.currentTime = seekTime;
+            setAudioPlayer(prev => ({ ...prev, currentTime: seekTime }));
+        }
+    };
+
+    // clock
+    const handleTimeUpdate = (e: React.SyntheticEvent<HTMLAudioElement>) => {
+        const audio = e.target as HTMLAudioElement;
+        setAudioPlayer(prev => ({
+            ...prev,
+            currentTime: audio.currentTime,
+            duration: audio.duration || 0
+        }));
+    };
+    // format time (seconds to MM:SS)
+    const formatTime = (seconds: number) => {
+        if (!seconds || isNaN(seconds)) return '00:00';
+        const mins = Math.floor(seconds / 60);
+        const secs = Math.floor(seconds % 60);
+        return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+    };
+
+    // modal handlers for dragging
+    const handleCatMouseDown = (e: React.MouseEvent) => {
+        if ((e.target as HTMLElement).closest('.modal-header') && 
+            !(e.target as HTMLElement).closest('.x-button')) {
+            const rect = catModalRef.current?.getBoundingClientRect();
+            if (!rect) return;
+            setIsDraggingCat(true);
+            setCatDragOffset({
+                x: e.clientX - rect.left,
+                y: e.clientY - rect.top
+            });
+        }
+    };
+    // cat: yes modal
+        const handleYesMouseDown = (e: React.MouseEvent) => {
+        if ((e.target as HTMLElement).closest('.modal-header') && 
+            !(e.target as HTMLElement).closest('.x-button')) {
+            const rect = yesModalRef.current?.getBoundingClientRect();
+            if (!rect) return;
+            setIsDraggingYes(true);
+            setYesDragOffset({
+                x: e.clientX - rect.left,
+                y: e.clientY - rect.top
+            });
+        }
+    };
+    // cat: love modal
+    const handleLoveMouseDown = (e: React.MouseEvent) => {
+        if ((e.target as HTMLElement).closest('.modal-header') && 
+            !(e.target as HTMLElement).closest('.x-button')) {
+            const rect = loveModalRef.current?.getBoundingClientRect();
+            if (!rect) return;
+            setIsDraggingLove(true);
+            setLoveDragOffset({
+                x: e.clientX - rect.left,
+                y: e.clientY - rect.top
+            });
+        }
+    };
+    const handleScreamMouseDown = (e: React.MouseEvent) => {
+        if ((e.target as HTMLElement).closest('.modal-header') && 
+            !(e.target as HTMLElement).closest('.x-button')) {
+            const rect = screamModalRef.current?.getBoundingClientRect();
+            if (!rect) return;
+            setIsDraggingScream(true);
+            setScreamDragOffset({
+                x: e.clientX - rect.left,
+                y: e.clientY - rect.top
+            });
+        }
+    };
+    const handleHoroscopeMouseDown = (e: React.MouseEvent) => {
+        if ((e.target as HTMLElement).closest('.modal-header') && 
+            !(e.target as HTMLElement).closest('.x-button')) {
+            const rect = horoscopeModalRef.current?.getBoundingClientRect();
+            if (!rect) return;
+            setIsDraggingHoroscope(true);
+            setHoroscopeDragOffset({
+                x: e.clientX - rect.left,
+                y: e.clientY - rect.top
+            });
+        }
+    };
+    const handlePlayMouseDown = (e: React.MouseEvent) => {
+        if ((e.target as HTMLElement).closest('.modal-header') && 
+            !(e.target as HTMLElement).closest('.x-button')) {
+            const rect = playModalRef.current?.getBoundingClientRect();
+            if (!rect) return;
+            setIsDraggingPlay(true);
+            setPlayDragOffset({
+                x: e.clientX - rect.left,
+                y: e.clientY - rect.top
+            });
+        }
+    };
+
+
+
 
     // portfolio dropdown
     const handlePortfolioClick = (e: React.MouseEvent) => {
@@ -293,7 +621,7 @@ function Contact() {
             <div className="desktop">
                 {/* when you click the desktop icon, setShowModal is set to true */}
                 <DesktopIcon
-                    icon="/images/cat.png"
+                    icon="images/cat.png"
                     label="meowdy"
                     x={50}
                     y={35}
@@ -301,24 +629,36 @@ function Contact() {
                 />
 
                 {showCatModal && (
-                    <div className="modal-overlay" onClick={() => setShowCatModal(false)}>{/* when the user clicks again, setShowModal is set to false (modal isn't shown) */}
-                    {/* if you click inside the modal, then setShowModal ISN'T set to false */}
-                    {/* onClick takes the event, and returns 'don't propogate this event' function */}
-                    <div className="modal" onClick={(e) => e.stopPropagation()}>
-                        <div className="modal-header">
-                            <span>Question...</span>
-                            <button className='x-button' onClick={() => setShowCatModal(false)}>✕</button>
-                        </div>
-                        {/* body of modal */}
-                        <div className="modal-body">Do you like cats?</div>
+                    <div className="modal-overlay" onClick={() => setShowCatModal(false)}>
+                        
+                        <div 
+                            className="modal" 
+                            ref={catModalRef}
+                            onClick={(e) => e.stopPropagation()}
+                            style={{
+                                position: 'fixed',
+                                left: `${catPosition.x}px`,
+                                top: `${catPosition.y}px`,
+                            }}
+                        >
+                            <div
+                                className="modal-header"
+                                onMouseDown={handleCatMouseDown}
+                                style={{ cursor: 'grab'}}
+                            >
+                                <span>Question...</span>
+                                <button className='x-button' onClick={() => setShowCatModal(false)}>✕</button>
+                            </div>
+                            {/* body of modal */}
+                            <div className="modal-body">Do you like cats?</div>
                             {/* CHALLENGE: add two buttons to this modal, 'yes', and 'I love them!', and return a message to the user based on their selection */}
                             <div className='cat-buttons'>
                                 <button 
-                                    className='cat-button'
-                                    onClick={() => {
-                                        setShowCatModal(false);
-                                        setShowYesModal(true);
-                                    }}
+                                className='cat-button'
+                                onClick={() => {
+                                    setShowCatModal(false);
+                                    setShowYesModal(true);
+                                }}
                                 >
                                     Yes
                                 </button>
@@ -336,11 +676,25 @@ function Contact() {
                     </div>
                 )}
             </div>
-            {/* define what showYesModal is */}
+
+                {/* define what showYesModal is */}
                 {showYesModal && (
                     <div className="modal-overlay" onClick={() => setShowYesModal(false)}>
-                        <div className="modal cat-response-modal" onClick={(e) => e.stopPropagation()}>
-                            <div className="modal-header">
+                        <div 
+                        className="modal cat-response-modal" 
+                        onClick={(e) => e.stopPropagation()}
+                        ref={yesModalRef}
+                        style={{
+                            position: 'fixed',
+                            left: `${yesPosition.x}px`,
+                            top: `${yesPosition.y}px`
+                        }}
+                    >
+                            <div 
+                                className="modal-header"
+                                onMouseDown={handleYesMouseDown}
+                                style={{ cursor: 'grab'}}
+                            >
                                 <span>Smart Answer</span>
                                 <button className='x-button' onClick={() => setShowYesModal(false)}>✕</button>
                             </div>
@@ -355,8 +709,21 @@ function Contact() {
 
                 {showLoveModal && (
                     <div className="modal-overlay" onClick={() => setShowLoveModal(false)}>
-                        <div className="modal cat-response-modals" onClick={(e) => e.stopPropagation()}>
-                            <div className="modal-header">
+                        <div 
+                            className="modal cat-response-modals" 
+                            onClick={(e) => e.stopPropagation()}
+                            ref={loveModalRef}
+                            style={{
+                                position: 'fixed',
+                                left: `${lovePosition.x}px`,
+                                top: `${lovePosition.y}px`
+                            }}
+                        >
+                            <div 
+                                className="modal-header"
+                                onMouseDown={handleLoveMouseDown}
+                                style={{ cursor: 'grab'}}
+                            >
                                 <span>That's right, MINION</span>
                                 <button className='x-button' onClick={() => setShowLoveModal(false)}>✕</button>
                             </div>
@@ -379,12 +746,26 @@ function Contact() {
                     onClick={() => setShowScreamModal(true)}
                 />
 
+
                 {showScreamModal && (
                     <div className="modal-overlay" onClick={() => setShowScreamModal(false)}>
 
-                    <div className="modal" onClick={(e) => e.stopPropagation()}>
-                        <div className="modal-header">
-                            <span>I know what you did last summer</span>
+                    <div 
+                        className="modal" 
+                        onClick={(e) => e.stopPropagation()}
+                        ref={screamModalRef}
+                        style={{
+                            position: 'fixed',
+                            left: `${screamPosition.x}px`,
+                            top: `${screamPosition.y}px`
+                        }}
+                    >
+                        <div 
+                            className="modal-header"
+                            onMouseDown={handleScreamMouseDown}    
+                            style={{ cursor: 'grab'}}
+                        >
+                            <span className='scream-modal'>I know what you did last summer</span>
                             <button className='x-button' onClick={() => setShowScreamModal(false)}>✕</button>
                         </div>
 
@@ -410,12 +791,27 @@ function Contact() {
 
                 {showHoroscopeModal && (
                     <div className="modal-overlay" onClick={() => setShowHoroscopeModal(false)}>
-                        <div className="modal" onClick={(e) => e.stopPropagation()}>
-                        <div className="modal-header">
+                        <div 
+                            className="modal horoscope-modal" 
+                            onClick={(e) => e.stopPropagation()}
+                            ref={horoscopeModalRef}
+                            style={{
+                                position: 'fixed',
+                                left: `${horoscopePosition.x}px`,
+                                top: `${horoscopePosition.y}px`
+                            }}
+                        >
+                        <div 
+                            className="modal-header"
+                            onMouseDown={handleHoroscopeMouseDown}
+                            style={{ cursor: 'grab'}}
+                        >
                             <span>Your Horoscope</span>
                             <button className='x-button' onClick={() => setShowHoroscopeModal(false)}>✕</button>
                         </div>
-                        <div className="modal-body">
+
+                        {/* modal body */}
+                        <div className="modal-body horoscope-modal-body">
                             <div className="horoscope-controls">
                             <select 
                                 value={sign} 
@@ -441,11 +837,11 @@ function Contact() {
                             {error && <div className="error">{error}</div>}
 
                             {horoscopeData && (
-                            <div className="horoscope-results">
-                                <h3>{sign.charAt(0).toUpperCase() + sign.slice(1)}</h3>
-                                <p><strong>Date:</strong> {horoscopeData.data.date}</p>
-                                <p><strong>Horoscope Data:</strong> {horoscopeData.data.horoscope_data}</p>
-                            </div>
+                                <div className="horoscope-results">
+                                    <p><strong>Date:</strong> {horoscopeData.data.date}</p>
+                                    <p><strong>Period:</strong> {horoscopeData.data.period}</p>
+                                    <p><strong>Horoscope:</strong> {horoscopeData.data.horoscope}</p> 
+                                </div>
                             )}
                         </div>
                         </div>
@@ -453,6 +849,130 @@ function Contact() {
                     )}
             </div>
 
+            {/* media player */}
+            <div className="desktop">
+                <DesktopIcon
+                    icon="/images/play.ico"
+                    label="play"
+                    x={cdPlayerPosition.x}
+                    y={cdPlayerPosition.y}
+                    onClick={() => setShowPlayModal(true)}
+                />
+
+                {showPlayModal && (
+                    <div className="modal-overlay" onClick={() => setShowPlayModal(false)}>
+                        
+                        <div 
+                            className="modal media-modal" 
+                            onClick={(e) => e.stopPropagation()}
+                            ref={playModalRef}
+                            style={{
+                                position: 'fixed',
+                                left: `${playPosition.x}px`,
+                                top: `${playPosition.y}px`
+                            }}
+                        >
+                            <div 
+                                className="modal-header"
+                                onMouseDown={handlePlayMouseDown}
+                                style={{ cursor: 'grab'}}
+                            >
+                                <span>Media Player</span>
+                                <button className='x-button' onClick={() => {
+                                    setShowPlayModal(false);
+
+                                    const audioElement = document.getElementById('audio-player') as HTMLAudioElement;
+
+                                    if (audioElement) {
+                                        audioElement.pause();
+                                        setAudioPlayer({ isPlaying: false, currentTime: 0, duration: 0 });
+                                    }
+                                }}>✕</button>
+                            </div>
+
+                            <div className="modal-body">
+                                <div className="media-player-container">
+                                    {/* Audio element - hidden but controls playback */}
+                                    <audio
+                                        id="audio-player"
+                                        src="/public/Miki_Matsubara_-_Stay_With_Me_(mp3.pm).mp3"
+                                        onTimeUpdate={handleTimeUpdate}
+                                        onLoadedMetadata={(e) => {
+                                            const audioElement = e.currentTarget as HTMLAudioElement;
+                                            setAudioPlayer(prev => ({ ...prev, duration: audioElement.duration }));
+                                        }}
+                                        onEnded={() => {
+                                            setAudioPlayer(prev => ({ ...prev, isPlaying: false, currentTime: 0 }));
+                                        }}
+                                    />
+                                    
+                                    {/* player controls */}
+                                    <div className="media-controls">
+                                        <div className='media-player-image'>
+                                            <img src='/images/miki.jpg' className='miki'></img>
+                                        </div>
+                                        
+                                        {/* song progress */}
+                                        <div className="progress-container">
+                                            {/* play/pause button */}
+                                            <button 
+                                                className="play-button"
+                                                onClick={handlePlayAudio}
+                                            >
+                                                {audioPlayer.isPlaying ? <img src='/images/pause.png' className='media-player-pause'></img> : <img src='/images/play.png' className='media-player-play'></img>}
+                                            </button>
+                                            <span className="time-display current-time">
+                                                {formatTime(audioPlayer.currentTime)}
+                                            </span>
+                                            
+                                            <input
+                                                type="range"
+                                                className="progress-bar"
+                                                min="0"
+                                                max={audioPlayer.duration || 100}
+                                                value={audioPlayer.currentTime}
+                                                onChange={handleSeek}
+                                                step="0.1"
+                                            />
+                                            
+                                            <span className="time-display total-time">
+                                                {formatTime(audioPlayer.duration)}
+                                            </span>
+                                        </div>
+                                        
+                                        <div className="volume-controls">
+                                            <span>
+                                                <img src='/images/Volume.ico' className="volume-icon"></img>
+                                            </span>
+                                            <input
+                                                type="range"
+                                                className="volume-bar"
+                                                min="0"
+                                                max="1"
+                                                step="0.01"
+                                                defaultValue="1"
+                                                onChange={(e) => {
+                                                    const audioElement = document.getElementById('audio-player') as HTMLAudioElement;
+                                                    if (audioElement) {
+                                                    audioElement.volume = parseFloat(e.target.value);
+                                                    }
+                                                }}
+                                            />
+                                        </div>
+                                    </div>
+                                
+                                {/* Track info */}
+                                <div className="track-info">
+                                    <div className="track-title">Now Playing: "Stay with Me"</div>
+                                    <div className="track-artist">Artist: Miki Matsubara</div>
+                                </div>
+                            </div>
+                            </div>
+                        </div>
+                    </div>
+                    )}
+                </div>
+                
             {/* clippy */}
             <div className="desktop">
                 {/* when you click the desktop icon, setShowModal is set to true */}
