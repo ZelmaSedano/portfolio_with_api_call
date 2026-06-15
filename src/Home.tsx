@@ -109,9 +109,9 @@ function Home() {
 
     // Add this audio state
     const [audioPlayer, setAudioPlayer] = useState({
-    isPlaying: false,
-    currentTime: 0,
-    duration: 0,
+        isPlaying: false,
+        currentTime: 0,
+        duration: 0,
     });
 
     // portfolio dropdown
@@ -162,7 +162,6 @@ function Home() {
     const handleChatbotSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         if (!chatbotInput.trim()) return;
-
         // Add user message
         const userMessage = chatbotInput;
         setChatHistory(prev => [...prev, { 
@@ -170,10 +169,8 @@ function Home() {
             message: userMessage
         }]);
         setChatbotInput('');
-
         // Get bot response from server
         const botMessage = await getChatbotResponse(userMessage);
-        
         // Add bot message
         setChatHistory(prev => [...prev, { 
             sender: 'bot', 
@@ -204,13 +201,10 @@ function Home() {
                 y: 20 // 20px from top edge (adjust as needed)
             });
         };
-        
         // initial position
         updateCDPosition();
-        
         // update on window resize
         window.addEventListener('resize', updateCDPosition);
-        
         return () => {
             window.removeEventListener('resize', updateCDPosition);
         };
