@@ -19,7 +19,6 @@ type HoroscopeData = {
     };
 };
 
-
 function Portfolio() {
     // portfolio dropdown
     const portfolioRef = useRef<HTMLLIElement>(null);
@@ -1027,30 +1026,7 @@ function Portfolio() {
                     <div className='portfolio-content'>
 
                     <div className='portfolio-container'>
-                        <div className='portfolio-navbar'>
-                            {/* conditional operators can only return one single parent element, so you have to wrap the 2 ul's in JSX fragments */}
-                            {isSmallScreen ? (
-                                <>
-                                    <ul className='portfolio-ul'>
-                                        <li className='portfolio-active'><Link to='/portfolio'>Portfolio</Link></li>
-                                        <li><Link to='/webcraft'>WebCraft</Link></li>
-                                        <li><Link to='/personal'>Personal</Link></li>
-                                    </ul>
-                                    <ul className='portfolio-ul'>
-                                            <li><Link to='/ux'>UX/UI</Link></li>
-                                            <li><Link to='/ai'>AI/Pyhthon</Link></li>
-                                    </ul>
-                                </>
-                            ) : (
-                                <ul className='portfolio-ul'>
-                                    <li className='portfolio-active'> <Link to='/portfolio'>Portfolio</Link></li>
-                                    <li><Link to='/webcraft'>WebCraft</Link></li>
-                                    <li><Link to='/personal'>Personal</Link></li>
-                                    <li><Link to='/ux'>UX/UI</Link></li>
-                                    <li><Link to='/ai'>AI/Python</Link></li>
-                                </ul>
-                            )}
-                        </div>
+
                     </div>
                     {/* <div className='portfolio-banner'>PORTFOLIO</div> */}
 
