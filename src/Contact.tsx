@@ -93,20 +93,16 @@ function Contact() {
     const [clippyPosition, setClippyPosition] = useState({ x: 0, y: 0 });
     const [showClippyModal, setShowClippyModal] = useState(false);
 
-    // Add this audio state
+    // media player state
     const [audioPlayer, setAudioPlayer] = useState({
         isPlaying: false,
         currentTime: 0,
         duration: 0,
     });
-
     // portfolio dropdown
     const [isPortfolioDropdownOpen, setIsPortfolioDropdownOpen] = useState(false);
-
     // Send button active state
     const [isButtonActive, setIsButtonActive] = useState(false);
-
-
     // contact window size state - check size of window to resize textarea
     const [windowSize, setWindowSize] = useState({
         width: window.innerWidth,
@@ -114,22 +110,22 @@ function Contact() {
     });
 
     const calculateTextareaHeight = () => {
-    const otherElementsHeight = 500; // Adjust this value based on your layout
-    const minHeight = 180;
-    const maxHeight = 400; // Add a maximum height for sanity
-    
-    // Base calculation on the window's height, not screen position
-    const availableHeight = windowSize.height - otherElementsHeight - 100; // Fixed offset
-    
-    let height = Math.max(minHeight, Math.min(availableHeight, maxHeight));
-    
-    // Optional: Keep your width-based constraints
-    if (windowSize.width >= 901 && windowSize.width <= 1400) {
-        height = Math.min(height, 185);
-    }
-    
-    return height;
-};
+        const otherElementsHeight = 500; // Adjust this value based on your layout
+        const minHeight = 180;
+        const maxHeight = 400; // Add a maximum height for sanity
+        
+        // Base calculation on the window's height, not screen position
+        const availableHeight = windowSize.height - otherElementsHeight - 100; // Fixed offset
+        
+        let height = Math.max(minHeight, Math.min(availableHeight, maxHeight));
+        
+        // Optional: Keep your width-based constraints
+        if (windowSize.width >= 901 && windowSize.width <= 1400) {
+            height = Math.min(height, 185);
+        }
+        
+        return height;
+    };
     // API fetches
     const fetchHoroscope = async (sign: string) => {
         setIsLoading(true);
@@ -972,7 +968,7 @@ function Contact() {
                     </div>
                     )}
                 </div>
-                
+
             {/* clippy */}
             <div className="desktop">
                 {/* when you click the desktop icon, setShowModal is set to true */}
@@ -1059,76 +1055,12 @@ function Contact() {
                                     </Link>
                                 </li>
 
-
-                            {/* portfolio navbar button*/}
-                                <li 
-                                    ref={portfolioRef}
-                                    className={`button portfolio-dropdown-container ${isPortfolioDropdownOpen ? 'active-portfolio' : ''}`}
-                                >
-                                    <div 
-                                    className="portfolio-link-wrapper"
-                                    onClick={handlePortfolioClick}
-                                    >
+                                <li className='button'>
+                                    <Link to="/portfolio">
                                         <img src="/images/Painting.ico" className='paint-icon' alt='portfolio'/>
                                         <p>Portfolio</p>
-                                        <div className="dropdown-arrow">
-                                            <img src="/images/downward-arrow.png" className='caret-down' alt='portfolio'/>
-                                        </div>
-                                    </div>
-
-                                    {isPortfolioDropdownOpen && (
-                                    
-                                        <div 
-                                            className="portfolio-dropdown"
-                                            onClick={(e) => e.stopPropagation()}
-                                        >
-                                            <Link
-                                                to="/portfolio" 
-                                                className="dropdown-item"
-                                                onClick={() => setIsPortfolioDropdownOpen(false)}
-                                            >
-                                                <span className="dropdown-icon">📁</span>
-                                                <span>All Projects</span>
-                                            </Link>
-                                            <Link 
-                                                to="/webcraft"
-                                                className="dropdown-item"
-                                                onClick={() => setIsPortfolioDropdownOpen(false)}
-                                            >
-                                                <span className="dropdown-icon">🌐</span>
-                                                <span>WebCraft</span>
-                                            </Link>
-                                            <Link 
-                                                to="/personal"
-                                                className="dropdown-item"
-                                                onClick={() => setIsPortfolioDropdownOpen(false)}
-                                            >
-                                                <span className="dropdown-icon">🎨</span>
-                                                <span>Personal</span>
-                                            </Link>
-                                            <Link 
-                                                to="/ux"
-                                                className="dropdown-item"
-                                                onClick={() => setIsPortfolioDropdownOpen(false)}
-                                            >
-                                                <span className="dropdown-icon">🎮</span>
-                                                <span>UX/UI Design</span>
-                                            </Link>
-                                            <Link 
-                                                to="/ai"
-                                                className="dropdown-item"
-                                                onClick={() => setIsPortfolioDropdownOpen(false)}
-                                            >
-                                                <span className="dropdown-icon">🕐</span>
-                                                <span>AI & Python</span>
-                                            </Link>
-                                        </div>
-                                    )}
+                                    </Link>
                                 </li>
-
-
-
-
 
                                 <li className='button'>
                                     <Link to="/resume">
