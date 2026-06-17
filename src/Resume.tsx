@@ -8,8 +8,6 @@ import DesktopIcon from './components/DesktopIcon';
 import './components/DesktopIcon.css'; // contains both icon + modal 
 
 import send from './assets/send.png'
-import matrix from './assets/matrix.gif'
-import world from './assets/world.gif'
 import earth from './assets/earth.ico'
 
 type HoroscopeData = {
@@ -1043,7 +1041,7 @@ function Resume() {
                         {isWideScreen ? (
                             <>
                                 <div className='top-resume-column-1'>
-                                    <img src={matrix} className='gif' />
+                                    <img src='/public/images/matrix.gif' className='gif' />
                                 </div>
                                 <div className='widescreen-middle-resume-column-1'>
                                     <div className='resume-about-section'>
@@ -1086,7 +1084,7 @@ function Resume() {
                             <>
                                 {/* laptop & mobile version */}
                                 <div className='top-resume-column-1'>
-                                    <img src={matrix} className='gif'></img>
+                                    <img src='/public/images/matrix.gif' className='gif'></img>
                                 </div>
 
                                 <div className='middle-resume-column-1'>
@@ -1177,7 +1175,7 @@ function Resume() {
                                     </div>
                                     <div className='image-section'>
                                         <div className='widescreen-image'>
-                                            <img src={world} className='obra-dinn'></img>
+                                            <img src='/public/images/world.gif' className='obra-dinn'></img>
                                         </div>
                                     </div>
                                 </div>
@@ -1193,7 +1191,7 @@ function Resume() {
                                 </div>
                             </div>
                             <div className='middle-resume-column-3'>
-                                <img src={world} className='obra-dinn'></img>
+                                <img src='/public/images/world.gif' className='obra-dinn'></img>
                             </div>
                             <div className='bottom-resume-column-3'>
                                 <div className='resume-about-section'>

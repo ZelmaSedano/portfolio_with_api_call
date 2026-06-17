@@ -719,7 +719,7 @@ function Home() {
                     >
                         <div 
                             className="modal-header"
-                            onMouseDown={handleScreamMouseDown}    
+                            onMouseDown={handleScreamMouseDown}
                             style={{ cursor: 'grab'}}
                         >
                             <span className='scream-modal'>I know what you did last summer</span>
