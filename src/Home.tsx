@@ -31,7 +31,7 @@ function Home() {
 
     // modal ref
     const catModalRef = useRef<HTMLDivElement | null>(null);
-    const screamModalRef = useRef<HTMLDivElement | null>(null);
+    // const screamModalRef = useRef<HTMLDivElement | null>(null);
     const horoscopeModalRef = useRef<HTMLDivElement | null>(null);
     const playModalRef = useRef<HTMLDivElement | null>(null);
     const yesModalRef = useRef<HTMLDivElement | null>(null);
@@ -74,10 +74,10 @@ function Home() {
     const [loveDragOffset, setLoveDragOffset] = useState({ x: 0, y: 0 });
 
     // scream
-    const [showScreamModal, setShowScreamModal] = useState(false);
-    const [isDraggingScream, setIsDraggingScream] = useState(false);
-    const [screamPosition, setScreamPosition] = useState({ x: 200, y: 200 });
-    const [screamDragOffset, setScreamDragOffset] = useState({ x: 0, y: 0 });
+    // const [showScreamModal, setShowScreamModal] = useState(false);
+    // const [isDraggingScream, setIsDraggingScream] = useState(false);
+    // const [screamPosition, setScreamPosition] = useState({ x: 200, y: 200 });
+    // const [screamDragOffset, setScreamDragOffset] = useState({ x: 0, y: 0 });
 
     // calculator
     const [showCalculator, setShowCalculator] = useState(false);
@@ -1031,6 +1031,7 @@ function Home() {
                 </div>
             )}
             </div>
+
             
             {/* horoscope icon */}
             <div className="desktop">
