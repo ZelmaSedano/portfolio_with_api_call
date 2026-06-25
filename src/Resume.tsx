@@ -21,10 +21,10 @@ type HoroscopeData = {
 
 
 function Resume() {
-    // portfolio dropdown
-    const portfolioRef = useRef<HTMLLIElement>(null);
     const windowRef = useRef<HTMLDivElement | null>(null);
     const location = useLocation();
+
+
     // modal ref
     const catModalRef = useRef<HTMLDivElement | null>(null);
     const screamModalRef = useRef<HTMLDivElement | null>(null);
@@ -32,6 +32,7 @@ function Resume() {
     const playModalRef = useRef<HTMLDivElement | null>(null);
     const yesModalRef = useRef<HTMLDivElement | null>(null);
     const loveModalRef = useRef<HTMLDivElement | null>(null);
+    const popupModalRef = useRef<HTMLDivElement | null> (null);
 
     // STATES
     const [position, setPosition] = useState(() => {
@@ -48,10 +49,6 @@ function Resume() {
     // drag window
     const [isDragging, setIsDragging] = useState(false);
     const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
-    
-
-
-
 
     // ICON STATES
     const [showCatModal, setShowCatModal] = useState(false);
@@ -92,9 +89,14 @@ function Resume() {
     const [playPosition, setPlayPosition] = useState({ x: 200, y: 200 });
     const [playDragOffset, setPlayDragOffset] = useState({ x: 0, y: 0 });
 
-    
-    const [clippyPosition, setClippyPosition] = useState({ x: 0, y: 0 });
-    const [showClippyModal, setShowClippyModal] = useState(false);
+    // pop-up
+    const [popupPosition, setpopupPosition] = useState({ x: 0, y: 0 });
+    const [showPopUpModal, setshowPopUpModal] = useState(false);
+    const [isDraggingPopup, setIsDraggingPopup] = useState(false);
+    const [popupDragOffset, setPopupDragOffset] = useState({ x: 0, y: 0 });
+
+    // const [clippyPosition, setClippyPosition] = useState({ x: 0, y: 0 });
+    // const [showClippyModal, setShowClippyModal] = useState(false);
 
 
     // Add this audio state
@@ -105,7 +107,7 @@ function Resume() {
     });
 
     // portfolio dropdown
-    const [isPortfolioDropdownOpen, setIsPortfolioDropdownOpen] = useState(false);
+    // const [isPortfolioDropdownOpen, setIsPortfolioDropdownOpen] = useState(false);
 
     // fetch - VITE WAS BLOCKING THIS FROM WORKING, REMEMBER TO UPDATE VITE.CONFIG NEXT
     const fetchHoroscope = async (sign: string) => {
@@ -132,6 +134,14 @@ function Resume() {
 
 
     // USEEFFECTS FUNCTIONS
+    // when the window is above 1445 setIsWideScreen is set
+    useEffect(() => {
+        const handleResize = () => {
+            setIsWideScreen(window.innerWidth > 1445);
+        };
+        window.addEventListener('resize', handleResize);
+        return () => window.removeEventListener('resize', handleResize);
+    }, []);
     // check window position
     useEffect(() => {
         sessionStorage.setItem('windowPosition', JSON.stringify(position));
@@ -143,6 +153,7 @@ function Resume() {
         }, 1000);
         return () => clearInterval(timer); // Cleanup
     }, []);
+
     // cd player - sets position on page (top-right)
     useEffect(() => {
         const updateCDPosition = () => {
@@ -160,24 +171,37 @@ function Resume() {
             window.removeEventListener('resize', updateCDPosition);
         };
     }, [location.pathname]);
-    // window dragging
+    // pop-up position useEffect
     useEffect(() => {
-        document.addEventListener('mousemove', handleNativeMouseMove);
-        document.addEventListener('mouseup', handleNativeMouseUp);
+        const updatePopUpPosition = () => {
+            // get document height
+            const documentHeight = Math.max(
+                document.body.scrollHeight,
+                document.documentElement.scrollHeight,
+                document.body.offsetHeight,
+                document.documentElement.offsetHeight,
+                document.body.clientHeight,
+                document.documentElement.clientHeight
+            );
+            
+            // bottom-right corner of document
+            setpopupPosition({
+            x: window.innerWidth - 100, // 80px from right edge
+            y: documentHeight - 150 // 120px from bottom
+            });
+        };
+        // initial position
+        updatePopUpPosition();
+        // update on window resize and load
+        window.addEventListener('resize', updatePopUpPosition);
+        window.addEventListener('load', updatePopUpPosition);
         return () => {
-            document.removeEventListener('mousemove', handleNativeMouseMove);
-            document.removeEventListener('mouseup', handleNativeMouseUp);
+            window.removeEventListener('resize', updatePopUpPosition);
+            window.removeEventListener('load', updatePopUpPosition);
         };
-    }, [isDragging, dragOffset]);
+    }, [location.pathname]);
 
-    // when the window is above 1445 setIsWideScreen is set
-    useEffect(() => {
-        const handleResize = () => {
-            setIsWideScreen(window.innerWidth > 1445);
-        };
-        window.addEventListener('resize', handleResize);
-        return () => window.removeEventListener('resize', handleResize);
-    }, []);
+
     // MODAL: USEEFFECTS
     // cat modal
     useEffect(() => {
@@ -327,11 +351,35 @@ function Resume() {
             document.removeEventListener('mouseup', handleMouseUp);
         };
     }, [isDraggingPlay, playDragOffset]);
+    // mystery popup
+    useEffect(() => {
+        const handleMouseMove = (e: MouseEvent) => {
+            if (isDraggingPlay && popupModalRef.current) {
+                setpopupPosition({
+                    x: e.clientX - popupDragOffset.x,
+                    y: e.clientY - popupDragOffset.y
+                });
+            }
+        };
+        const handleMouseUp = () => setIsDraggingPopup(false);
+        
+        if (isDraggingPopup) {
+            document.addEventListener('mousemove', handleMouseMove);
+            document.addEventListener('mouseup', handleMouseUp);
+        }
+        return () => {
+            document.removeEventListener('mousemove', handleMouseMove);
+            document.removeEventListener('mouseup', handleMouseUp);
+        };
+    }, [isDraggingPopup, popupDragOffset]);
+
+
 
 
     // HANDLERS
+    // window dragging handlers
     const handleMouseDown = (e: React.MouseEvent) => {
-    // Don't start dragging if clicking on dropdown or its children
+        // don't start dragging if clicking on dropdown or its children
         if (
             (e.target as HTMLElement).closest('.blue-bar') && 
             !(e.target as HTMLElement).closest('.x-button') &&
@@ -347,7 +395,6 @@ function Resume() {
             });
         }
     };
-
     // native DOM event handlers (used with addEventListener)
     const handleNativeMouseMove = (e: MouseEvent) => {
         if (isDragging && windowRef.current) {
@@ -361,10 +408,19 @@ function Resume() {
             });
         }
     };
-
     const handleNativeMouseUp = () => setIsDragging(false);
+    // window dragging useEffect
+    useEffect(() => {
+        document.addEventListener('mousemove', handleNativeMouseMove);
+        document.addEventListener('mouseup', handleNativeMouseUp);
+        return () => {
+            document.removeEventListener('mousemove', handleNativeMouseMove);
+            document.removeEventListener('mouseup', handleNativeMouseUp);
+        };
+    }, [isDragging, dragOffset]);
 
-        // media player
+
+    // media player
     const handlePlayAudio = () => {
         const audioElement = document.getElementById('audio-player')  as HTMLAudioElement;
         if (audioElement) {
@@ -385,8 +441,6 @@ function Resume() {
             setAudioPlayer(prev => ({ ...prev, currentTime: seekTime }));
         }
     };
-
-    // clock
     const handleTimeUpdate = (e: React.SyntheticEvent<HTMLAudioElement>) => {
         const audio = e.target as HTMLAudioElement;
         setAudioPlayer(prev => ({
@@ -402,6 +456,7 @@ function Resume() {
         const secs = Math.floor(seconds % 60);
         return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
     };
+
 
 
     // modal handlers for dragging
@@ -479,71 +534,25 @@ function Resume() {
             });
         }
     };
-
-
-
-
-
-    // portfolio dropdown
-    const handlePortfolioClick = (e: React.MouseEvent) => {
-        // fixes window drag breaking, if you don't include this the blue-bar drag 
-        e.stopPropagation();
-        setIsPortfolioDropdownOpen(!isPortfolioDropdownOpen);
+    const handlePopupMouseDown = (e: React.MouseEvent) => {
+        if ((e.target as HTMLElement).closest('.modal-header') && 
+            !(e.target as HTMLElement).closest('.x-button')) {
+            const rect = popupModalRef.current?.getBoundingClientRect();
+            if (!rect) return;
+            setIsDraggingPopup(true);
+            setPopupDragOffset({
+                x: e.clientX - rect.left,
+                y: e.clientY - rect.top
+            });
+        }
     };
-    useEffect(() => {
-        const handleClickOutside = (event: MouseEvent) => {
-            if (portfolioRef.current && !portfolioRef.current.contains(event.target as Node)) {
-            setIsPortfolioDropdownOpen(false);
-            }
-        };
-        document.addEventListener('mousedown', handleClickOutside);
-            return () => {
-                document.removeEventListener('mousedown', handleClickOutside);
-        };
-    }, []);
-
 
 
     // toggle content window visibility
     const toggleWindow = () => setIsVisible(!isVisible);
 
 
-    // clippy useEffect, keeps him stuck to the bottom-right
-    useEffect(() => {
-        const updateClippyPosition = () => {
-            // get document height
-            const documentHeight = Math.max(
-                document.body.scrollHeight,
-                document.documentElement.scrollHeight,
-                document.body.offsetHeight,
-                document.documentElement.offsetHeight,
-                document.body.clientHeight,
-                document.documentElement.clientHeight
-            );
-            
-            // bottom-right corner of document
-            setClippyPosition({
-            x: window.innerWidth - 80, // 100px from right edge
-            y: documentHeight - 150 // 120px from bottom
-            });
-        };
 
-        // initial position
-        updateClippyPosition();
-
-        // update on window resize and load
-        window.addEventListener('resize', updateClippyPosition);
-        window.addEventListener('load', updateClippyPosition);
-
-        return () => {
-            window.removeEventListener('resize', updateClippyPosition);
-            window.removeEventListener('load', updateClippyPosition);
-        };
-    }, []);
-
-
-
-    // RENDERED PART
     return (
         <>
 
@@ -902,6 +911,40 @@ function Resume() {
                     </div>
                     )}
                 </div>
+
+            {/* mystery popup */}
+            <div className="desktop">
+                <DesktopIcon
+                    icon="/images/dark_agent.ico"
+                    label="don't click"
+                    x={popupPosition.x}
+                    y={popupPosition.y}
+                    onClick={() => setshowPopUpModal(true)}
+                />
+
+                {showPopUpModal && (
+                    <div className="modal-overlay" onClick={() => setshowPopUpModal(false)}>
+                        <div 
+                            className="modal" 
+                            onClick={(e) => e.stopPropagation()}
+                            ref={popupModalRef}
+                        >
+                            <div
+                                className="modal-header"
+                                onMouseDown={handlePopupMouseDown}
+                                style={{ cursor: 'grab'}}
+                            >   
+                                <span className='scream-modal'>Hi</span>
+                                <button className='x-button' onClick={() => setshowPopUpModal(false)}>✕</button>
+                            </div>
+
+                                <div className="modal-body">
+                                    <img src="/images/wassup.gif" className='gif' alt="wazzuppp" />
+                                </div>
+                        </div>
+                    </div>
+                    )}
+            </div>
 
 
             {/* clippy */}

@@ -24,8 +24,6 @@ type HoroscopeData = {
 };
 
 function Home() {
-    // portfolio dropdown
-    const portfolioRef = useRef<HTMLLIElement>(null);
     // dragging feature
     const windowRef = useRef<HTMLDivElement | null>(null);
     // clock
@@ -104,7 +102,7 @@ function Home() {
     const [popupDragOffset, setPopupDragOffset] = useState({ x: 0, y: 0 });
 
 
-    // Add this audio state
+    // media player state
     const [audioPlayer, setAudioPlayer] = useState({
         isPlaying: false,
         currentTime: 0,
@@ -139,6 +137,7 @@ function Home() {
     useEffect(() => {
         sessionStorage.setItem('windowPosition', JSON.stringify(position));
     }, [position]);
+
     // clock
     useEffect(() => {
         const timer = setInterval(() => {
@@ -146,6 +145,7 @@ function Home() {
         }, 1000);
         return () => clearInterval(timer); // Cleanup
     }, []);
+
     // cd player
     useEffect(() => {
         const updateCDPosition = () => {
@@ -236,8 +236,7 @@ function Home() {
             document.removeEventListener('mouseup', handleMouseUp);
         };
     }, [isDraggingYes, yesDragOffset]);
-
-    // Love modal drag
+    // love modal drag
     useEffect(() => {
         const handleMouseMove = (e: MouseEvent) => {
             if (isDraggingLove && loveModalRef.current) {
@@ -342,7 +341,7 @@ function Home() {
             document.removeEventListener('mouseup', handleMouseUp);
         };
     }, [isDraggingPopup, popupDragOffset]);
-    
+
 
 
 
@@ -381,7 +380,7 @@ function Home() {
 
     // dragging window
     const handleNativeMouseUp = () => setIsDragging(false);
-
+    // window dragging useEffect
     useEffect(() => {
         document.addEventListener('mousemove', handleNativeMouseMove);
         document.addEventListener('mouseup', handleNativeMouseUp);
@@ -390,6 +389,7 @@ function Home() {
             document.removeEventListener('mouseup', handleNativeMouseUp);
         };
     }, [isDragging, dragOffset]);
+
 
     // media player
     const handlePlayAudio = () => {
@@ -411,6 +411,21 @@ function Home() {
             audioElement.currentTime = seekTime;
             setAudioPlayer(prev => ({ ...prev, currentTime: seekTime }));
         }
+    };
+    const handleTimeUpdate = (e: React.SyntheticEvent<HTMLAudioElement>) => {
+        const audio = e.target as HTMLAudioElement;
+        setAudioPlayer(prev => ({
+            ...prev,
+            currentTime: audio.currentTime,
+            duration: audio.duration || 0
+        }));
+    };
+    // format time (seconds to MM:SS)
+    const formatTime = (seconds: number) => {
+        if (!seconds || isNaN(seconds)) return '00:00';
+        const mins = Math.floor(seconds / 60);
+        const secs = Math.floor(seconds % 60);
+        return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
     };
 
 
@@ -502,26 +517,32 @@ function Home() {
         }
     };
 
-    // clock
-    const handleTimeUpdate = (e: React.SyntheticEvent<HTMLAudioElement>) => {
-        const audio = e.target as HTMLAudioElement;
-        setAudioPlayer(prev => ({
-            ...prev,
-            currentTime: audio.currentTime,
-            duration: audio.duration || 0
-        }));
-    };
-    // format time (seconds to MM:SS)
-    const formatTime = (seconds: number) => {
-        if (!seconds || isNaN(seconds)) return '00:00';
-        const mins = Math.floor(seconds / 60);
-        const secs = Math.floor(seconds % 60);
-        return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
-    };
+
+    // commented out code: user for later? 
+    
+    // portfolio dropdown:
+
+    // const portfolioRef = useRef<HTMLLIElement>(null);
+
+    // const [isPortfolioDropdownOpen, setIsPortfolioDropdownOpen] = useState(false);
 
 
-    // toggle visibility
-    const toggleWindow = () => setIsVisible(!isVisible);
+    // const handlePortfolioClick = (e: React.MouseEvent) => {
+    //     // fixes window drag breaking, if you don't include this the blue-bar drag 
+    //     e.stopPropagation();
+    //     setIsPortfolioDropdownOpen(!isPortfolioDropdownOpen);
+    // };
+    // useEffect(() => {
+    //     const handleClickOutside = (event: MouseEvent) => {
+    //         if (portfolioRef.current && !portfolioRef.current.contains(event.target as Node)) {
+    //         setIsPortfolioDropdownOpen(false);
+    //         }
+    //     };
+    //     document.addEventListener('mousedown', handleClickOutside);
+    //         return () => {
+    //             document.removeEventListener('mousedown', handleClickOutside);
+    //     };
+    // }, []);
 
 
     // CLIPPY STUFF, DO NOT NEED FOR NOW
@@ -626,6 +647,11 @@ function Home() {
     //         sessionStorage.removeItem('clippyShaken');
     //     };
     // }, []);
+
+    // toggle visibility
+    const toggleWindow = () => setIsVisible(!isVisible);
+
+
     return (
         <>
             {/* cat icon */}

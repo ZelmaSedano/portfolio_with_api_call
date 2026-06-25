@@ -20,8 +20,6 @@ type HoroscopeData = {
     };
 };
 function Contact() {
-    // portfolio dropdown
-    const portfolioRef = useRef<HTMLLIElement>(null);
     const windowRef = useRef<HTMLDivElement | null>(null)
     const location = useLocation();
 
@@ -32,6 +30,7 @@ function Contact() {
     const playModalRef = useRef<HTMLDivElement | null>(null);
     const yesModalRef = useRef<HTMLDivElement | null>(null);
     const loveModalRef = useRef<HTMLDivElement | null>(null);
+    const popupModalRef = useRef<HTMLDivElement | null> (null);
 
 
     // states
@@ -90,25 +89,20 @@ function Contact() {
     const [playPosition, setPlayPosition] = useState({ x: 200, y: 200 });
     const [playDragOffset, setPlayDragOffset] = useState({ x: 0, y: 0 });
 
-    const [clippyPosition, setClippyPosition] = useState({ x: 0, y: 0 });
-    const [showClippyModal, setShowClippyModal] = useState(false);
+    // pop-up
+    const [popupPosition, setpopupPosition] = useState({ x: 0, y: 0 });
+    const [showPopUpModal, setshowPopUpModal] = useState(false);
+    const [isDraggingPopup, setIsDraggingPopup] = useState(false);
+    const [popupDragOffset, setPopupDragOffset] = useState({ x: 0, y: 0 });
 
-    // media player state
-    const [audioPlayer, setAudioPlayer] = useState({
-        isPlaying: false,
-        currentTime: 0,
-        duration: 0,
-    });
-    // portfolio dropdown
-    const [isPortfolioDropdownOpen, setIsPortfolioDropdownOpen] = useState(false);
-    // Send button active state
+    // CONTACT SPECIFIC CODE
+    // end button active state
     const [isButtonActive, setIsButtonActive] = useState(false);
     // contact window size state - check size of window to resize textarea
     const [windowSize, setWindowSize] = useState({
         width: window.innerWidth,
         height: window.innerHeight
     });
-
     const calculateTextareaHeight = () => {
         const otherElementsHeight = 500; // Adjust this value based on your layout
         const minHeight = 180;
@@ -126,6 +120,37 @@ function Contact() {
         
         return height;
     };
+    // contact window size - resize textarea
+    useEffect(() => {
+        const handleResize = () => {
+            setWindowSize({
+                width: window.innerWidth,
+                height: window.innerHeight
+            });
+        };
+
+        window.addEventListener('resize', handleResize);
+        return () => window.removeEventListener('resize', handleResize);
+    }, []);
+    // send button useEffect
+    useEffect(() => {
+        if (isButtonActive) {
+            const timer = setTimeout(() => {
+                setIsButtonActive(false);
+            }, 2000); // 2 seconds
+
+            return () => clearTimeout(timer);
+        }
+    }, [isButtonActive]);
+
+
+    // media player state
+    const [audioPlayer, setAudioPlayer] = useState({
+        isPlaying: false,
+        currentTime: 0,
+        duration: 0,
+    });
+
     // API fetches
     const fetchHoroscope = async (sign: string) => {
         setIsLoading(true);
@@ -163,6 +188,7 @@ function Contact() {
     useEffect(() => {
         sessionStorage.setItem('windowPosition', JSON.stringify(position));
     }, [position]);
+
     // clock
     useEffect(() => {
         const timer = setInterval(() => {
@@ -170,6 +196,7 @@ function Contact() {
         }, 1000);
         return () => clearInterval(timer); // Cleanup
     }, []);
+
     // cd player
     useEffect(() => {
         const updateCDPosition = () => {
@@ -187,28 +214,36 @@ function Contact() {
             window.removeEventListener('resize', updateCDPosition);
         };
     }, [location.pathname]);
-    // contact window size - resize textarea
+    // pop-up useEffect
     useEffect(() => {
-        const handleResize = () => {
-            setWindowSize({
-                width: window.innerWidth,
-                height: window.innerHeight
+        const updatePopUpPosition = () => {
+            // get document height
+            const documentHeight = Math.max(
+                document.body.scrollHeight,
+                document.documentElement.scrollHeight,
+                document.body.offsetHeight,
+                document.documentElement.offsetHeight,
+                document.body.clientHeight,
+                document.documentElement.clientHeight
+            );
+            
+            // bottom-right corner of document
+            setpopupPosition({
+            x: window.innerWidth - 100, // 80px from right edge
+            y: documentHeight - 150 // 120px from bottom
             });
         };
+        // initial position
+        updatePopUpPosition();
+        // update on window resize and load
+        window.addEventListener('resize', updatePopUpPosition);
+        window.addEventListener('load', updatePopUpPosition);
+        return () => {
+            window.removeEventListener('resize', updatePopUpPosition);
+            window.removeEventListener('load', updatePopUpPosition);
+        };
+    }, [location.pathname])
 
-        window.addEventListener('resize', handleResize);
-        return () => window.removeEventListener('resize', handleResize);
-    }, []);
-    // send button useEffect
-    useEffect(() => {
-        if (isButtonActive) {
-            const timer = setTimeout(() => {
-                setIsButtonActive(false);
-            }, 2000); // 2 seconds
-
-            return () => clearTimeout(timer);
-        }
-    }, [isButtonActive]);
 
     // USEEFFECTS MODALS
     // cat modal
@@ -232,7 +267,7 @@ function Contact() {
             document.removeEventListener('mouseup', handleMouseUp);
         };
     }, [isDraggingCat, catDragOffset]);
-    // Yes modal drag
+    // yes modal drag
     useEffect(() => {
         const handleMouseMove = (e: MouseEvent) => {
             if (isDraggingYes && yesModalRef.current) {
@@ -253,8 +288,7 @@ function Contact() {
             document.removeEventListener('mouseup', handleMouseUp);
         };
     }, [isDraggingYes, yesDragOffset]);
-
-    // Love modal drag
+    // love modal drag
     useEffect(() => {
         const handleMouseMove = (e: MouseEvent) => {
             if (isDraggingLove && loveModalRef.current) {
@@ -359,40 +393,27 @@ function Contact() {
             document.removeEventListener('mouseup', handleMouseUp);
         };
     }, [isDraggingPlay, playDragOffset]);
-
-
-    // clippy useEffect, keeps him stuck to the bottom-right
+    // mystery popup
     useEffect(() => {
-        const updateClippyPosition = () => {
-            // get document height
-            const documentHeight = Math.max(
-                document.body.scrollHeight,
-                document.documentElement.scrollHeight,
-                document.body.offsetHeight,
-                document.documentElement.offsetHeight,
-                document.body.clientHeight,
-                document.documentElement.clientHeight
-            );
-            
-            // bottom-right corner of document
-            setClippyPosition({
-            x: window.innerWidth - 80, // 100px from right edge
-            y: documentHeight - 150 // 120px from bottom
-            });
+        const handleMouseMove = (e: MouseEvent) => {
+            if (isDraggingPlay && popupModalRef.current) {
+                setpopupPosition({
+                    x: e.clientX - popupDragOffset.x,
+                    y: e.clientY - popupDragOffset.y
+                });
+            }
         };
-
-        // initial position
-        updateClippyPosition();
-
-        // update on window resize and load
-        window.addEventListener('resize', updateClippyPosition);
-        window.addEventListener('load', updateClippyPosition);
-
+        const handleMouseUp = () => setIsDraggingPopup(false);
+        
+        if (isDraggingPopup) {
+            document.addEventListener('mousemove', handleMouseMove);
+            document.addEventListener('mouseup', handleMouseUp);
+        }
         return () => {
-            window.removeEventListener('resize', updateClippyPosition);
-            window.removeEventListener('load', updateClippyPosition);
+            document.removeEventListener('mousemove', handleMouseMove);
+            document.removeEventListener('mouseup', handleMouseUp);
         };
-    }, []);
+    }, [isDraggingPopup, popupDragOffset]);
 
     // HANDLERS
     // mouse event handlers for React events (used in onMouseDown)
@@ -413,7 +434,6 @@ function Contact() {
             });
         }
     };
-
     // native DOM event handlers (used with addEventListener)
     const handleNativeMouseMove = (e: MouseEvent) => {
         if (isDragging && windowRef.current) {
@@ -430,7 +450,7 @@ function Contact() {
 
     const handleNativeMouseUp = () => setIsDragging(false);
 
-        // media player
+    // media player
     const handlePlayAudio = () => {
         const audioElement = document.getElementById('audio-player')  as HTMLAudioElement;
         if (audioElement) {
@@ -451,8 +471,6 @@ function Contact() {
             setAudioPlayer(prev => ({ ...prev, currentTime: seekTime }));
         }
     };
-
-    // clock
     const handleTimeUpdate = (e: React.SyntheticEvent<HTMLAudioElement>) => {
         const audio = e.target as HTMLAudioElement;
         setAudioPlayer(prev => ({
@@ -468,6 +486,7 @@ function Contact() {
         const secs = Math.floor(seconds % 60);
         return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
     };
+
 
     // modal handlers for dragging
     const handleCatMouseDown = (e: React.MouseEvent) => {
@@ -544,27 +563,21 @@ function Contact() {
             });
         }
     };
-
-
-
-
-    // portfolio dropdown
-    const handlePortfolioClick = (e: React.MouseEvent) => {
-        // fixes window drag breaking, if you don't include this the blue-bar drag 
-        e.stopPropagation();
-        setIsPortfolioDropdownOpen(!isPortfolioDropdownOpen);
+    const handlePopupMouseDown = (e: React.MouseEvent) => {
+        if ((e.target as HTMLElement).closest('.modal-header') && 
+            !(e.target as HTMLElement).closest('.x-button')) {
+            const rect = popupModalRef.current?.getBoundingClientRect();
+            if (!rect) return;
+            setIsDraggingPopup(true);
+            setPopupDragOffset({
+                x: e.clientX - rect.left,
+                y: e.clientY - rect.top
+            });
+        }
     };
-    useEffect(() => {
-        const handleClickOutside = (event: MouseEvent) => {
-            if (portfolioRef.current && !portfolioRef.current.contains(event.target as Node)) {
-            setIsPortfolioDropdownOpen(false);
-            }
-        };
-        document.addEventListener('mousedown', handleClickOutside);
-            return () => {
-                document.removeEventListener('mousedown', handleClickOutside);
-        };
-    }, []);
+
+
+
 
     // toggle visibility
     const toggleWindow = () => setIsVisible(!isVisible);
@@ -967,6 +980,40 @@ function Contact() {
                     </div>
                     )}
                 </div>
+
+            {/* mystery popup */}
+            <div className="desktop">
+                <DesktopIcon
+                    icon="/images/dark_agent.ico"
+                    label="don't click"
+                    x={popupPosition.x}
+                    y={popupPosition.y}
+                    onClick={() => setshowPopUpModal(true)}
+                />
+
+                {showPopUpModal && (
+                    <div className="modal-overlay" onClick={() => setshowPopUpModal(false)}>
+                        <div 
+                            className="modal" 
+                            onClick={(e) => e.stopPropagation()}
+                            ref={popupModalRef}
+                        >
+                            <div
+                                className="modal-header"
+                                onMouseDown={handlePopupMouseDown}
+                                style={{ cursor: 'grab'}}
+                            >   
+                                <span className='scream-modal'>Hi</span>
+                                <button className='x-button' onClick={() => setshowPopUpModal(false)}>✕</button>
+                            </div>
+
+                                <div className="modal-body">
+                                    <img src="/images/wassup.gif" className='gif' alt="wazzuppp" />
+                                </div>
+                        </div>
+                    </div>
+                    )}
+            </div>
 
             {/* clippy */}
             {/* <div className="desktop">

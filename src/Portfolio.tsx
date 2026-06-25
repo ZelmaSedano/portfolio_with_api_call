@@ -20,8 +20,6 @@ type HoroscopeData = {
 };
 
 function Portfolio() {
-    // portfolio dropdown
-    const portfolioRef = useRef<HTMLLIElement>(null);
     const windowRef = useRef<HTMLDivElement | null>(null)
     const location = useLocation();
 
@@ -32,6 +30,7 @@ function Portfolio() {
     const playModalRef = useRef<HTMLDivElement | null>(null);
     const yesModalRef = useRef<HTMLDivElement | null>(null);
     const loveModalRef = useRef<HTMLDivElement | null>(null);
+    const popupModalRef = useRef<HTMLDivElement | null> (null);
 
     // states
     const [position, setPosition] = useState(() => {
@@ -88,20 +87,20 @@ function Portfolio() {
     const [isDraggingPlay, setIsDraggingPlay] = useState(false);
     const [playPosition, setPlayPosition] = useState({ x: 200, y: 200 });
     const [playDragOffset, setPlayDragOffset] = useState({ x: 0, y: 0 });
-    
+
     // pop-up
     const [popupPosition, setpopupPosition] = useState({ x: 0, y: 0 });
     const [showPopUpModal, setshowPopUpModal] = useState(false);
+    const [isDraggingPopup, setIsDraggingPopup] = useState(false);
+    const [popupDragOffset, setPopupDragOffset] = useState({ x: 0, y: 0 });
 
     // clippy
-    const [clippyPosition, setClippyPosition] = useState({ x: 0, y: 0 });
-    const [showClippyModal, setShowClippyModal] = useState(false);
-    const [chatbotInput, setChatbotInput] = useState('');
-    const [chatHistory, setChatHistory] = useState<Array<{sender: string, message: string}>>([]);
-    const [shouldShake, setShouldShake] = useState(false);
+    // const [clippyPosition, setClippyPosition] = useState({ x: 0, y: 0 });
+    // const [showClippyModal, setShowClippyModal] = useState(false);
+    // const [chatbotInput, setChatbotInput] = useState('');
+    // const [chatHistory, setChatHistory] = useState<Array<{sender: string, message: string}>>([]);
+    // const [shouldShake, setShouldShake] = useState(false);
 
-    // portfolio dropdown
-    const [isPortfolioDropdownOpen, setIsPortfolioDropdownOpen] = useState(false);
 
     // Add this audio state
     const [audioPlayer, setAudioPlayer] = useState({
@@ -133,6 +132,7 @@ function Portfolio() {
     fetchHoroscope(sign);
     };
 
+    // USEEFFECTS
     // save the state to sessionStorage
     useEffect(() => {
         sessionStorage.setItem('windowPosition', JSON.stringify(position));
@@ -144,7 +144,6 @@ function Portfolio() {
         }, 1000);
         return () => clearInterval(timer); // Cleanup
     }, []);
-
     // cd player
     useEffect(() => {
         const updateCDPosition = () => {
@@ -162,195 +161,7 @@ function Portfolio() {
             window.removeEventListener('resize', updateCDPosition);
         };
     }, [location.pathname]);
-
-    useEffect(() => {
-        const handleResize = () => {
-            setIsSmallScreen(window.innerWidth <= 539);
-        };
-        window.addEventListener('resize', handleResize);
-        return () => window.removeEventListener('resize', handleResize);
-    }, []);
-
-    // HANDLERS
-    const handleMouseDown = (e: React.MouseEvent) => {
-    // Don't start dragging if clicking on dropdown or its children
-        if (
-            (e.target as HTMLElement).closest('.blue-bar') && 
-            !(e.target as HTMLElement).closest('.x-button') &&
-            !(e.target as HTMLElement).closest('.portfolio-dropdown') &&
-            !(e.target as HTMLElement).closest('.portfolio-link-wrapper')
-        ) {
-            const rect = windowRef.current?.getBoundingClientRect();
-            if (!rect) return;
-            setIsDragging(true);
-            setDragOffset({
-            x: e.clientX - rect.left,
-            y: e.clientY - rect.top
-            });
-        }
-    };
-    // native DOM event handlers (used with addEventListener)
-    const handleNativeMouseMove = (e: MouseEvent) => {
-        if (isDragging && windowRef.current) {
-            const newX = e.clientX - dragOffset.x;
-            const newY = e.clientY - dragOffset.y;
-            const { offsetWidth, offsetHeight } = windowRef.current;
-            
-            setPosition({
-                x: Math.max(0, Math.min(newX, window.innerWidth - offsetWidth)),
-                y: Math.max(0, Math.min(newY, window.innerHeight - offsetHeight))
-            });
-        }
-    };
-
-    // media player
-    const handlePlayAudio = () => {
-        const audioElement = document.getElementById('audio-player')  as HTMLAudioElement;
-        if (audioElement) {
-            if (audioPlayer.isPlaying) {
-            audioElement.pause();
-            } else {
-            audioElement.play();
-            }
-            setAudioPlayer(prev => ({ ...prev, isPlaying: !prev.isPlaying }));
-        }
-    };
-    // seek/media player
-    const handleSeek = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const audioElement = document.getElementById('audio-player') as HTMLAudioElement;
-        const seekTime = parseFloat(e.target.value);
-        if (audioElement) {
-            audioElement.currentTime = seekTime;
-            setAudioPlayer(prev => ({ ...prev, currentTime: seekTime }));
-        }
-    };
-
-    // clock
-    const handleTimeUpdate = (e: React.SyntheticEvent<HTMLAudioElement>) => {
-        const audio = e.target as HTMLAudioElement;
-        setAudioPlayer(prev => ({
-            ...prev,
-            currentTime: audio.currentTime,
-            duration: audio.duration || 0
-        }));
-    };
-    // format time (seconds to MM:SS)
-    const formatTime = (seconds: number) => {
-        if (!seconds || isNaN(seconds)) return '00:00';
-        const mins = Math.floor(seconds / 60);
-        const secs = Math.floor(seconds % 60);
-        return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
-    };
-
-    const handleNativeMouseUp = () => setIsDragging(false);
-
-    // modal handlers for dragging
-    const handleCatMouseDown = (e: React.MouseEvent) => {
-        if ((e.target as HTMLElement).closest('.modal-header') && 
-            !(e.target as HTMLElement).closest('.x-button')) {
-            const rect = catModalRef.current?.getBoundingClientRect();
-            if (!rect) return;
-            setIsDraggingCat(true);
-            setCatDragOffset({
-                x: e.clientX - rect.left,
-                y: e.clientY - rect.top
-            });
-        }
-    };
-    // cat: yes modal
-        const handleYesMouseDown = (e: React.MouseEvent) => {
-        if ((e.target as HTMLElement).closest('.modal-header') && 
-            !(e.target as HTMLElement).closest('.x-button')) {
-            const rect = yesModalRef.current?.getBoundingClientRect();
-            if (!rect) return;
-            setIsDraggingYes(true);
-            setYesDragOffset({
-                x: e.clientX - rect.left,
-                y: e.clientY - rect.top
-            });
-        }
-    };
-    // cat: love modal
-    const handleLoveMouseDown = (e: React.MouseEvent) => {
-        if ((e.target as HTMLElement).closest('.modal-header') && 
-            !(e.target as HTMLElement).closest('.x-button')) {
-            const rect = loveModalRef.current?.getBoundingClientRect();
-            if (!rect) return;
-            setIsDraggingLove(true);
-            setLoveDragOffset({
-                x: e.clientX - rect.left,
-                y: e.clientY - rect.top
-            });
-        }
-    };
-    const handleScreamMouseDown = (e: React.MouseEvent) => {
-        if ((e.target as HTMLElement).closest('.modal-header') && 
-            !(e.target as HTMLElement).closest('.x-button')) {
-            const rect = screamModalRef.current?.getBoundingClientRect();
-            if (!rect) return;
-            setIsDraggingScream(true);
-            setScreamDragOffset({
-                x: e.clientX - rect.left,
-                y: e.clientY - rect.top
-            });
-        }
-    };
-    const handleHoroscopeMouseDown = (e: React.MouseEvent) => {
-        if ((e.target as HTMLElement).closest('.modal-header') && 
-            !(e.target as HTMLElement).closest('.x-button')) {
-            const rect = horoscopeModalRef.current?.getBoundingClientRect();
-            if (!rect) return;
-            setIsDraggingHoroscope(true);
-            setHoroscopeDragOffset({
-                x: e.clientX - rect.left,
-                y: e.clientY - rect.top
-            });
-        }
-    };
-    const handlePlayMouseDown = (e: React.MouseEvent) => {
-        if ((e.target as HTMLElement).closest('.modal-header') && 
-            !(e.target as HTMLElement).closest('.x-button')) {
-            const rect = playModalRef.current?.getBoundingClientRect();
-            if (!rect) return;
-            setIsDraggingPlay(true);
-            setPlayDragOffset({
-                x: e.clientX - rect.left,
-                y: e.clientY - rect.top
-            });
-        }
-    };
-
-
-    // CLIPPY
-    // useEffect(() => {
-    //     const updateClippyPosition = () => {
-
-    //         const documentHeight = Math.max(
-    //             document.body.scrollHeight,
-    //             document.documentElement.scrollHeight,
-    //             document.body.offsetHeight,
-    //             document.documentElement.offsetHeight,
-    //             document.body.clientHeight,
-    //             document.documentElement.clientHeight
-    //         );
-            
-    //         setClippyPosition({
-    //         x: window.innerWidth - 80,
-    //         y: documentHeight - 150
-    //         });
-    //     };
-
-    //     updateClippyPosition();
-
-    //     window.addEventListener('resize', updateClippyPosition);
-    //     window.addEventListener('load', updateClippyPosition);
-
-    //     return () => {
-    //         window.removeEventListener('resize', updateClippyPosition);
-    //         window.removeEventListener('load', updateClippyPosition);
-    //     };
-    // }, [location.pathname]);
-
+    // pop-up useEffect
     useEffect(() => {
         const updatePopUpPosition = () => {
             // get document height
@@ -380,11 +191,9 @@ function Portfolio() {
         };
     }, [location.pathname]);
 
-
-
-
     // USEEFFECTS MODALS
     // cat modal
+    // remove this? repeat?
     useEffect(() => {
         document.addEventListener('mousemove', handleNativeMouseMove);
         document.addEventListener('mouseup', handleNativeMouseUp);
@@ -540,6 +349,190 @@ function Portfolio() {
             document.removeEventListener('mouseup', handleMouseUp);
         };
     }, [isDraggingPlay, playDragOffset]);
+
+
+    useEffect(() => {
+        const handleResize = () => {
+            setIsSmallScreen(window.innerWidth <= 539);
+        };
+        window.addEventListener('resize', handleResize);
+        return () => window.removeEventListener('resize', handleResize);
+    }, []);
+
+
+
+
+
+    // HANDLERS
+    const handleMouseDown = (e: React.MouseEvent) => {
+    // Don't start dragging if clicking on dropdown or its children
+        if (
+            (e.target as HTMLElement).closest('.blue-bar') && 
+            !(e.target as HTMLElement).closest('.x-button') &&
+            !(e.target as HTMLElement).closest('.portfolio-dropdown') &&
+            !(e.target as HTMLElement).closest('.portfolio-link-wrapper')
+        ) {
+            const rect = windowRef.current?.getBoundingClientRect();
+            if (!rect) return;
+            setIsDragging(true);
+            setDragOffset({
+            x: e.clientX - rect.left,
+            y: e.clientY - rect.top
+            });
+        }
+    };
+    // native DOM event handlers (used with addEventListener)
+    const handleNativeMouseMove = (e: MouseEvent) => {
+        if (isDragging && windowRef.current) {
+            const newX = e.clientX - dragOffset.x;
+            const newY = e.clientY - dragOffset.y;
+            const { offsetWidth, offsetHeight } = windowRef.current;
+            
+            setPosition({
+                x: Math.max(0, Math.min(newX, window.innerWidth - offsetWidth)),
+                y: Math.max(0, Math.min(newY, window.innerHeight - offsetHeight))
+            });
+        }
+    };
+
+    const handleNativeMouseUp = () => setIsDragging(false);
+
+    useEffect(() => {
+        document.addEventListener('mousemove', handleNativeMouseMove);
+        document.addEventListener('mouseup', handleNativeMouseUp);
+        return () => {
+            document.removeEventListener('mousemove', handleNativeMouseMove);
+            document.removeEventListener('mouseup', handleNativeMouseUp);
+        };
+    }, [isDragging, dragOffset]);
+
+    // media player
+    const handlePlayAudio = () => {
+        const audioElement = document.getElementById('audio-player')  as HTMLAudioElement;
+        if (audioElement) {
+            if (audioPlayer.isPlaying) {
+            audioElement.pause();
+            } else {
+            audioElement.play();
+            }
+            setAudioPlayer(prev => ({ ...prev, isPlaying: !prev.isPlaying }));
+        }
+    };
+    // seek/media player
+    const handleSeek = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const audioElement = document.getElementById('audio-player') as HTMLAudioElement;
+        const seekTime = parseFloat(e.target.value);
+        if (audioElement) {
+            audioElement.currentTime = seekTime;
+            setAudioPlayer(prev => ({ ...prev, currentTime: seekTime }));
+        }
+    };
+    const handleTimeUpdate = (e: React.SyntheticEvent<HTMLAudioElement>) => {
+        const audio = e.target as HTMLAudioElement;
+        setAudioPlayer(prev => ({
+            ...prev,
+            currentTime: audio.currentTime,
+            duration: audio.duration || 0
+        }));
+    };
+    // format time (seconds to MM:SS)
+    const formatTime = (seconds: number) => {
+        if (!seconds || isNaN(seconds)) return '00:00';
+        const mins = Math.floor(seconds / 60);
+        const secs = Math.floor(seconds % 60);
+        return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+    };
+
+    // modal handlers for dragging
+    const handleCatMouseDown = (e: React.MouseEvent) => {
+        if ((e.target as HTMLElement).closest('.modal-header') && 
+            !(e.target as HTMLElement).closest('.x-button')) {
+            const rect = catModalRef.current?.getBoundingClientRect();
+            if (!rect) return;
+            setIsDraggingCat(true);
+            setCatDragOffset({
+                x: e.clientX - rect.left,
+                y: e.clientY - rect.top
+            });
+        }
+    };
+
+
+    // cat: yes modal
+    const handleYesMouseDown = (e: React.MouseEvent) => {
+        if ((e.target as HTMLElement).closest('.modal-header') && 
+            !(e.target as HTMLElement).closest('.x-button')) {
+            const rect = yesModalRef.current?.getBoundingClientRect();
+            if (!rect) return;
+            setIsDraggingYes(true);
+            setYesDragOffset({
+                x: e.clientX - rect.left,
+                y: e.clientY - rect.top
+            });
+        }
+    };
+    // cat: love modal
+    const handleLoveMouseDown = (e: React.MouseEvent) => {
+        if ((e.target as HTMLElement).closest('.modal-header') && 
+            !(e.target as HTMLElement).closest('.x-button')) {
+            const rect = loveModalRef.current?.getBoundingClientRect();
+            if (!rect) return;
+            setIsDraggingLove(true);
+            setLoveDragOffset({
+                x: e.clientX - rect.left,
+                y: e.clientY - rect.top
+            });
+        }
+    };
+    const handleScreamMouseDown = (e: React.MouseEvent) => {
+        if ((e.target as HTMLElement).closest('.modal-header') && 
+            !(e.target as HTMLElement).closest('.x-button')) {
+            const rect = screamModalRef.current?.getBoundingClientRect();
+            if (!rect) return;
+            setIsDraggingScream(true);
+            setScreamDragOffset({
+                x: e.clientX - rect.left,
+                y: e.clientY - rect.top
+            });
+        }
+    };
+    const handleHoroscopeMouseDown = (e: React.MouseEvent) => {
+        if ((e.target as HTMLElement).closest('.modal-header') && 
+            !(e.target as HTMLElement).closest('.x-button')) {
+            const rect = horoscopeModalRef.current?.getBoundingClientRect();
+            if (!rect) return;
+            setIsDraggingHoroscope(true);
+            setHoroscopeDragOffset({
+                x: e.clientX - rect.left,
+                y: e.clientY - rect.top
+            });
+        }
+    };
+    const handlePlayMouseDown = (e: React.MouseEvent) => {
+        if ((e.target as HTMLElement).closest('.modal-header') && 
+            !(e.target as HTMLElement).closest('.x-button')) {
+            const rect = playModalRef.current?.getBoundingClientRect();
+            if (!rect) return;
+            setIsDraggingPlay(true);
+            setPlayDragOffset({
+                x: e.clientX - rect.left,
+                y: e.clientY - rect.top
+            });
+        }
+    };
+        const handlePopupMouseDown = (e: React.MouseEvent) => {
+        if ((e.target as HTMLElement).closest('.modal-header') && 
+            !(e.target as HTMLElement).closest('.x-button')) {
+            const rect = popupModalRef.current?.getBoundingClientRect();
+            if (!rect) return;
+            setIsDraggingPopup(true);
+            setPopupDragOffset({
+                x: e.clientX - rect.left,
+                y: e.clientY - rect.top
+            });
+        }
+    };
+
 
 
     // toggle visibility
@@ -927,20 +920,35 @@ function Portfolio() {
                 </div>
 
 
+            {/* mystery popup */}
             <div className="desktop">
                 <DesktopIcon
                     icon="/images/dark_agent.ico"
-                    label="don't click me"
+                    label="don't click"
                     x={popupPosition.x}
                     y={popupPosition.y}
                     onClick={() => setshowPopUpModal(true)}
-                    className={`clippy ${shouldShake ? 'shake-animation' : ''}`}
                 />
 
                 {showPopUpModal && (
                     <div className="modal-overlay" onClick={() => setshowPopUpModal(false)}>
-                        <div className="modal" onClick={(e) => e.stopPropagation()}>
-                            Hi
+                        <div 
+                            className="modal" 
+                            onClick={(e) => e.stopPropagation()}
+                            ref={popupModalRef}
+                        >
+                            <div
+                                className="modal-header"
+                                onMouseDown={handlePopupMouseDown}
+                                style={{ cursor: 'grab'}}
+                            >   
+                                <span className='scream-modal'>Hi</span>
+                                <button className='x-button' onClick={() => setshowPopUpModal(false)}>✕</button>
+                            </div>
+
+                                <div className="modal-body">
+                                    <img src="/images/wassup.gif" className='gif' alt="wazzuppp" />
+                                </div>
                         </div>
                     </div>
                     )}
