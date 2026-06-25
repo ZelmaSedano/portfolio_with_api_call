@@ -94,6 +94,11 @@ function Portfolio() {
     const [isDraggingPopup, setIsDraggingPopup] = useState(false);
     const [popupDragOffset, setPopupDragOffset] = useState({ x: 0, y: 0 });
 
+    const [popupCount, setPopupCount] = useState(0);
+    const [popups, setPopups] = useState<Array<{id: number, x: number, y: number}>>([]);
+    const [showFinalPopup, setShowFinalPopup] = useState(false);
+    const [isPopupSpamActive, setIsPopupSpamActive] = useState(false);
+
     // clippy
     // const [clippyPosition, setClippyPosition] = useState({ x: 0, y: 0 });
     // const [showClippyModal, setShowClippyModal] = useState(false);
@@ -108,6 +113,30 @@ function Portfolio() {
         currentTime: 0,
         duration: 0,
     });
+
+
+    const images = [
+        {
+            title:'WebCraft Projects',
+            id: 'webcraft',
+            url: 'https://www.figma.com/design/229APkMFR2DqP819VYDmyY/WebCraft?m=auto&t=vZjGYwJcDZPGZLwW-1'
+        },
+        {
+            title:'Personal Projects',
+            id: 'scandique',
+            url: 'https://www.pinterest.com/pin/9077636744660963/'
+        },
+        {
+            title:'UX/UI Design',
+            id: 'desktop',
+            url: 'https://www.pinterest.com/pin/9077636744660963/'
+        },
+        {
+            title:'AI & Python',
+            id: 'ai',
+            url: 'https://www.pinterest.com/pin/9077636744660963/'
+        }
+    ];
 
     // fetch - VITE WAS BLOCKING THIS FROM WORKING, REMEMBER TO UPDATE VITE.CONFIG NEXT
     const fetchHoroscope = async (sign: string) => {
@@ -129,11 +158,63 @@ function Portfolio() {
     };
 
     const handleGetHoroscope = () => {
-    fetchHoroscope(sign);
+        fetchHoroscope(sign);
+    };
+
+        // MYSTERY POPUPS
+    // pop-ups - generate random position of pop-ups on page
+    const getRandomPosition = () => {
+        return {
+            x: Math.random() * (window.innerWidth - 320),
+            y: Math.random() * (window.innerHeight - 200)
+        };
+    };
+    // handle the mystery popup click
+    const handleMysteryPopupClick = () => {
+        setshowPopUpModal(false);
+        setIsPopupSpamActive(true);
+        setPopupCount(0);
+        setPopups([]);
+        setShowFinalPopup(false);
+        
+        // create 20 popups with slight delays for dramatic effect
+        let count = 0;
+        const interval = setInterval(() => {
+            if (count < 20) {
+                const pos = getRandomPosition();
+                setPopups(prev => [...prev, { 
+                    id: Date.now() + count, 
+                    x: pos.x, 
+                    y: pos.y 
+                }]);
+                setPopupCount(prev => prev + 1);
+                count++;
+            } else {
+                clearInterval(interval);
+                // Show final popup after all 25 are created
+                setTimeout(() => {
+                    setShowFinalPopup(true);
+                }, 200);
+            }
+        }, 100); // Create a new popup every 100ms
+    };
+    // close all popups
+    const closeAllPopups = () => {
+        setPopups([]);
+        setShowFinalPopup(false);
+        setIsPopupSpamActive(false);
+        setPopupCount(0);
     };
 
     // USEEFFECTS
     // save the state to sessionStorage
+    useEffect(() => {
+        const handleResize = () => {
+            setIsSmallScreen(window.innerWidth <= 539);
+        };
+        window.addEventListener('resize', handleResize);
+        return () => window.removeEventListener('resize', handleResize);
+    }, []);
     useEffect(() => {
         sessionStorage.setItem('windowPosition', JSON.stringify(position));
     }, [position]);
@@ -190,6 +271,21 @@ function Portfolio() {
             window.removeEventListener('load', updatePopUpPosition);
         };
     }, [location.pathname]);
+    // ESC key listener to close all popups
+    useEffect(() => {
+        const handleEscKey = (e: KeyboardEvent) => {
+            if (e.key === 'Escape' && isPopupSpamActive) {
+                closeAllPopups();
+            }
+        };
+
+        document.addEventListener('keydown', handleEscKey);
+        return () => {
+            document.removeEventListener('keydown', handleEscKey);
+        };
+    }, [isPopupSpamActive]); // runs everytime isPopupSmaActive changes
+
+
 
     // USEEFFECTS MODALS
     // cat modal
@@ -349,15 +445,28 @@ function Portfolio() {
             document.removeEventListener('mouseup', handleMouseUp);
         };
     }, [isDraggingPlay, playDragOffset]);
-
-
+    // mystery popup
     useEffect(() => {
-        const handleResize = () => {
-            setIsSmallScreen(window.innerWidth <= 539);
+        const handleMouseMove = (e: MouseEvent) => {
+            if (isDraggingPlay && popupModalRef.current) {
+                setpopupPosition({
+                    x: e.clientX - popupDragOffset.x,
+                    y: e.clientY - popupDragOffset.y
+                });
+            }
         };
-        window.addEventListener('resize', handleResize);
-        return () => window.removeEventListener('resize', handleResize);
-    }, []);
+        const handleMouseUp = () => setIsDraggingPopup(false);
+        
+        if (isDraggingPopup) {
+            document.addEventListener('mousemove', handleMouseMove);
+            document.addEventListener('mouseup', handleMouseUp);
+        }
+        return () => {
+            document.removeEventListener('mousemove', handleMouseMove);
+            document.removeEventListener('mouseup', handleMouseUp);
+        };
+    }, [isDraggingPopup, popupDragOffset]);
+
 
 
 
@@ -456,8 +565,6 @@ function Portfolio() {
             });
         }
     };
-
-
     // cat: yes modal
     const handleYesMouseDown = (e: React.MouseEvent) => {
         if ((e.target as HTMLElement).closest('.modal-header') && 
@@ -537,29 +644,6 @@ function Portfolio() {
 
     // toggle visibility
     const toggleWindow = () => setIsVisible(!isVisible);
-
-    const images = [
-        {
-            title:'WebCraft Projects',
-            id: 'webcraft',
-            url: 'https://www.figma.com/design/229APkMFR2DqP819VYDmyY/WebCraft?m=auto&t=vZjGYwJcDZPGZLwW-1' // Keep url for external links
-        },
-        {
-            title:'Personal Projects',
-            id: 'scandique',
-            url: 'https://www.pinterest.com/pin/9077636744660963/' // Keep url for external links
-        },
-        {
-            title:'UX/UI Design',
-            id: 'desktop',
-            url: 'https://www.pinterest.com/pin/9077636744660963/' // Keep url for external links
-        },
-        {
-            title:'AI & Python',
-            id: 'ai',
-            url: 'https://www.pinterest.com/pin/9077636744660963/'
-        }
-    ];
 
     return (
     <>
@@ -927,7 +1011,7 @@ function Portfolio() {
                     label="don't click"
                     x={popupPosition.x}
                     y={popupPosition.y}
-                    onClick={() => setshowPopUpModal(true)}
+                    onClick={handleMysteryPopupClick}
                 />
 
                 {showPopUpModal && (
@@ -1119,6 +1203,68 @@ function Portfolio() {
                 </div>
             </div>
         )}
+
+
+            {isPopupSpamActive && (
+                <>
+                    {popups.map((popup) => (
+                        <div 
+                            key={popup.id}
+                            className="spam-popup"
+                            style={{
+                                left: `${popup.x}px`,
+                                top: `${popup.y}px`,
+                            }}
+                        >
+                            <div className="modal">
+                                <div className="modal-header">
+                                    <span>🚨 LUL</span>
+                                </div>
+                                <div className="popup-modal-body modal-body" style={{ padding: '20px' }}>
+                                    <img 
+                                        src="/images/wassup.gif" 
+                                        className='gif' 
+                                        alt="wazzuppp" 
+                                        style={{ width: '100%' }}
+                                    />
+                                    <p style={{ marginTop: '10px', fontWeight: 'bold' }}>
+                                        WAZZZZUPPPPP 😈
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    ))}
+                    
+                    {/* Final popup to close all */}
+                    {showFinalPopup && (
+                        <div 
+                            className="spam-popup"
+                            style={{
+                                left: `${window.innerWidth / 2 - 230}px`,
+                                top: `${window.innerHeight / 2 - 100}px`,
+                            }}
+                        >
+                            <div className="final-spam-popup modal">
+                                <div className="modal-header">
+                                    <span>⚠️ SYSTEM OVERLOAD</span>
+                                </div>
+                                <div className="modal-body">
+                                    <p>
+                                        Told ya not to click it! Hehe 😈
+                                    </p>
+                                    <button
+                                        onClick={closeAllPopups}
+                                        onMouseDown={(e) => e.currentTarget.style.borderStyle = 'inset'}
+                                        onMouseUp={(e) => e.currentTarget.style.borderStyle = 'outset'}
+                                    >
+                                        🔥 CLOSE ALL POPUPS 🔥
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    )}
+                </>
+            )}
 
         {/* taskbar */}
         <Taskbar 

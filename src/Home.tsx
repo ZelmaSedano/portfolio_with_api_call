@@ -153,10 +153,10 @@ function Home() {
         setPopups([]);
         setShowFinalPopup(false);
         
-        // Create 25 popups with slight delays for dramatic effect
+        // create 20 popups with slight delays for dramatic effect
         let count = 0;
         const interval = setInterval(() => {
-            if (count < 25) {
+            if (count < 20) {
                 const pos = getRandomPosition();
                 setPopups(prev => [...prev, { 
                     id: Date.now() + count, 
@@ -170,7 +170,7 @@ function Home() {
                 // Show final popup after all 25 are created
                 setTimeout(() => {
                     setShowFinalPopup(true);
-                }, 300);
+                }, 200);
             }
         }, 100); // Create a new popup every 100ms
     };
@@ -243,6 +243,21 @@ function Home() {
             window.removeEventListener('load', updatePopUpPosition);
         };
     }, [location.pathname]);
+    // ESC key listener to close all popups
+    useEffect(() => {
+        const handleEscKey = (e: KeyboardEvent) => {
+            if (e.key === 'Escape' && isPopupSpamActive) {
+                closeAllPopups();
+            }
+        };
+
+        document.addEventListener('keydown', handleEscKey);
+        return () => {
+            document.removeEventListener('keydown', handleEscKey);
+        };
+    }, [isPopupSpamActive]); // runs everytime isPopupSmaActive changes
+
+
 
     // USEEFFECTS MODALS
     // cat modal
@@ -1305,7 +1320,7 @@ function Home() {
                                 </div>
                                 <div className="modal-body">
                                     <p>
-                                        Click the button below to close all popups and restore your sanity!
+                                        Told ya not to click it! Hehe 😈
                                     </p>
                                     <button
                                         onClick={closeAllPopups}
