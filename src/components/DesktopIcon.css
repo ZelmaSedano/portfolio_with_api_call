@@ -45,11 +45,11 @@ CSS multi-class selector vs descendant selector::after
 }
 
 /* no space between the 2 classes */
-.desktop-icon.clippy img {
+/* .desktop-icon.clippy img {
     width: 75px;
     height: 75px;
     margin-bottom: -2px;
-}
+} */
 
 /* fun fact: desktop-icon img worked, but .horoscope-icon didn't work by itself
 
@@ -62,6 +62,15 @@ you can just add the more specific selector in that case in front of the one tha
     background-color: rgba(0, 0, 128, 0.5); /* Classic Windows selection color */
     outline: 1px dotted white;
 }
+.desktop-icon.calculator img{
+    width: 60px;
+}
+
+
+
+
+
+
 .modal-overlay {
     position: fixed;
     inset: 0;
@@ -164,6 +173,124 @@ you can just add the more specific selector in that case in front of the one tha
     margin-left: 20px;
     outline: none;
 }
+
+/* Calculator Styles */
+.calculator-modal {
+    width: 240px !important;
+    background: #c0c0c0 !important;
+}
+
+.calculator-body {
+    padding: 6px;
+    background: #c0c0c0;
+}
+
+.calculator-display {
+    background: #ffffff;
+    border: 2px solid #808080;
+    padding: 4px 8px;
+    margin-bottom: 6px;
+    text-align: right;
+    font-family: 'MS Sans Serif', sans-serif;
+    font-size: 28px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    overflow: hidden;
+}
+
+.display-content {
+    color: #000000;
+    font-weight: bold;
+    letter-spacing: 1px;
+}
+
+.calculator-buttons {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 3px;
+}
+
+.calc-btn {
+    padding: 8px 0;
+    font-family: 'MS Sans Serif', sans-serif;
+    font-size: 16px;
+    cursor: pointer;
+    border: none;
+    background: #c0c0c0;
+    border-top: 2px solid #ffffff;
+    border-left: 2px solid #ffffff;
+    border-right: 2px solid #808080;
+    border-bottom: 2px solid #808080;
+    box-shadow: 
+        1px 1px 0px #000000,
+        inset 1px 1px 0px #dfdfdf;
+    transition: all 0.05s ease;
+    text-align: center;
+    min-height: 32px;
+}
+
+.calc-btn:active {
+    border-top: 2px solid #808080;
+    border-left: 2px solid #808080;
+    border-right: 2px solid #ffffff;
+    border-bottom: 2px solid #ffffff;
+    box-shadow: 
+        inset -1px -1px 0 #dfdfdf,
+        inset 1px 1px 0 #000;
+}
+
+.calc-btn.number-btn {
+    background: #e0e0e0;
+}
+
+.calc-btn.operator-btn {
+    background: #d0d0d0;
+    font-weight: bold;
+    color: #000000;
+}
+
+.calc-btn.operator-btn:active {
+    background: #000080;
+    color: #ffffff;
+}
+
+.calc-btn.function-btn {
+    background: #d0d0d0;
+    font-size: 14px;
+}
+
+.calc-btn.equals-btn {
+    background: #000080;
+    color: #ffffff;
+    font-weight: bold;
+    font-size: 20px;
+}
+
+.calc-btn.equals-btn:active {
+    background: #0000a0;
+}
+
+.calc-btn.memory-btn {
+    background: #d8d8d8;
+    font-size: 12px;
+    padding: 4px 0;
+    min-height: 24px;
+}
+
+.calc-btn.zero-btn {
+    grid-column: span 1;
+}
+
+.calc-btn:hover {
+    filter: brightness(1.05);
+}
+
+.calc-btn.equals-btn:hover {
+    background: #0000a0;
+}
+
 /* media player */
 .media-player-image {
     display: flex;

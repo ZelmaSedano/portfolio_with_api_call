@@ -209,12 +209,12 @@ function Contact() {
                 count++;
             } else {
                 clearInterval(interval);
-                // Show final popup after all 20 are created
+                // show final popup after all 20 are created
                 setTimeout(() => {
                     setShowFinalPopup(true);
                 }, 200);
             }
-        }, 100); // Create a new popup every 100ms
+        }, 100); // create a new popup every 100ms
     };
     // close all popups
     const closeAllPopups = () => {
@@ -1343,7 +1343,7 @@ function Contact() {
                                 </div>
                                 <div className="modal-body">
                                     <p>
-                                        Told ya not to click it! Hehe 😈
+                                        Told ya not to click! Hehe 😈
                                     </p>
                                     <button
                                         onClick={closeAllPopups}
