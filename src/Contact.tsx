@@ -209,7 +209,7 @@ function Contact() {
                 count++;
             } else {
                 clearInterval(interval);
-                // Show final popup after all 25 are created
+                // Show final popup after all 20 are created
                 setTimeout(() => {
                     setShowFinalPopup(true);
                 }, 200);
