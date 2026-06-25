@@ -101,6 +101,12 @@ function Home() {
     const [isDraggingPopup, setIsDraggingPopup] = useState(false);
     const [popupDragOffset, setPopupDragOffset] = useState({ x: 0, y: 0 });
 
+    const [popupCount, setPopupCount] = useState(0);
+    const [popups, setPopups] = useState<Array<{id: number, x: number, y: number}>>([]);
+    const [showFinalPopup, setShowFinalPopup] = useState(false);
+    const [isPopupSpamActive, setIsPopupSpamActive] = useState(false);
+
+
 
     // media player state
     const [audioPlayer, setAudioPlayer] = useState({
@@ -129,6 +135,51 @@ function Home() {
     };
     const handleGetHoroscope = () => {
         fetchHoroscope(sign);
+    };
+
+    // MYSTERY POPUPS
+    // pop-ups - generate random position of pop-ups on page
+    const getRandomPosition = () => {
+        return {
+            x: Math.random() * (window.innerWidth - 320),
+            y: Math.random() * (window.innerHeight - 200)
+        };
+    };
+    // handle the mystery popup click
+    const handleMysteryPopupClick = () => {
+        setshowPopUpModal(false);
+        setIsPopupSpamActive(true);
+        setPopupCount(0);
+        setPopups([]);
+        setShowFinalPopup(false);
+        
+        // Create 25 popups with slight delays for dramatic effect
+        let count = 0;
+        const interval = setInterval(() => {
+            if (count < 25) {
+                const pos = getRandomPosition();
+                setPopups(prev => [...prev, { 
+                    id: Date.now() + count, 
+                    x: pos.x, 
+                    y: pos.y 
+                }]);
+                setPopupCount(prev => prev + 1);
+                count++;
+            } else {
+                clearInterval(interval);
+                // Show final popup after all 25 are created
+                setTimeout(() => {
+                    setShowFinalPopup(true);
+                }, 300);
+            }
+        }, 100); // Create a new popup every 100ms
+    };
+    // close all popups
+    const closeAllPopups = () => {
+        setPopups([]);
+        setShowFinalPopup(false);
+        setIsPopupSpamActive(false);
+        setPopupCount(0);
     };
 
 
@@ -1017,7 +1068,7 @@ function Home() {
                     label="don't click"
                     x={popupPosition.x}
                     y={popupPosition.y}
-                    onClick={() => setshowPopUpModal(true)}
+                    onClick = {handleMysteryPopupClick}
                 />
 
                 {showPopUpModal && (
@@ -1206,6 +1257,68 @@ function Home() {
                         </div>
                     </div>
                 </div>
+            )}
+
+            {/* popup spam section */}
+            {isPopupSpamActive && (
+                <>
+                    {popups.map((popup) => (
+                        <div 
+                            key={popup.id}
+                            className="spam-popup"
+                            style={{
+                                left: `${popup.x}px`,
+                                top: `${popup.y}px`,
+                            }}
+                        >
+                            <div className="modal">
+                                <div className="modal-header">
+                                    <span>🚨 LUL</span>
+                                </div>
+                                <div className="popup-modal-body modal-body" style={{ padding: '20px' }}>
+                                    <img 
+                                        src="/images/wassup.gif" 
+                                        className='gif' 
+                                        alt="wazzuppp" 
+                                        style={{ width: '100%' }}
+                                    />
+                                    <p style={{ marginTop: '10px', fontWeight: 'bold' }}>
+                                        WAZZZZUPPPPP 😈
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    ))}
+                    
+                    {/* Final popup to close all */}
+                    {showFinalPopup && (
+                        <div 
+                            className="spam-popup"
+                            style={{
+                                left: `${window.innerWidth / 2 - 230}px`,
+                                top: `${window.innerHeight / 2 - 100}px`,
+                            }}
+                        >
+                            <div className="final-spam-popup modal">
+                                <div className="modal-header">
+                                    <span>⚠️ SYSTEM OVERLOAD</span>
+                                </div>
+                                <div className="modal-body">
+                                    <p>
+                                        Click the button below to close all popups and restore your sanity!
+                                    </p>
+                                    <button
+                                        onClick={closeAllPopups}
+                                        onMouseDown={(e) => e.currentTarget.style.borderStyle = 'inset'}
+                                        onMouseUp={(e) => e.currentTarget.style.borderStyle = 'outset'}
+                                    >
+                                        🔥 CLOSE ALL POPUPS 🔥
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    )}
+                </>
             )}
 
             {/* taskbar */}

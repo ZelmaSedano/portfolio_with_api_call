@@ -186,9 +186,34 @@ button.play-button {
     height: 22px;
 }
 
+.spam-popup {
+    position: fixed;
+    width: 300px;
+}
+.final-spam-popup.modal {
+    width: 500px;
+    z-index: 99999;
+}
+.final-spam-popup .modal-body {
+    padding: 15px;
+    text-align: center;
+}
+.final-spam-popup p {
+    margin-bottom: 15px;
+}
+.final-spam-popup button {
+    padding: 10px 20px;
+    background-color: blue;
+    border: 2px solid white;
+    cursor: pointer;
+    font-size: 16px;
+    font-weight: bold;
+}
+
+
 
 /* clippy */
-.chatbot-modal {
+/* .chatbot-modal {
     width: 400px;
     max-width: 90vw;
     background-color: #c3c3c3;
@@ -232,7 +257,7 @@ button.play-button {
     color: green;
 }
 /* the ACTUAL message */
-.chat-message {
+/* .chat-message {
     display: flex;
     padding: 3px 12px;
 }
@@ -271,4 +296,4 @@ button.play-button {
 }
 .shake-animation {
     animation: shake 0.8s ease-in-out;
-}
+} */
