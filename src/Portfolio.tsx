@@ -25,7 +25,6 @@ function Portfolio() {
 
     // modal ref
     const catModalRef = useRef<HTMLDivElement | null>(null);
-    const screamModalRef = useRef<HTMLDivElement | null>(null);
     const horoscopeModalRef = useRef<HTMLDivElement | null>(null);
     const playModalRef = useRef<HTMLDivElement | null>(null);
     const yesModalRef = useRef<HTMLDivElement | null>(null);
@@ -65,12 +64,6 @@ function Portfolio() {
     const [isDraggingLove, setIsDraggingLove] = useState(false);
     const [lovePosition, setLovePosition] = useState({ x: 300, y: 300 });
     const [loveDragOffset, setLoveDragOffset] = useState({ x: 0, y: 0 });
-
-    // scream
-    // const [showScreamModal, setShowScreamModal] = useState(false);
-    // const [isDraggingScream, setIsDraggingScream] = useState(false);
-    // const [screamPosition, setScreamPosition] = useState({ x: 200, y: 200 });
-    // const [screamDragOffset, setScreamDragOffset] = useState({ x: 0, y: 0 });
 
     // calculator
     const [showCalculator, setShowCalculator] = useState(false);
@@ -491,7 +484,6 @@ function Portfolio() {
             document.removeEventListener('mouseup', handleMouseUp);
         };
     }, [isDraggingCalculator, calculatorDragOffset]);
-
     // horoscope
     useEffect(() => {
         const handleMouseMove = (e: MouseEvent) => {

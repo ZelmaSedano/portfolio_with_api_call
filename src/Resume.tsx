@@ -27,12 +27,12 @@ function Resume() {
 
     // modal ref
     const catModalRef = useRef<HTMLDivElement | null>(null);
-    const screamModalRef = useRef<HTMLDivElement | null>(null);
     const horoscopeModalRef = useRef<HTMLDivElement | null>(null);
     const playModalRef = useRef<HTMLDivElement | null>(null);
     const yesModalRef = useRef<HTMLDivElement | null>(null);
     const loveModalRef = useRef<HTMLDivElement | null>(null);
     const popupModalRef = useRef<HTMLDivElement | null> (null);
+    const calculatorModalRef = useRef<HTMLDivElement | null>(null);
 
     // STATES
     const [position, setPosition] = useState(() => {
@@ -65,13 +65,19 @@ function Resume() {
     const [isDraggingLove, setIsDraggingLove] = useState(false);
     const [lovePosition, setLovePosition] = useState({ x: 300, y: 300 });
     const [loveDragOffset, setLoveDragOffset] = useState({ x: 0, y: 0 });
-
-    // scream
-    const [showScreamModal, setShowScreamModal] = useState(false);
-    const [isDraggingScream, setIsDraggingScream] = useState(false);
-    const [screamPosition, setScreamPosition] = useState({ x: 200, y: 200 });
-    const [screamDragOffset, setScreamDragOffset] = useState({ x: 0, y: 0 });
     
+    // calculator
+    const [showCalculator, setShowCalculator] = useState(false);
+    const [calculatorPosition, setCalculatorPosition] = useState({ x: 200, y: 200 });
+    const [isDraggingCalculator, setIsDraggingCalculator] = useState(false);
+    const [calculatorDragOffset, setCalculatorDragOffset] = useState({ x: 0, y: 0 });
+    // calculator logic states (add with your other states)
+    const [calculatorDisplay, setCalculatorDisplay] = useState('0');
+    const [previousValue, setPreviousValue] = useState<number | null>(null);
+    const [operation, setOperation] = useState<string | null>(null);
+    const [waitingForOperand, setWaitingForOperand] = useState(false);
+    const [memory, setMemory] = useState<number | null>(null);
+
     // horoscope API states
     const [showHoroscopeModal, setShowHoroscopeModal] = useState(false);
     const [horoscopeData, setHoroscopeData] = useState<HoroscopeData | null>(null);
@@ -133,6 +139,103 @@ function Resume() {
     const handleGetHoroscope = () => {
         fetchHoroscope(sign);
     };
+
+
+
+    // calculator-related functions
+    const clearAll = () => {
+        setCalculatorDisplay('0');
+        setPreviousValue(null);
+        setOperation(null);
+        setWaitingForOperand(false);
+    };
+    const clearEntry = () => {
+        setCalculatorDisplay('0');
+    };
+    const inputDigit = (digit: string) => {
+        if (waitingForOperand) {
+            setCalculatorDisplay(digit);
+            setWaitingForOperand(false);
+        } else {
+            setCalculatorDisplay(calculatorDisplay === '0' ? digit : calculatorDisplay + digit);
+        }
+    };
+    const inputDecimal = () => {
+        if (waitingForOperand) {
+            setCalculatorDisplay('0.');
+            setWaitingForOperand(false);
+            return;
+        }
+        if (!calculatorDisplay.includes('.')) {
+            setCalculatorDisplay(calculatorDisplay + '.');
+        }
+    };
+    const toggleSign = () => {
+        if (calculatorDisplay !== '0') {
+            setCalculatorDisplay(calculatorDisplay.startsWith('-') ? calculatorDisplay.slice(1) : '-' + calculatorDisplay);
+        }
+    };
+    const inputPercent = () => {
+        const value = parseFloat(calculatorDisplay);
+        setCalculatorDisplay(String(value / 100));
+    };
+    const performOperation = (nextOperation: string) => {
+        const currentValue = parseFloat(calculatorDisplay);
+        
+        if (previousValue !== null && operation && !waitingForOperand) {
+            const result = calculate(previousValue, currentValue, operation);
+            setCalculatorDisplay(String(result));
+            setPreviousValue(result);
+        } else {
+            setPreviousValue(currentValue);
+        }
+        
+        setOperation(nextOperation);
+        setWaitingForOperand(true);
+    };
+    const calculate = (a: number, b: number, op: string): number => {
+        switch (op) {
+            case '+': return a + b;
+            case '-': return a - b;
+            case '×': return a * b;
+            case '÷': return a / b;
+            default: return b;
+        }
+    };
+    const compute = () => {
+        const currentValue = parseFloat(calculatorDisplay);
+        if (previousValue !== null && operation) {
+            const result = calculate(previousValue, currentValue, operation);
+            setCalculatorDisplay(String(result));
+            setPreviousValue(null);
+            setOperation(null);
+            setWaitingForOperand(true);
+        }
+    };
+    const handleMemory = (action: string) => {
+        const currentValue = parseFloat(calculatorDisplay);
+        switch (action) {
+            case 'MC':
+                setMemory(null);
+                break;
+            case 'MR':
+                if (memory !== null) {
+                    setCalculatorDisplay(String(memory));
+                    setWaitingForOperand(true);
+                }
+                break;
+            case 'MS':
+                setMemory(currentValue);
+                setWaitingForOperand(true);
+                break;
+            case 'M+':
+                setMemory((memory || 0) + currentValue);
+                setWaitingForOperand(true);
+                break;
+        }
+    };
+
+
 
     // MYSTERY POPUPS
     // pop-ups - generate random position of pop-ups on page
@@ -308,7 +411,7 @@ function Resume() {
         };
     }, [isDraggingYes, yesDragOffset]);
 
-    // Love modal drag
+    // love modal drag
     useEffect(() => {
         const handleMouseMove = (e: MouseEvent) => {
             if (isDraggingLove && loveModalRef.current) {
@@ -329,19 +432,19 @@ function Resume() {
             document.removeEventListener('mouseup', handleMouseUp);
         };
     }, [isDraggingLove, loveDragOffset]);
-    // scream modal
+    // calculator modal
     useEffect(() => {
         const handleMouseMove = (e: MouseEvent) => {
-            if (isDraggingScream && screamModalRef.current) {
-                setScreamPosition({
-                    x: e.clientX - screamDragOffset.x,
-                    y: e.clientY - screamDragOffset.y
+            if (isDraggingCalculator && calculatorModalRef.current) {
+                setCalculatorPosition({
+                    x: e.clientX - calculatorDragOffset.x,
+                    y: e.clientY - calculatorDragOffset.y
                 });
             }
         };
-        const handleMouseUp = () => setIsDraggingScream(false);
+        const handleMouseUp = () => setIsDraggingCalculator(false);
         
-        if (isDraggingScream) {
+        if (isDraggingCalculator) {
             document.addEventListener('mousemove', handleMouseMove);
             document.addEventListener('mouseup', handleMouseUp);
         }
@@ -349,28 +452,7 @@ function Resume() {
             document.removeEventListener('mousemove', handleMouseMove);
             document.removeEventListener('mouseup', handleMouseUp);
         };
-    }, [isDraggingScream, screamDragOffset]);
-    // scream modal
-    useEffect(() => {
-        const handleMouseMove = (e: MouseEvent) => {
-            if (isDraggingScream && screamModalRef.current) {
-                setScreamPosition({
-                    x: e.clientX - screamDragOffset.x,
-                    y: e.clientY - screamDragOffset.y
-                });
-            }
-        };
-        const handleMouseUp = () => setIsDraggingScream(false);
-        
-        if (isDraggingScream) {
-            document.addEventListener('mousemove', handleMouseMove);
-            document.addEventListener('mouseup', handleMouseUp);
-        }
-        return () => {
-            document.removeEventListener('mousemove', handleMouseMove);
-            document.removeEventListener('mouseup', handleMouseUp);
-        };
-    }, [isDraggingScream, screamDragOffset]);
+    }, [isDraggingCalculator, calculatorDragOffset]);
     // horoscope
     useEffect(() => {
         const handleMouseMove = (e: MouseEvent) => {
@@ -562,13 +644,14 @@ function Resume() {
             });
         }
     };
-    const handleScreamMouseDown = (e: React.MouseEvent) => {
+    // calculator
+    const handleCalculatorMouseDown = (e: React.MouseEvent) => {
         if ((e.target as HTMLElement).closest('.modal-header') && 
             !(e.target as HTMLElement).closest('.x-button')) {
-            const rect = screamModalRef.current?.getBoundingClientRect();
+            const rect = calculatorModalRef.current?.getBoundingClientRect();
             if (!rect) return;
-            setIsDraggingScream(true);
-            setScreamDragOffset({
+            setIsDraggingCalculator(true);
+            setCalculatorDragOffset({
                 x: e.clientX - rect.left,
                 y: e.clientY - rect.top
             });
@@ -625,7 +708,7 @@ function Resume() {
                 {/* when you click the desktop icon, setShowModal is set to true */}
                 <DesktopIcon
                     icon="images/cat.png"
-                    label="meowdy"
+                    label="Meow"
                     x={50}
                     y={35}
                     onClick={() => setShowCatModal(true)}
@@ -739,53 +822,94 @@ function Resume() {
                 </div>
             )}
 
-            {/* scream icon */}
+            {/* calculator icon */}
             <div className="desktop">
                 <DesktopIcon
-                    icon="/images/scream_2.png"
-                    label="RING RING"
+                    icon="/images/calculator.png"
+                    label="Calculator"
                     x={50}
                     y={145}
-                    onClick={() => setShowScreamModal(true)}
+                    onClick={() => setShowCalculator(true)}
+                    className='calculator'
                 />
 
-
-                {showScreamModal && (
-                    <div className="modal-overlay" onClick={() => setShowScreamModal(false)}>
-
+            {/* calculator modal */}
+            {showCalculator && (
+                <div className="modal-overlay" onClick={() => setShowCalculator(false)}>
                     <div 
-                        className="modal" 
+                        className="modal calculator-modal" 
                         onClick={(e) => e.stopPropagation()}
-                        ref={screamModalRef}
+                        ref={calculatorModalRef}
                         style={{
                             position: 'fixed',
-                            left: `${screamPosition.x}px`,
-                            top: `${screamPosition.y}px`
+                            left: `${calculatorPosition.x}px`,
+                            top: `${calculatorPosition.y}px`
                         }}
                     >
                         <div 
                             className="modal-header"
-                            onMouseDown={handleScreamMouseDown}    
-                            style={{ cursor: 'grab'}}
+                            onMouseDown={handleCalculatorMouseDown}
+                            style={{ cursor: 'grab' }}
                         >
-                            <span className='scream-modal'>I know what you did last summer</span>
-                            <button className='x-button' onClick={() => setShowScreamModal(false)}>✕</button>
+                            <span>Calculator</span>
+                            <button className='x-button' onClick={() => setShowCalculator(false)}>✕</button>
                         </div>
+                        
+                        <div className="calculator-body">
+                            <div className="calculator-display">
+                                <div className="display-content">{calculatorDisplay}</div>
+                            </div>
 
-                        <div className="modal-body">
-                            <img src="/images/wassup.gif" className='gif' alt="evil_cat" />
-                        </div>
+                            <div className="calculator-buttons">
+                                {/* memory row */}
+                                <button className="calc-btn memory-btn" onClick={() => handleMemory('MC')}>MC</button>
+                                <button className="calc-btn memory-btn" onClick={() => handleMemory('MR')}>MR</button>
+                                <button className="calc-btn memory-btn" onClick={() => handleMemory('MS')}>MS</button>
+                                <button className="calc-btn memory-btn" onClick={() => handleMemory('M+')}>M+</button>
+                                
+                                {/* row 1 */}
+                                <button className="calc-btn function-btn" onClick={clearAll}>AC</button>
+                                <button className="calc-btn function-btn" onClick={clearEntry}>CE</button>
+                                <button className="calc-btn function-btn" onClick={toggleSign}>±</button>
+                                <button className="calc-btn operator-btn" onClick={() => performOperation('÷')}>÷</button>
+                                
+                                {/* row 2 */}
+                                <button className="calc-btn number-btn" onClick={() => inputDigit('7')}>7</button>
+                                <button className="calc-btn number-btn" onClick={() => inputDigit('8')}>8</button>
+                                <button className="calc-btn number-btn" onClick={() => inputDigit('9')}>9</button>
+                                <button className="calc-btn operator-btn" onClick={() => performOperation('×')}>×</button>
+                                
+                                {/* row 3 */}
+                                <button className="calc-btn number-btn" onClick={() => inputDigit('4')}>4</button>
+                                <button className="calc-btn number-btn" onClick={() => inputDigit('5')}>5</button>
+                                <button className="calc-btn number-btn" onClick={() => inputDigit('6')}>6</button>
+                                <button className="calc-btn operator-btn" onClick={() => performOperation('-')}>−</button>
+                                
+                                {/* row 4 */}
+                                <button className="calc-btn number-btn" onClick={() => inputDigit('1')}>1</button>
+                                <button className="calc-btn number-btn" onClick={() => inputDigit('2')}>2</button>
+                                <button className="calc-btn number-btn" onClick={() => inputDigit('3')}>3</button>
+                                <button className="calc-btn operator-btn" onClick={() => performOperation('+')}>+</button>
+                                
+                                {/* row 5 */}
+                                <button className="calc-btn number-btn zero-btn" onClick={() => inputDigit('0')}>0</button>
+                                <button className="calc-btn number-btn" onClick={inputDecimal}>.</button>
+                                <button className="calc-btn function-btn" onClick={inputPercent}>%</button>
+                                <button className="calc-btn equals-btn" onClick={compute}>=</button>
+                            </div>
                         </div>
                     </div>
-                )}
+                </div>
+            )}
             </div>
+
 
 
             {/* horoscope icon */}
             <div className="desktop">
                 <DesktopIcon
                     icon="/images/scandique.jpg"
-                    label="horoscope"
+                    label="Horoscope"
                     x={50}
                     y={255}
                     onClick={() => setShowHoroscopeModal(true)}
@@ -856,7 +980,7 @@ function Resume() {
             <div className="desktop">
                 <DesktopIcon
                     icon="/images/play.ico"
-                    label="play"
+                    label="Media Player"
                     x={cdPlayerPosition.x}
                     y={cdPlayerPosition.y}
                     onClick={() => setShowPlayModal(true)}
