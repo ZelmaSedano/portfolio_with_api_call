@@ -38,6 +38,7 @@ function Home() {
     const playModalRef = useRef<HTMLDivElement | null>(null);
     const yesModalRef = useRef<HTMLDivElement | null>(null);
     const loveModalRef = useRef<HTMLDivElement | null>(null);
+    const popupModalRef = useRef<HTMLDivElement | null> (null);
 
     // STATES
     const [position, setPosition] = useState(() => {
@@ -96,11 +97,11 @@ function Home() {
     const [playPosition, setPlayPosition] = useState({ x: 200, y: 200 });
     const [playDragOffset, setPlayDragOffset] = useState({ x: 0, y: 0 });
 
-    const [clippyPosition, setClippyPosition] = useState({ x: 0, y: 0 });
-    const [showClippyModal, setShowClippyModal] = useState(false);
-    const [chatbotInput, setChatbotInput] = useState('');
-    const [chatHistory, setChatHistory] = useState<Array<{sender: string, message: string}>>([]);
-    const [shouldShake, setShouldShake] = useState(false);
+    // pop-up
+    const [popupPosition, setpopupPosition] = useState({ x: 0, y: 0 });
+    const [showPopUpModal, setshowPopUpModal] = useState(false);
+    const [isDraggingPopup, setIsDraggingPopup] = useState(false);
+    const [popupDragOffset, setPopupDragOffset] = useState({ x: 0, y: 0 });
 
 
     // Add this audio state
@@ -132,47 +133,8 @@ function Home() {
         fetchHoroscope(sign);
     };
 
-    // GETTERS
-    const getChatbotResponse = async (input: string): Promise<string> => {
-        try {
-            const response = await fetch('/api/chatbot', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
-                body: JSON.stringify({ message: input })
-            });
-            if (!response.ok) {
-                throw new Error(`HTTP error! status: ${response.status}`);
-            }
-            const data = await response.json();
-            return data.message;
-            } catch (error) {
-                console.error('Chatbot error:', error);
-                return "Sorry, I'm having trouble responding right now!";
-            }
-    };
-    const handleChatbotSubmit = async (e: React.FormEvent) => {
-        e.preventDefault();
-        if (!chatbotInput.trim()) return;
-        // Add user message
-        const userMessage = chatbotInput;
-        setChatHistory(prev => [...prev, { 
-            sender: 'user',
-            message: userMessage
-        }]);
-        setChatbotInput('');
-        // Get bot response from server
-        const botMessage = await getChatbotResponse(userMessage);
-        // Add bot message
-        setChatHistory(prev => [...prev, { 
-            sender: 'bot', 
-            message: botMessage 
-        }]);
-    };
 
-
-    // USEEFFECTS FUNCTIONS
+    // USEEFFECTS
     // save the position of the window to session storage
     useEffect(() => {
         sessionStorage.setItem('windowPosition', JSON.stringify(position));
@@ -201,12 +163,9 @@ function Home() {
             window.removeEventListener('resize', updateCDPosition);
         };
     }, [location.pathname]);
-
-
-    // CLIPPY
-    // clippy useEffect, keeps him stuck to the bottom-right
+    // pop-up useEffect
     useEffect(() => {
-        const updateClippyPosition = () => {
+        const updatePopUpPosition = () => {
             // get document height
             const documentHeight = Math.max(
                 document.body.scrollHeight,
@@ -218,47 +177,21 @@ function Home() {
             );
             
             // bottom-right corner of document
-            setClippyPosition({
+            setpopupPosition({
             x: window.innerWidth - 100, // 80px from right edge
             y: documentHeight - 150 // 120px from bottom
             });
         };
         // initial position
-        updateClippyPosition();
+        updatePopUpPosition();
         // update on window resize and load
-        window.addEventListener('resize', updateClippyPosition);
-        window.addEventListener('load', updateClippyPosition);
+        window.addEventListener('resize', updatePopUpPosition);
+        window.addEventListener('load', updatePopUpPosition);
         return () => {
-            window.removeEventListener('resize', updateClippyPosition);
-            window.removeEventListener('load', updateClippyPosition);
+            window.removeEventListener('resize', updatePopUpPosition);
+            window.removeEventListener('load', updatePopUpPosition);
         };
     }, [location.pathname]);
-    // clippy shake on initial page load
-    useEffect(() => {
-        // Check if shake has already been shown in this session
-        const hasShaken = sessionStorage.getItem('clippyShaken');
-        
-        if (!hasShaken) {
-            // Trigger the shake
-            setShouldShake(true);
-            // Mark as shaken for this session
-            sessionStorage.setItem('clippyShaken', 'true');
-            
-            // Reset after animation completes (adjust time to match your CSS animation duration)
-            const shakeTimer = setTimeout(() => {
-                setShouldShake(false);
-            }, 1000); // Adjust this time to match your animation duration
-            
-            return () => clearTimeout(shakeTimer);
-        }
-    }, []);
-    // clippy shakes on page reload, not just first visit
-    useEffect(() => {
-        return () => {
-            // Reset on page unload if you want it to shake on next visit
-            sessionStorage.removeItem('clippyShaken');
-        };
-    }, []);
 
     // USEEFFECTS MODALS
     // cat modal
@@ -282,7 +215,7 @@ function Home() {
             document.removeEventListener('mouseup', handleMouseUp);
         };
     }, [isDraggingCat, catDragOffset]);
-    // Yes modal drag
+    // yes modal drag
     useEffect(() => {
         const handleMouseMove = (e: MouseEvent) => {
             if (isDraggingYes && yesModalRef.current) {
@@ -346,27 +279,6 @@ function Home() {
             document.removeEventListener('mouseup', handleMouseUp);
         };
     }, [isDraggingScream, screamDragOffset]);
-    // scream modal
-    useEffect(() => {
-        const handleMouseMove = (e: MouseEvent) => {
-            if (isDraggingScream && screamModalRef.current) {
-                setScreamPosition({
-                    x: e.clientX - screamDragOffset.x,
-                    y: e.clientY - screamDragOffset.y
-                });
-            }
-        };
-        const handleMouseUp = () => setIsDraggingScream(false);
-        
-        if (isDraggingScream) {
-            document.addEventListener('mousemove', handleMouseMove);
-            document.addEventListener('mouseup', handleMouseUp);
-        }
-        return () => {
-            document.removeEventListener('mousemove', handleMouseMove);
-            document.removeEventListener('mouseup', handleMouseUp);
-        };
-    }, [isDraggingScream, screamDragOffset]);
     // horoscope
     useEffect(() => {
         const handleMouseMove = (e: MouseEvent) => {
@@ -409,7 +321,31 @@ function Home() {
             document.removeEventListener('mouseup', handleMouseUp);
         };
     }, [isDraggingPlay, playDragOffset]);
+    // mystery popup
+    useEffect(() => {
+        const handleMouseMove = (e: MouseEvent) => {
+            if (isDraggingPlay && popupModalRef.current) {
+                setpopupPosition({
+                    x: e.clientX - popupDragOffset.x,
+                    y: e.clientY - popupDragOffset.y
+                });
+            }
+        };
+        const handleMouseUp = () => setIsDraggingPopup(false);
+        
+        if (isDraggingPopup) {
+            document.addEventListener('mousemove', handleMouseMove);
+            document.addEventListener('mouseup', handleMouseUp);
+        }
+        return () => {
+            document.removeEventListener('mousemove', handleMouseMove);
+            document.removeEventListener('mouseup', handleMouseUp);
+        };
+    }, [isDraggingPopup, popupDragOffset]);
     
+
+
+
     // HANDLERS
     // window dragging effect
     const handleMouseDown = (e: React.MouseEvent) => {
@@ -442,8 +378,10 @@ function Home() {
             });
         }
     };
+
     // dragging window
     const handleNativeMouseUp = () => setIsDragging(false);
+
     useEffect(() => {
         document.addEventListener('mousemove', handleNativeMouseMove);
         document.addEventListener('mouseup', handleNativeMouseUp);
@@ -475,23 +413,6 @@ function Home() {
         }
     };
 
-    // clock
-    const handleTimeUpdate = (e: React.SyntheticEvent<HTMLAudioElement>) => {
-        const audio = e.target as HTMLAudioElement;
-        setAudioPlayer(prev => ({
-            ...prev,
-            currentTime: audio.currentTime,
-            duration: audio.duration || 0
-        }));
-    };
-    // format time (seconds to MM:SS)
-    const formatTime = (seconds: number) => {
-        if (!seconds || isNaN(seconds)) return '00:00';
-        const mins = Math.floor(seconds / 60);
-        const secs = Math.floor(seconds % 60);
-        return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
-    };
-
 
     // modal handlers for dragging
     const handleCatMouseDown = (e: React.MouseEvent) => {
@@ -507,7 +428,7 @@ function Home() {
         }
     };
     // cat: yes modal
-        const handleYesMouseDown = (e: React.MouseEvent) => {
+    const handleYesMouseDown = (e: React.MouseEvent) => {
         if ((e.target as HTMLElement).closest('.modal-header') && 
             !(e.target as HTMLElement).closest('.x-button')) {
             const rect = yesModalRef.current?.getBoundingClientRect();
@@ -568,10 +489,143 @@ function Home() {
             });
         }
     };
+    const handlePopupMouseDown = (e: React.MouseEvent) => {
+        if ((e.target as HTMLElement).closest('.modal-header') && 
+            !(e.target as HTMLElement).closest('.x-button')) {
+            const rect = popupModalRef.current?.getBoundingClientRect();
+            if (!rect) return;
+            setIsDraggingPopup(true);
+            setPopupDragOffset({
+                x: e.clientX - rect.left,
+                y: e.clientY - rect.top
+            });
+        }
+    };
+
+    // clock
+    const handleTimeUpdate = (e: React.SyntheticEvent<HTMLAudioElement>) => {
+        const audio = e.target as HTMLAudioElement;
+        setAudioPlayer(prev => ({
+            ...prev,
+            currentTime: audio.currentTime,
+            duration: audio.duration || 0
+        }));
+    };
+    // format time (seconds to MM:SS)
+    const formatTime = (seconds: number) => {
+        if (!seconds || isNaN(seconds)) return '00:00';
+        const mins = Math.floor(seconds / 60);
+        const secs = Math.floor(seconds % 60);
+        return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
+    };
+
 
     // toggle visibility
     const toggleWindow = () => setIsVisible(!isVisible);
 
+
+    // CLIPPY STUFF, DO NOT NEED FOR NOW
+
+    // const [clippyPosition, setClippyPosition] = useState({ x: 0, y: 0 });
+    // const [showClippyModal, setShowClippyModal] = useState(false);
+    // const [chatbotInput, setChatbotInput] = useState('');
+    // const [chatHistory, setChatHistory] = useState<Array<{sender: string, message: string}>>([]);
+    // const [shouldShake, setShouldShake] = useState(false);
+
+    // GETTERS
+    // const getChatbotResponse = async (input: string): Promise<string> => {
+    //     try {
+    //         const response = await fetch('/api/chatbot', {
+    //             method: 'POST',
+    //             headers: {
+    //                 'Content-Type': 'application/json',
+    //             },
+    //             body: JSON.stringify({ message: input })
+    //         });
+    //         if (!response.ok) {
+    //             throw new Error(`HTTP error! status: ${response.status}`);
+    //         }
+    //         const data = await response.json();
+    //         return data.message;
+    //         } catch (error) {
+    //             console.error('Chatbot error:', error);
+    //             return "Sorry, I'm having trouble responding right now!";
+    //         }
+    // };
+    // const handleChatbotSubmit = async (e: React.FormEvent) => {
+    //     e.preventDefault();
+    //     if (!chatbotInput.trim()) return;
+    //     // Add user message
+    //     const userMessage = chatbotInput;
+    //     setChatHistory(prev => [...prev, { 
+    //         sender: 'user',
+    //         message: userMessage
+    //     }]);
+    //     setChatbotInput('');
+    //     // Get bot response from server
+    //     const botMessage = await getChatbotResponse(userMessage);
+    //     // Add bot message
+    //     setChatHistory(prev => [...prev, { 
+    //         sender: 'bot', 
+    //         message: botMessage 
+    //     }]);
+    // };
+    // useEffect(() => {
+    //     const updateClippyPosition = () => {
+    //         const documentHeight = Math.max(
+    //             document.body.scrollHeight,
+    //             document.documentElement.scrollHeight,
+    //             document.body.offsetHeight,
+    //             document.documentElement.offsetHeight,
+    //             document.body.clientHeight,
+    //             document.documentElement.clientHeight
+    //         );
+            
+    //         setClippyPosition({
+    //         x: window.innerWidth - 100,
+    //         y: documentHeight - 150
+    //         });
+    //     };
+
+    //     updateClippyPosition();
+
+    //     window.addEventListener('resize', updateClippyPosition);
+    //     window.addEventListener('load', updateClippyPosition);
+    //     return () => {
+    //         window.removeEventListener('resize', updateClippyPosition);
+    //         window.removeEventListener('load', updateClippyPosition);
+    //     };
+    // }, [location.pathname]);
+
+
+
+
+    // clippy shake on initial page load
+    // useEffect(() => {
+
+    //     const hasShaken = sessionStorage.getItem('clippyShaken');
+        
+    //     if (!hasShaken) {
+
+    //         setShouldShake(true);
+
+    //         sessionStorage.setItem('clippyShaken', 'true');
+            
+    //         const shakeTimer = setTimeout(() => {
+    //             setShouldShake(false);
+    //         }, 1000);
+            
+    //         return () => clearTimeout(shakeTimer);
+    //     }
+    // }, []);
+
+    // clippy shakes on page reload, not just first visit
+    // useEffect(() => {
+    //     return () => {
+    //         // Reset on page unload if you want it to shake on next visit
+    //         sessionStorage.removeItem('clippyShaken');
+    //     };
+    // }, []);
     return (
         <>
             {/* cat icon */}
@@ -796,7 +850,6 @@ function Home() {
                             {horoscopeData && (
                                 <div className="horoscope-results">
                                     <p><strong>Date:</strong> {horoscopeData.data.date}</p>
-                                    <p><strong>Period:</strong> {horoscopeData.data.period}</p>
                                     <p><strong>Horoscope:</strong> {horoscopeData.data.horoscope}</p> 
                                 </div>
                             )}
@@ -931,9 +984,43 @@ function Home() {
                 </div>
 
 
-            {/* clippy */}
+            {/* mystery popup */}
             <div className="desktop">
-                {/* when you click the desktop icon, setShowModal is set to true */}
+                <DesktopIcon
+                    icon="/images/dark_agent.ico"
+                    label="don't click"
+                    x={popupPosition.x}
+                    y={popupPosition.y}
+                    onClick={() => setshowPopUpModal(true)}
+                />
+
+                {showPopUpModal && (
+                    <div className="modal-overlay" onClick={() => setshowPopUpModal(false)}>
+                        <div 
+                            className="modal" 
+                            onClick={(e) => e.stopPropagation()}
+                            ref={popupModalRef}
+                        >
+                            <div
+                                className="modal-header"
+                                onMouseDown={handlePopupMouseDown}
+                                style={{ cursor: 'grab'}}
+                            >   
+                                <span className='scream-modal'>Hi</span>
+                                <button className='x-button' onClick={() => setshowPopUpModal(false)}>✕</button>
+                            </div>
+
+                                <div className="modal-body">
+                                    <img src="/images/wassup.gif" className='gif' alt="wazzuppp" />
+                                </div>
+                        </div>
+                    </div>
+                    )}
+            </div>
+
+            {/* clippy */}
+            {/* <div className="desktop">
+
                 <DesktopIcon
                     icon="/images/mad_clippy.png"
                     label="Hello?"
@@ -966,7 +1053,7 @@ function Home() {
                                 ))}
                             </div>
                             
-                            {/* Chat input */}
+
                             <form onSubmit={handleChatbotSubmit} className="chat-input-form">
                             <input
                                 type="text"
@@ -983,7 +1070,7 @@ function Home() {
                         </div>
                     </div>
                     )}
-        </div>
+        </div> */}
 
 
         {/* content window - draggable */}

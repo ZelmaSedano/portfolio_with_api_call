@@ -109,6 +109,83 @@ you can just add the more specific selector in that case in front of the one tha
     padding-left: 20px;
     padding-right: 20px;
 }
+/* icons */
+.modal .modal-body {
+    background-color: #c3c3c3;
+    text-align: center;
+}
+.modal .modal-body.scream-modal{
+    background-color: #c3c3c3;
+    margin-left: 0px;
+}
+.modal-header span {
+    padding-left: 5px;
+}
+.cat-response-modal {
+    width: 350px;
+}
+.cat-buttons {
+    display: flex;
+    align-items: center;
+    margin: 0 auto;
+    justify-content: center;
+    gap: 20px;
+}
+.cat-button {
+    border: 2px solid black;
+    padding: 10px 30px;
+    margin-bottom: 15px;
+    color: black;
+}
+.wassupp {
+    height: 191px;
+    width: 280px;
+    margin-left: -20px;
+    padding-left: 0;
+}
+.image-container {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+.image-container img {
+    max-width: 100%;
+    max-height: 200px;
+    object-fit: contain;
+}
+.horoscope-select {
+    background-color: white;
+    color: black;
+    border: 2px solid black;
+}
+.horoscope-button {
+    border: 2px solid black;
+    margin-left: 20px;
+    outline: none;
+}
+/* media player */
+.media-player-image {
+    display: flex;
+    justify-content: center;
+}
+.miki {
+    border: 1px solid black;
+}
+button.play-button {
+    padding: 10px;
+    border: 0;
+}
+
+.media-player-play, 
+.media-player-pause {
+    height: 17px;
+    width: 17px;
+}
+.volume-icon {
+    height: 22px;
+}
+
 
 /* clippy */
 .chatbot-modal {

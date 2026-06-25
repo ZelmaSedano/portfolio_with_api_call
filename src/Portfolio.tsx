@@ -88,7 +88,12 @@ function Portfolio() {
     const [isDraggingPlay, setIsDraggingPlay] = useState(false);
     const [playPosition, setPlayPosition] = useState({ x: 200, y: 200 });
     const [playDragOffset, setPlayDragOffset] = useState({ x: 0, y: 0 });
+    
+    // pop-up
+    const [popupPosition, setpopupPosition] = useState({ x: 0, y: 0 });
+    const [showPopUpModal, setshowPopUpModal] = useState(false);
 
+    // clippy
     const [clippyPosition, setClippyPosition] = useState({ x: 0, y: 0 });
     const [showClippyModal, setShowClippyModal] = useState(false);
     const [chatbotInput, setChatbotInput] = useState('');
@@ -317,9 +322,37 @@ function Portfolio() {
 
 
     // CLIPPY
-    // clippy useEffect, keeps him stuck to the bottom-right
+    // useEffect(() => {
+    //     const updateClippyPosition = () => {
+
+    //         const documentHeight = Math.max(
+    //             document.body.scrollHeight,
+    //             document.documentElement.scrollHeight,
+    //             document.body.offsetHeight,
+    //             document.documentElement.offsetHeight,
+    //             document.body.clientHeight,
+    //             document.documentElement.clientHeight
+    //         );
+            
+    //         setClippyPosition({
+    //         x: window.innerWidth - 80,
+    //         y: documentHeight - 150
+    //         });
+    //     };
+
+    //     updateClippyPosition();
+
+    //     window.addEventListener('resize', updateClippyPosition);
+    //     window.addEventListener('load', updateClippyPosition);
+
+    //     return () => {
+    //         window.removeEventListener('resize', updateClippyPosition);
+    //         window.removeEventListener('load', updateClippyPosition);
+    //     };
+    // }, [location.pathname]);
+
     useEffect(() => {
-        const updateClippyPosition = () => {
+        const updatePopUpPosition = () => {
             // get document height
             const documentHeight = Math.max(
                 document.body.scrollHeight,
@@ -331,24 +364,21 @@ function Portfolio() {
             );
             
             // bottom-right corner of document
-            setClippyPosition({
-            x: window.innerWidth - 80, // 100px from right edge
+            setpopupPosition({
+            x: window.innerWidth - 100, // 80px from right edge
             y: documentHeight - 150 // 120px from bottom
             });
         };
-
         // initial position
-        updateClippyPosition();
-
+        updatePopUpPosition();
         // update on window resize and load
-        window.addEventListener('resize', updateClippyPosition);
-        window.addEventListener('load', updateClippyPosition);
-
+        window.addEventListener('resize', updatePopUpPosition);
+        window.addEventListener('load', updatePopUpPosition);
         return () => {
-            window.removeEventListener('resize', updateClippyPosition);
-            window.removeEventListener('load', updateClippyPosition);
+            window.removeEventListener('resize', updatePopUpPosition);
+            window.removeEventListener('load', updatePopUpPosition);
         };
-    }, []);
+    }, [location.pathname]);
 
 
 
@@ -763,7 +793,6 @@ function Portfolio() {
                             {horoscopeData && (
                                 <div className="horoscope-results">
                                     <p><strong>Date:</strong> {horoscopeData.data.date}</p>
-                                    <p><strong>Period:</strong> {horoscopeData.data.period}</p>
                                     <p><strong>Horoscope:</strong> {horoscopeData.data.horoscope}</p> 
                                 </div>
                             )}
@@ -897,9 +926,27 @@ function Portfolio() {
                     )}
                 </div>
 
-            {/* clippy */}
+
             <div className="desktop">
-                {/* when you click the desktop icon, setShowModal is set to true */}
+                <DesktopIcon
+                    icon="/images/dark_agent.ico"
+                    label="don't click me"
+                    x={popupPosition.x}
+                    y={popupPosition.y}
+                    onClick={() => setshowPopUpModal(true)}
+                    className={`clippy ${shouldShake ? 'shake-animation' : ''}`}
+                />
+
+                {showPopUpModal && (
+                    <div className="modal-overlay" onClick={() => setshowPopUpModal(false)}>
+                        <div className="modal" onClick={(e) => e.stopPropagation()}>
+                            Hi
+                        </div>
+                    </div>
+                    )}
+            </div>
+            {/* clippy */}
+            {/* <div className="desktop">
                 <DesktopIcon
                     icon="/images/mad_clippy.png"
                     label="click me"
@@ -910,17 +957,15 @@ function Portfolio() {
                 />
 
                 {showClippyModal && (
-                    <div className="modal-overlay" onClick={() => setShowClippyModal(false)}>{/* when the user clicks again, setShowModal is set to false (modal isn't shown) */}
-                    {/* if you click inside the modal, then setShowModal ISN'T set to false */}
-                    {/* onClick takes the event, and returns 'don't propogate this event' function */}
+                    <div className="modal-overlay" onClick={() => setShowClippyModal(false)}>
                         <div className="modal" onClick={(e) => e.stopPropagation()}>
                             <div className="modal-header">
                                 <span>Hi, I'm ANGRY CLIPPY</span>
                                 <button className='x-button' onClick={() => setShowClippyModal(false)}>✕</button>
                             </div>
-                            {/* body of modal */}
+
                             <div className="modal-body">Are you kidding me??</div>
-                            {/* CHALLENGE: add two buttons to this modal, 'yes', and 'I love them!', and return a message to the user based on their selection */}
+
                             <div className='cat-buttons'>
                                 <button 
                                 className='cat-button'
@@ -944,7 +989,7 @@ function Portfolio() {
                         </div>
                     </div>
                 )}
-            </div>
+            </div> */}
 
         {isVisible && (
             <div 

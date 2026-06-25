@@ -770,7 +770,6 @@ function Resume() {
                             {horoscopeData && (
                                 <div className="horoscope-results">
                                     <p><strong>Date:</strong> {horoscopeData.data.date}</p>
-                                    <p><strong>Period:</strong> {horoscopeData.data.period}</p>
                                     <p><strong>Horoscope:</strong> {horoscopeData.data.horoscope}</p> 
                                 </div>
                             )}
@@ -780,7 +779,7 @@ function Resume() {
                     )}
             </div>
 
-                        {/* media player */}
+            {/* media player */}
             <div className="desktop">
                 <DesktopIcon
                     icon="/images/play.ico"
@@ -906,8 +905,7 @@ function Resume() {
 
 
             {/* clippy */}
-            <div className="desktop">
-                {/* when you click the desktop icon, setShowModal is set to true */}
+            {/* <div className="desktop">
                 <DesktopIcon
                     icon="/images/mad_clippy.png"
                     label="click me"
@@ -917,17 +915,15 @@ function Resume() {
                     className='clippy'
                 />
                 {showClippyModal && (
-                    <div className="modal-overlay" onClick={() => setShowClippyModal(false)}>{/* when the user clicks again, setShowModal is set to false (modal isn't shown) */}
-                    {/* if you click inside the modal, then setShowModal ISN'T set to false */}
-                    {/* onClick takes the event, and returns 'don't propogate this event' function */}
+                    <div className="modal-overlay" onClick={() => setShowClippyModal(false)}>
                         <div className="modal" onClick={(e) => e.stopPropagation()}>
                             <div className="modal-header">
                                 <span>Hi, I'm ANGRY CLIPPY</span>
                                 <button className='x-button' onClick={() => setShowClippyModal(false)}>✕</button>
                             </div>
-                            {/* body of modal */}
+
                             <div className="modal-body">Are you kidding me??</div>
-                            {/* CHALLENGE: add two buttons to this modal, 'yes', and 'I love them!', and return a message to the user based on their selection */}
+
                             <div className='cat-buttons'>
                                 <button 
                                 className='cat-button'
@@ -951,7 +947,7 @@ function Resume() {
                         </div>
                     </div>
                 )}
-            </div>
+            </div> */}
 
 
         {isVisible && (
