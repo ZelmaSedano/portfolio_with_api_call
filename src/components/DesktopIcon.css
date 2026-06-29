@@ -179,7 +179,7 @@ you can just add the more specific selector in that case in front of the one tha
 
 /* calculator styles */
 .calculator-modal {
-    width: 240px !important;
+    width: 300px !important;
     background: #c0c0c0 !important;
 }
 .calculator-body {
@@ -207,7 +207,7 @@ you can just add the more specific selector in that case in front of the one tha
 }
 .calculator-buttons {
     display: grid;
-    grid-template-columns: repeat(4, 1fr);
+    grid-template-columns: repeat(6, 1fr);
     gap: 3px;
 }
 .calc-btn {
@@ -238,35 +238,33 @@ you can just add the more specific selector in that case in front of the one tha
         inset 1px 1px 0 #000;
 }
 .calc-btn.number-btn {
-    background: #e0e0e0;
+    color: #1512bb;
+
 }
 .calc-btn.operator-btn {
-    background: #d0d0d0;
     font-weight: bold;
-    color: #000000;
+    color: #c91933;
 }
-.calc-btn.operator-btn:active {
-    background: #000080;
-    color: #ffffff;
-}
+
 .calc-btn.function-btn {
-    background: #d0d0d0;
     font-size: 14px;
+    color: #0c0462;
+}
+.calc-btn.function-btn-1 {
+    font-size: 14px;
+    color: #7b2831;
 }
 .calc-btn.equals-btn {
-    background: #000080;
-    color: #ffffff;
+    color: #c91933;
     font-weight: bold;
     font-size: 20px;
 }
-.calc-btn.equals-btn:active {
-    background: #0000a0;
-}
+
 .calc-btn.memory-btn {
-    background: #d8d8d8;
     font-size: 12px;
     padding: 4px 0;
     min-height: 24px;
+    color: #cc110e;
 }
 .calc-btn.zero-btn {
     grid-column: span 1;
@@ -274,9 +272,7 @@ you can just add the more specific selector in that case in front of the one tha
 .calc-btn:hover {
     filter: brightness(1.05);
 }
-.calc-btn.equals-btn:hover {
-    background: #0000a0;
-}
+
 
 
 /* media player */

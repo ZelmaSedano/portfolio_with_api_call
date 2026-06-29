@@ -931,39 +931,47 @@ function Contact() {
 
                             <div className="calculator-buttons">
                                 {/* memory row */}
-                                <button className="calc-btn memory-btn" onClick={() => handleMemory('MC')}>MC</button>
-                                <button className="calc-btn memory-btn" onClick={() => handleMemory('MR')}>MR</button>
-                                <button className="calc-btn memory-btn" onClick={() => handleMemory('MS')}>MS</button>
-                                <button className="calc-btn memory-btn" onClick={() => handleMemory('M+')}>M+</button>
-                                
+                                <button className="calc-btn function-btn" onClick={clearAll}></button>
+                                <button className="calc-btn function-btn" onClick={clearEntry}></button>
+                                <button className="calc-btn function-btn" onClick={clearEntry}></button>
+                                <button className="calc-btn function-btn-1" onClick={clearAll}>Back</button>
+                                <button className="calc-btn function-btn-1" onClick={clearEntry}>CE</button>
+                                <button className="calc-btn function-btn-1" onClick={clearAll}>AC</button>
+
+
                                 {/* row 1 */}
-                                <button className="calc-btn function-btn" onClick={clearAll}>AC</button>
-                                <button className="calc-btn function-btn" onClick={clearEntry}>CE</button>
-                                <button className="calc-btn function-btn" onClick={toggleSign}>±</button>
-                                <button className="calc-btn operator-btn" onClick={() => performOperation('÷')}>÷</button>
-                                
-                                {/* row 2 */}
+                                <button className="calc-btn memory-btn" onClick={() => handleMemory('MC')}>MC</button>
                                 <button className="calc-btn number-btn" onClick={() => inputDigit('7')}>7</button>
                                 <button className="calc-btn number-btn" onClick={() => inputDigit('8')}>8</button>
                                 <button className="calc-btn number-btn" onClick={() => inputDigit('9')}>9</button>
-                                <button className="calc-btn operator-btn" onClick={() => performOperation('×')}>×</button>
+                                <button className="calc-btn operator-btn" onClick={() => performOperation('÷')}>÷</button>
+                                {/* change to square root */}
+                                <button className="calc-btn operator-btn" onClick={() => performOperation('√')}>√</button>
+
                                 
-                                {/* row 3 */}
+                                <button className="calc-btn memory-btn" onClick={() => handleMemory('MR')}>MR</button>
                                 <button className="calc-btn number-btn" onClick={() => inputDigit('4')}>4</button>
                                 <button className="calc-btn number-btn" onClick={() => inputDigit('5')}>5</button>
                                 <button className="calc-btn number-btn" onClick={() => inputDigit('6')}>6</button>
-                                <button className="calc-btn operator-btn" onClick={() => performOperation('-')}>−</button>
+                                <button className="calc-btn operator-btn" onClick={() => performOperation('×')}>×</button>
+                                <button className="calc-btn function-btn" onClick={inputPercent}>%</button>
                                 
-                                {/* row 4 */}
+                                
+                                {/* row 2 */}
+                                <button className="calc-btn memory-btn" onClick={() => handleMemory('MS')}>MS</button>
                                 <button className="calc-btn number-btn" onClick={() => inputDigit('1')}>1</button>
                                 <button className="calc-btn number-btn" onClick={() => inputDigit('2')}>2</button>
                                 <button className="calc-btn number-btn" onClick={() => inputDigit('3')}>3</button>
-                                <button className="calc-btn operator-btn" onClick={() => performOperation('+')}>+</button>
-                                
-                                {/* row 5 */}
+                                <button className="calc-btn operator-btn" onClick={() => performOperation('-')}>−</button>
+                                {/* change to 1/x */}
+                                <button className="calc-btn operator-btn" onClick={() => performOperation('1/x')}>1/x</button>
+
+
+                                <button className="calc-btn memory-btn" onClick={() => handleMemory('M+')}>M+</button>
                                 <button className="calc-btn number-btn zero-btn" onClick={() => inputDigit('0')}>0</button>
                                 <button className="calc-btn number-btn" onClick={inputDecimal}>.</button>
-                                <button className="calc-btn function-btn" onClick={inputPercent}>%</button>
+                                <button className="calc-btn function-btn" onClick={toggleSign}>±</button>
+                                <button className="calc-btn operator-btn" onClick={() => performOperation('+')}>+</button>
                                 <button className="calc-btn equals-btn" onClick={compute}>=</button>
                             </div>
                         </div>
