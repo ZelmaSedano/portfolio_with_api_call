@@ -777,7 +777,7 @@ function Contact() {
                 {/* when you click the desktop icon, setShowModal is set to true */}
                 <DesktopIcon
                     icon="images/cat.png"
-                    label="meowdy"
+                    label="Meow"
                     x={50}
                     y={35}
                     onClick={() => setShowCatModal(true)}
@@ -899,10 +899,10 @@ function Contact() {
                     x={50}
                     y={145}
                     onClick={() => setShowCalculator(true)}
+                    className='calculator'
                 />
 
-
-                            {/* calculator modal */}
+            {/* calculator modal */}
             {showCalculator && (
                 <div className="modal-overlay" onClick={() => setShowCalculator(false)}>
                     <div 
@@ -946,7 +946,7 @@ function Contact() {
                                 <button className="calc-btn number-btn" onClick={() => inputDigit('9')}>9</button>
                                 <button className="calc-btn operator-btn" onClick={() => performOperation('÷')}>÷</button>
                                 {/* change to square root */}
-                                <button className="calc-btn operator-btn" onClick={() => performOperation('√')}>√</button>
+                                <button className="calc-btn function-btn" onClick={() => performOperation('√')}>√</button>
 
                                 
                                 <button className="calc-btn memory-btn" onClick={() => handleMemory('MR')}>MR</button>
@@ -964,7 +964,7 @@ function Contact() {
                                 <button className="calc-btn number-btn" onClick={() => inputDigit('3')}>3</button>
                                 <button className="calc-btn operator-btn" onClick={() => performOperation('-')}>−</button>
                                 {/* change to 1/x */}
-                                <button className="calc-btn operator-btn" onClick={() => performOperation('1/x')}>1/x</button>
+                                <button className="calc-btn function-btn" onClick={() => performOperation('1/x')}>1/x</button>
 
 
                                 <button className="calc-btn memory-btn" onClick={() => handleMemory('M+')}>M+</button>
@@ -984,7 +984,7 @@ function Contact() {
             <div className="desktop">
                 <DesktopIcon
                     icon="/images/scandique.jpg"
-                    label="horoscope"
+                    label="Horoscope"
                     x={50}
                     y={255}
                     onClick={() => setShowHoroscopeModal(true)}
@@ -1055,7 +1055,7 @@ function Contact() {
             <div className="desktop">
                 <DesktopIcon
                     icon="/images/play.ico"
-                    label="play"
+                    label="Media Player"
                     x={cdPlayerPosition.x}
                     y={cdPlayerPosition.y}
                     onClick={() => setShowPlayModal(true)}

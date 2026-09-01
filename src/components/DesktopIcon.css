@@ -159,7 +159,6 @@ you can just add the more specific selector in that case in front of the one tha
     align-items: center;
 }
 .image-container img {
-    max-width: 100%;
     max-height: 200px;
     object-fit: contain;
 }
@@ -239,13 +238,13 @@ you can just add the more specific selector in that case in front of the one tha
 }
 .calc-btn.number-btn {
     color: #1512bb;
-
 }
 .calc-btn.operator-btn {
-    font-weight: bold;
     color: #c91933;
 }
-
+.calc-btn.operator-btn-1 {
+    color: #0c0462;
+}
 .calc-btn.function-btn {
     font-size: 14px;
     color: #0c0462;
@@ -259,7 +258,6 @@ you can just add the more specific selector in that case in front of the one tha
     font-weight: bold;
     font-size: 20px;
 }
-
 .calc-btn.memory-btn {
     font-size: 12px;
     padding: 4px 0;

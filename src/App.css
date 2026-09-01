@@ -495,6 +495,7 @@ nav ul li a p{
   border-bottom: 1px solid #808080;
 }
 
+
 .homepage-banners {
   display: flex;
   margin: 0 auto;
@@ -515,12 +516,12 @@ nav ul li a p{
 }
 .homepage-banners .banner {
   padding-top: 0;
-  font-size: 60px;
+  font-size: 59px;
 }
 .homepage-banners .banner-1 {
   padding-top: 0;
-  font-size: 33px;
-  margin-top: -22px;
+  font-size: 30px;
+  margin-top: -20px;
 }
 
 .homepage-banners .bio-p {
@@ -659,6 +660,7 @@ nav ul li a p{
   overflow: hidden;
   text-overflow: ellipsis;
   z-index: 1;
+  margin-top: -215px;
 }
 /* update your existing image style */
 .image {

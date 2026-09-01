@@ -123,6 +123,29 @@ function Home() {
         duration: 0,
     });
 
+
+    const images = [
+        {
+            title:'WebCraft Labs',
+            id: 'webcraft',
+            url: 'https://www.figma.com/design/229APkMFR2DqP819VYDmyY/WebCraft?m=auto&t=vZjGYwJcDZPGZLwW-1'
+        },
+        {
+            title:'Lake County Democratic Women',
+            id: 'ai',
+            url: 'https://www.pinterest.com/pin/9077636744660963/'
+        },
+        {
+            title:'NordBlomst',
+            id: 'ai',
+            url: 'https://www.pinterest.com/pin/9077636744660963/'
+        },
+        {
+            title:'Zoica Art',
+            id: 'webcraft',
+            url: 'https://www.pinterest.com/pin/9077636744660963/'
+        }
+    ];
     // API fetches
     const fetchHoroscope = async (sign: string) => {
         setIsLoading(true);
@@ -959,82 +982,82 @@ function Home() {
                     className='calculator'
                 />
 
-            {/* calculator modal */}
-            {showCalculator && (
-                <div className="modal-overlay" onClick={() => setShowCalculator(false)}>
-                    <div 
-                        className="modal calculator-modal" 
-                        onClick={(e) => e.stopPropagation()}
-                        ref={calculatorModalRef}
-                        style={{
-                            position: 'fixed',
-                            left: `${calculatorPosition.x}px`,
-                            top: `${calculatorPosition.y}px`
-                        }}
-                    >
+                {/* calculator modal */}
+                {showCalculator && (
+                    <div className="modal-overlay" onClick={() => setShowCalculator(false)}>
                         <div 
-                            className="modal-header"
-                            onMouseDown={handleCalculatorMouseDown}
-                            style={{ cursor: 'grab' }}
+                            className="modal calculator-modal"
+                            onClick={(e) => e.stopPropagation()}
+                            ref={calculatorModalRef}
+                            style={{
+                                position: 'fixed',
+                                left: `${calculatorPosition.x}px`,
+                                top: `${calculatorPosition.y}px`
+                            }}
                         >
-                            <span>Calculator</span>
-                            <button className='x-button' onClick={() => setShowCalculator(false)}>✕</button>
-                        </div>
-                        
-                        <div className="calculator-body">
-                            <div className="calculator-display">
-                                <div className="display-content">{calculatorDisplay}</div>
+                            <div 
+                                className="modal-header"
+                                onMouseDown={handleCalculatorMouseDown}
+                                style={{ cursor: 'grab' }}
+                            >
+                                <span>Calculator</span>
+                                <button className='x-button' onClick={() => setShowCalculator(false)}>✕</button>
                             </div>
+                            
+                            <div className="calculator-body">
+                                <div className="calculator-display">
+                                    <div className="display-content">{calculatorDisplay}</div>
+                                </div>
 
-                            <div className="calculator-buttons">
-                                {/* memory row */}
-                                <button className="calc-btn function-btn" onClick={clearAll}></button>
-                                <button className="calc-btn function-btn" onClick={clearEntry}></button>
-                                <button className="calc-btn function-btn" onClick={clearEntry}></button>
-                                <button className="calc-btn function-btn-1" onClick={clearAll}>Back</button>
-                                <button className="calc-btn function-btn-1" onClick={clearEntry}>CE</button>
-                                <button className="calc-btn function-btn-1" onClick={clearAll}>AC</button>
-
-
-                                {/* row 1 */}
-                                <button className="calc-btn memory-btn" onClick={() => handleMemory('MC')}>MC</button>
-                                <button className="calc-btn number-btn" onClick={() => inputDigit('7')}>7</button>
-                                <button className="calc-btn number-btn" onClick={() => inputDigit('8')}>8</button>
-                                <button className="calc-btn number-btn" onClick={() => inputDigit('9')}>9</button>
-                                <button className="calc-btn operator-btn" onClick={() => performOperation('÷')}>÷</button>
-                                {/* change to square root */}
-                                <button className="calc-btn operator-btn" onClick={() => performOperation('√')}>√</button>
-
-                                
-                                <button className="calc-btn memory-btn" onClick={() => handleMemory('MR')}>MR</button>
-                                <button className="calc-btn number-btn" onClick={() => inputDigit('4')}>4</button>
-                                <button className="calc-btn number-btn" onClick={() => inputDigit('5')}>5</button>
-                                <button className="calc-btn number-btn" onClick={() => inputDigit('6')}>6</button>
-                                <button className="calc-btn operator-btn" onClick={() => performOperation('×')}>×</button>
-                                <button className="calc-btn function-btn" onClick={inputPercent}>%</button>
-                                
-                                
-                                {/* row 2 */}
-                                <button className="calc-btn memory-btn" onClick={() => handleMemory('MS')}>MS</button>
-                                <button className="calc-btn number-btn" onClick={() => inputDigit('1')}>1</button>
-                                <button className="calc-btn number-btn" onClick={() => inputDigit('2')}>2</button>
-                                <button className="calc-btn number-btn" onClick={() => inputDigit('3')}>3</button>
-                                <button className="calc-btn operator-btn" onClick={() => performOperation('-')}>−</button>
-                                {/* change to 1/x */}
-                                <button className="calc-btn operator-btn" onClick={() => performOperation('1/x')}>1/x</button>
+                                <div className="calculator-buttons">
+                                    {/* memory row */}
+                                    <button className="calc-btn function-btn" onClick={clearAll}></button>
+                                    <button className="calc-btn function-btn" onClick={clearEntry}></button>
+                                    <button className="calc-btn function-btn" onClick={clearEntry}></button>
+                                    <button className="calc-btn function-btn-1" onClick={clearAll}>Back</button>
+                                    <button className="calc-btn function-btn-1" onClick={clearEntry}>CE</button>
+                                    <button className="calc-btn function-btn-1" onClick={clearAll}>AC</button>
 
 
-                                <button className="calc-btn memory-btn" onClick={() => handleMemory('M+')}>M+</button>
-                                <button className="calc-btn number-btn zero-btn" onClick={() => inputDigit('0')}>0</button>
-                                <button className="calc-btn number-btn" onClick={inputDecimal}>.</button>
-                                <button className="calc-btn function-btn" onClick={toggleSign}>±</button>
-                                <button className="calc-btn operator-btn" onClick={() => performOperation('+')}>+</button>
-                                <button className="calc-btn equals-btn" onClick={compute}>=</button>
+                                    {/* row 1 */}
+                                    <button className="calc-btn memory-btn" onClick={() => handleMemory('MC')}>MC</button>
+                                    <button className="calc-btn number-btn" onClick={() => inputDigit('7')}>7</button>
+                                    <button className="calc-btn number-btn" onClick={() => inputDigit('8')}>8</button>
+                                    <button className="calc-btn number-btn" onClick={() => inputDigit('9')}>9</button>
+                                    <button className="calc-btn operator-btn" onClick={() => performOperation('÷')}>÷</button>
+                                    {/* change to square root */}
+                                    <button className="calc-btn function-btn" onClick={() => performOperation('√')}>√</button>
+
+                                    
+                                    <button className="calc-btn memory-btn" onClick={() => handleMemory('MR')}>MR</button>
+                                    <button className="calc-btn number-btn" onClick={() => inputDigit('4')}>4</button>
+                                    <button className="calc-btn number-btn" onClick={() => inputDigit('5')}>5</button>
+                                    <button className="calc-btn number-btn" onClick={() => inputDigit('6')}>6</button>
+                                    <button className="calc-btn operator-btn" onClick={() => performOperation('×')}>×</button>
+                                    <button className="calc-btn function-btn" onClick={inputPercent}>%</button>
+                                    
+                                    
+                                    {/* row 2 */}
+                                    <button className="calc-btn memory-btn" onClick={() => handleMemory('MS')}>MS</button>
+                                    <button className="calc-btn number-btn" onClick={() => inputDigit('1')}>1</button>
+                                    <button className="calc-btn number-btn" onClick={() => inputDigit('2')}>2</button>
+                                    <button className="calc-btn number-btn" onClick={() => inputDigit('3')}>3</button>
+                                    <button className="calc-btn operator-btn" onClick={() => performOperation('-')}>−</button>
+                                    {/* change to 1/x */}
+                                    <button className="calc-btn function-btn" onClick={() => performOperation('1/x')}>1/x</button>
+
+
+                                    <button className="calc-btn memory-btn" onClick={() => handleMemory('M+')}>M+</button>
+                                    <button className="calc-btn number-btn zero-btn" onClick={() => inputDigit('0')}>0</button>
+                                    <button className="calc-btn number-btn" onClick={inputDecimal}>.</button>
+                                    <button className="calc-btn function-btn" onClick={toggleSign}>±</button>
+                                    <button className="calc-btn operator-btn" onClick={() => performOperation('+')}>+</button>
+                                    <button className="calc-btn equals-btn" onClick={compute}>=</button>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-            )}
+                )}
             </div>
 
             
@@ -1337,6 +1360,8 @@ function Home() {
                     }}
                     onMouseDown={handleMouseDown}
                 >
+
+
                     {/* header */}
                     <header>
                         <section className='blue-bar'>
@@ -1347,6 +1372,8 @@ function Home() {
                                 <button className='x-button' onClick={toggleWindow}>✕</button>
                             </div>
                         </section>
+
+
 
                         {/* *************************** NAVBAR ************************/}
                         <nav className='navbar'>
@@ -1380,6 +1407,8 @@ function Home() {
                         </nav>
                     </header>
 
+
+
                     {/* URL bar */}
                     <div className='url-container'>
                         <div className = 'url-bar'>
@@ -1394,28 +1423,39 @@ function Home() {
                         </div>
                     </div>
 
+
+
                     {/* window content */}
                     <div className='content'>
                         <div className='homepage-banners'>
                             <img className='computer' src="/images/computer_1.png" alt="computer_1" />
                             <div className='inner-banner-text'>
                                 <p className='banner'>-- Val Sedano --</p>
-                                <p className='banner-1'>UX Engineer & Nostalgia Enthusiast</p>
+                                <p className='banner-1'>Nostalgic UX Expert</p>
                             </div>
                             <img className='computer' src="/images/computer-2.png" alt="computer_2" />
                         </div>
 
-                        <div className='bio-section'>
-                            <div className='sub-bio-section'>
-                                <img src='/images/webcraft.png' className='homepage-pic' />
-                                <div className='bio-container'>
-                                    <p className='sub-bio-text'>Slow Tech Design</p>
-                                    <p className='sub-bio-p'>
-                                        In an ever-changing world where users sense of safety is paramount, let's create environments that address their need for comfort
-                                    </p>
+                        <div className="img-grid">
+                            {images.map((image, index) => (
+                                <div key={index}>
+                                    <div className='image-container'>
+                                        <div className='image-title'>{image.title}</div>
+                                        <a href={image.url} target="_blank" rel="noopener noreferrer">
+                                            <img
+                                                src={`/images/${image.id}.jpg`} // Changed to use public folder path
+                                                title={`${image.id} website`}
+                                                style={{ width: '320px', height: '200px' }}
+                                                alt={image.id}
+                                                className='image clickable-image'
+                                            />
+                                        </a>
+                                    </div>
                                 </div>
-                            </div>
+                            ))}
                         </div>
+
+
 
                         {/* content footer */}
                         <div className="footer">

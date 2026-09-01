@@ -524,7 +524,7 @@ function Portfolio() {
         return () => {
             document.removeEventListener('mousemove', handleMouseMove);
             document.removeEventListener('mouseup', handleMouseUp);
-        };
+        }
     }, [isDraggingPlay, playDragOffset]);
     // mystery popup
     useEffect(() => {
@@ -904,7 +904,7 @@ function Portfolio() {
                                 <button className="calc-btn number-btn" onClick={() => inputDigit('9')}>9</button>
                                 <button className="calc-btn operator-btn" onClick={() => performOperation('÷')}>÷</button>
                                 {/* change to square root */}
-                                <button className="calc-btn operator-btn" onClick={() => performOperation('√')}>√</button>
+                                <button className="calc-btn function-btn" onClick={() => performOperation('√')}>√</button>
 
                                 
                                 <button className="calc-btn memory-btn" onClick={() => handleMemory('MR')}>MR</button>
@@ -922,7 +922,7 @@ function Portfolio() {
                                 <button className="calc-btn number-btn" onClick={() => inputDigit('3')}>3</button>
                                 <button className="calc-btn operator-btn" onClick={() => performOperation('-')}>−</button>
                                 {/* change to 1/x */}
-                                <button className="calc-btn operator-btn" onClick={() => performOperation('1/x')}>1/x</button>
+                                <button className="calc-btn function-btn" onClick={() => performOperation('1/x')}>1/x</button>
 
 
                                 <button className="calc-btn memory-btn" onClick={() => handleMemory('M+')}>M+</button>
@@ -1290,14 +1290,13 @@ function Portfolio() {
                     </div>
                 </div>
 
+
+
                 {/* window content */}
                 <div className='content'>
                     <div className='portfolio-content'>
 
-                    <div className='portfolio-container'>
-
-                    </div>
-                    {/* <div className='portfolio-banner'>PORTFOLIO</div> */}
+                        {/* <div className='portfolio-banner'>PORTFOLIO</div> */}
 
                         <div className="img-grid">
                             {images.map((image, index) => (
@@ -1317,10 +1316,12 @@ function Portfolio() {
                                 </div>
                             ))}
                         </div>
-                    
+                        
                     </div>
                 
                 </div>
+
+
                 
                 {/* CONTENT FOOTER */}
                 <div className="footer">

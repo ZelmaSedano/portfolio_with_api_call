@@ -877,7 +877,7 @@ function Resume() {
                                 <button className="calc-btn number-btn" onClick={() => inputDigit('9')}>9</button>
                                 <button className="calc-btn operator-btn" onClick={() => performOperation('÷')}>÷</button>
                                 {/* change to square root */}
-                                <button className="calc-btn operator-btn" onClick={() => performOperation('√')}>√</button>
+                                <button className="calc-btn function-btn" onClick={() => performOperation('√')}>√</button>
 
                                 
                                 <button className="calc-btn memory-btn" onClick={() => handleMemory('MR')}>MR</button>
@@ -895,7 +895,7 @@ function Resume() {
                                 <button className="calc-btn number-btn" onClick={() => inputDigit('3')}>3</button>
                                 <button className="calc-btn operator-btn" onClick={() => performOperation('-')}>−</button>
                                 {/* change to 1/x */}
-                                <button className="calc-btn operator-btn" onClick={() => performOperation('1/x')}>1/x</button>
+                                <button className="calc-btn function-btn" onClick={() => performOperation('1/x')}>1/x</button>
 
 
                                 <button className="calc-btn memory-btn" onClick={() => handleMemory('M+')}>M+</button>
@@ -1276,7 +1276,7 @@ function Resume() {
                         {isWideScreen ? (
                             <>
                                 <div className='top-resume-column-1'>
-                                    <img src='/public/images/matrix.gif' className='gif' />
+                                    <img src='/images/matrix.gif' className='gif' />
                                 </div>
                                 <div className='widescreen-middle-resume-column-1'>
                                     <div className='resume-about-section'>
@@ -1319,7 +1319,7 @@ function Resume() {
                             <>
                                 {/* laptop & mobile version */}
                                 <div className='top-resume-column-1'>
-                                    <img src='/public/images/matrix.gif' className='gif'></img>
+                                    <img src='/images/matrix.gif' className='gif'></img>
                                 </div>
 
                                 <div className='middle-resume-column-1'>
@@ -1410,7 +1410,7 @@ function Resume() {
                                     </div>
                                     <div className='image-section'>
                                         <div className='widescreen-image'>
-                                            <img src='/public/images/world.gif' className='obra-dinn'></img>
+                                            <img src='/images/world.gif' className='obra-dinn'></img>
                                         </div>
                                     </div>
                                 </div>
@@ -1426,7 +1426,7 @@ function Resume() {
                                 </div>
                             </div>
                             <div className='middle-resume-column-3'>
-                                <img src='/public/images/world.gif' className='obra-dinn'></img>
+                                <img src='/images/world.gif' className='obra-dinn'></img>
                             </div>
                             <div className='bottom-resume-column-3'>
                                 <div className='resume-about-section'>
