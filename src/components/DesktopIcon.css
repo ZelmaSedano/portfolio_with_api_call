@@ -161,6 +161,7 @@ you can just add the more specific selector in that case in front of the one tha
 .image-container img {
     max-height: 200px;
     object-fit: contain;
+    max-width: 100%;
 }
 .horoscope-select {
     background-color: white;

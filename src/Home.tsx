@@ -5,7 +5,6 @@ import './App.css';
 
 
 // hi justine, feel free to look at the comments in the modal section to learn more about how to render modals.  the component is in DesktopIcon.tsx :)
-
 // component imports
 import Taskbar from './components/Taskbar'
 import './components/Taskbar.css'
@@ -126,26 +125,23 @@ function Home() {
 
     const images = [
         {
-            title:'WebCraft Labs',
+            title:'Websites',
             id: 'webcraft',
             url: 'https://www.figma.com/design/229APkMFR2DqP819VYDmyY/WebCraft?m=auto&t=vZjGYwJcDZPGZLwW-1'
         },
         {
-            title:'Lake County Democratic Women',
+            title:'UX Design',
             id: 'ai',
             url: 'https://www.pinterest.com/pin/9077636744660963/'
         },
         {
-            title:'NordBlomst',
+            title:'Case Studies',
             id: 'ai',
-            url: 'https://www.pinterest.com/pin/9077636744660963/'
-        },
-        {
-            title:'Zoica Art',
-            id: 'webcraft',
             url: 'https://www.pinterest.com/pin/9077636744660963/'
         }
     ];
+
+
     // API fetches
     const fetchHoroscope = async (sign: string) => {
         setIsLoading(true);
@@ -716,31 +712,27 @@ function Home() {
     };
 
 
-    // commented out code: user for later? 
-    
     // portfolio dropdown:
+    const portfolioRef = useRef<HTMLLIElement>(null);
 
-    // const portfolioRef = useRef<HTMLLIElement>(null);
+    const [isPortfolioDropdownOpen, setIsPortfolioDropdownOpen] = useState(false);
 
-    // const [isPortfolioDropdownOpen, setIsPortfolioDropdownOpen] = useState(false);
-
-
-    // const handlePortfolioClick = (e: React.MouseEvent) => {
-    //     // fixes window drag breaking, if you don't include this the blue-bar drag 
-    //     e.stopPropagation();
-    //     setIsPortfolioDropdownOpen(!isPortfolioDropdownOpen);
-    // };
-    // useEffect(() => {
-    //     const handleClickOutside = (event: MouseEvent) => {
-    //         if (portfolioRef.current && !portfolioRef.current.contains(event.target as Node)) {
-    //         setIsPortfolioDropdownOpen(false);
-    //         }
-    //     };
-    //     document.addEventListener('mousedown', handleClickOutside);
-    //         return () => {
-    //             document.removeEventListener('mousedown', handleClickOutside);
-    //     };
-    // }, []);
+    const handlePortfolioClick = (e: React.MouseEvent) => {
+        // fixes window drag breaking, if you don't include this the blue-bar drag 
+        e.stopPropagation();
+        setIsPortfolioDropdownOpen(!isPortfolioDropdownOpen);
+    };
+    useEffect(() => {
+        const handleClickOutside = (event: MouseEvent) => {
+            if (portfolioRef.current && !portfolioRef.current.contains(event.target as Node)) {
+            setIsPortfolioDropdownOpen(false);
+            }
+        };
+        document.addEventListener('mousedown', handleClickOutside);
+            return () => {
+                document.removeEventListener('mousedown', handleClickOutside);
+        };
+    }, []);
 
 
     // CLIPPY STUFF, DO NOT NEED FOR NOW
@@ -1132,6 +1124,7 @@ function Home() {
                     )}
             </div>
 
+
             {/* media player */}
             <div className="desktop">
                 <DesktopIcon
@@ -1145,7 +1138,7 @@ function Home() {
                 {showPlayModal && (
                     <div className="modal-overlay" onClick={() => setShowPlayModal(false)}>
                         
-                        <div 
+                        <div
                             className="modal media-modal" 
                             onClick={(e) => e.stopPropagation()}
                             ref={playModalRef}
@@ -1374,7 +1367,6 @@ function Home() {
                         </section>
 
 
-
                         {/* *************************** NAVBAR ************************/}
                         <nav className='navbar'>
                             <ul>
@@ -1436,6 +1428,8 @@ function Home() {
                             <img className='computer' src="/images/computer-2.png" alt="computer_2" />
                         </div>
 
+
+
                         <div className="img-grid">
                             {images.map((image, index) => (
                                 <div key={index}>
@@ -1443,9 +1437,9 @@ function Home() {
                                         <div className='image-title'>{image.title}</div>
                                         <a href={image.url} target="_blank" rel="noopener noreferrer">
                                             <img
-                                                src={`/images/${image.id}.jpg`} // Changed to use public folder path
+                                                src={`/images/${image.id}.jpg`}
                                                 title={`${image.id} website`}
-                                                style={{ width: '320px', height: '200px' }}
+                                                style={{ width: '320px', height: '179px' }}
                                                 alt={image.id}
                                                 className='image clickable-image'
                                             />

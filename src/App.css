@@ -306,7 +306,6 @@ nav ul li a p{
 
 
 
-
 /************ entire window ***************/
 .window {
   background-color: #c3c3c3;
@@ -317,6 +316,7 @@ nav ul li a p{
   box-shadow: 4px 4px 10px 2px rgba(0,0,0,0.3);
   outline: rgb(222, 222, 222) 1px solid;
 }
+
 
 
 .content {
@@ -521,7 +521,7 @@ nav ul li a p{
 .homepage-banners .banner-1 {
   padding-top: 0;
   font-size: 30px;
-  margin-top: -20px;
+  margin-top: -15px;
 }
 
 .homepage-banners .bio-p {
@@ -624,8 +624,8 @@ nav ul li a p{
   /* makes the elements inside display as a grid */
   display: grid;
   /* instead of using auto-fill, specify 3 videos wide, otherwise it'll auto-fill to 4 or 5 videos */
-  grid-template-columns: repeat(2, 1fr);
-  gap: 16px;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 20px;
   padding: 5px 20px;
   flex-grow: 1; /* take up available space */
   min-height: min-content; /* minimum height needed for content */
@@ -634,6 +634,8 @@ nav ul li a p{
   justify-items: center;
   max-width: 80%;
   margin: 0 auto;
+
+  padding-top: 45px;
 }
 .img-grid img {
   width: 100%;
@@ -653,14 +655,14 @@ nav ul li a p{
   text-align: center;
   left: 5px;
   right: 5px;
-  background-color: #c3c3c3;
   color: black;
   font-size: 14px;
   white-space: nowrap;
   overflow: hidden;
   text-overflow: ellipsis;
   z-index: 1;
-  margin-top: -215px;
+  margin-top: -195px;
+  border-bottom: 1px solid black;
 }
 /* update your existing image style */
 .image {
