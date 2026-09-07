@@ -223,7 +223,7 @@ nav ul li a p{
   font-weight: 400;
   font-style: normal;
   align-items: center;
-  text-decoration: none; /* Remove underline */
+  text-decoration: none;
   padding: 0;
   /* need a solid height, otherwise it's WAY too tall */
   height: 25px;
@@ -241,9 +241,6 @@ nav ul li a p{
   margin-left: 3px;
 }
 
-.dropdown-arrow {
-  margin-top: 6px;
-}
 .caret-down {
   width: 14px;
   padding-left: 5px;
@@ -277,20 +274,19 @@ nav ul li a p{
   background-color: #c3c3c3;
   border: 1px solid #000;
   box-shadow: 2px 2px 0px #000;
-  min-width: 200px;
+  min-width: 150px;
   margin-top: 2px;
   z-index: 999;
 }
 
 .dropdown-item {
-  display: flex;
-  align-items: center;
-  padding: 8px 12px;
+  padding: 5px 15px;
   text-decoration: none;
   color: black;
   cursor: pointer;
+  font-size: 17px;
+  margin-left: 0px;
 }
-
 .dropdown-item:hover {
   background-color: #000080;
   color: white;
@@ -515,7 +511,7 @@ nav ul li a p{
 /* homepage */
 .homepage-banners .banner,
 .homepage-banners .banner-1 {
-  font-family: "Single Day", cursive;
+  font-family: 'Single Day', cursive;
   color: #8c17c3;
   margin: 0 auto;
   padding-top: 25px;
@@ -604,7 +600,7 @@ nav ul li a p{
 .portfolio-ul a {
   display: flex;
   list-style: none;
-  font-family: "Single Day", cursive;
+  font-family: 'Single Day', cursive;
   color: #AF1CD4;
   font-size: 28px;
   justify-content: center;
@@ -620,7 +616,7 @@ nav ul li a p{
   text-underline-offset: 3px;
 }
 .portfolio-banner {
-  font-family: "Single Day", cursive;
+  font-family: 'Single Day', cursive;
   color: #AF1CD4;
   font-size: 28px;
   text-align: center;
@@ -739,7 +735,7 @@ nav ul li a p{
 
 
 .webcraft-portfolio-banner {
-  font-family: "Single Day", cursive;
+  font-family: 'Single Day', cursive;
   color: #AF1CD4;
   font-size: 28px;
 }

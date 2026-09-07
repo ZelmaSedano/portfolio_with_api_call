@@ -156,7 +156,7 @@ function Home() {
             const data = await response.json();
             setHoroscopeData(data);
         } catch (error) {
-            const errorMessage = error instanceof Error ? error.message : "Failed to fetch horoscope";
+            const errorMessage = error instanceof Error ? error.message : 'Failed to fetch horoscope';
             setError(errorMessage);
         } finally {
             setIsLoading(false);
@@ -762,7 +762,7 @@ function Home() {
     //         return data.message;
     //         } catch (error) {
     //             console.error('Chatbot error:', error);
-    //             return "Sorry, I'm having trouble responding right now!";
+    //             return 'Sorry, I'm having trouble responding right now!';
     //         }
     // };
     // const handleChatbotSubmit = async (e: React.FormEvent) => {
@@ -847,21 +847,21 @@ function Home() {
     return (
         <>
             {/* cat icon */}
-            <div className="desktop">
+            <div className='desktop'>
                 {/* when you click the desktop icon, setShowModal is set to true */}
                 <DesktopIcon
-                    icon="images/cat.png"
-                    label="Meow"
+                    icon='images/cat.png'
+                    label='Meow'
                     x={50}
                     y={35}
                     onClick={() => setShowCatModal(true)}
                 />
 
                 {showCatModal && (
-                    <div className="modal-overlay" onClick={() => setShowCatModal(false)}>
+                    <div className='modal-overlay' onClick={() => setShowCatModal(false)}>
                         
                         <div 
-                            className="modal" 
+                            className='modal' 
                             ref={catModalRef}
                             onClick={(e) => e.stopPropagation()}
                             style={{
@@ -871,7 +871,7 @@ function Home() {
                             }}
                         >
                             <div
-                                className="modal-header"
+                                className='modal-header'
                                 onMouseDown={handleCatMouseDown}
                                 style={{ cursor: 'grab'}}
                             >
@@ -879,7 +879,7 @@ function Home() {
                                 <button className='x-button' onClick={() => setShowCatModal(false)}>✕</button>
                             </div>
                             {/* body of modal */}
-                            <div className="modal-body">Do you like cats?</div>
+                            <div className='modal-body'>Do you like cats?</div>
                             {/* CHALLENGE: add two buttons to this modal, 'yes', and 'I love them!', and return a message to the user based on their selection */}
                             <div className='cat-buttons'>
                                 <button 
@@ -908,9 +908,9 @@ function Home() {
 
                 {/* define what showYesModal is */}
                 {showYesModal && (
-                    <div className="modal-overlay" onClick={() => setShowYesModal(false)}>
+                    <div className='modal-overlay' onClick={() => setShowYesModal(false)}>
                         <div 
-                        className="modal cat-response-modal" 
+                        className='modal cat-response-modal' 
                         onClick={(e) => e.stopPropagation()}
                         ref={yesModalRef}
                         style={{
@@ -920,16 +920,16 @@ function Home() {
                         }}
                     >
                             <div 
-                                className="modal-header"
+                                className='modal-header'
                                 onMouseDown={handleYesMouseDown}
                                 style={{ cursor: 'grab'}}
                             >
                                 <span>Smart Answer</span>
                                 <button className='x-button' onClick={() => setShowYesModal(false)}>✕</button>
                             </div>
-                            <div className="modal-body">
-                                <div className="image-container">
-                                    <img src="/images/evil_cat.gif" alt="evil_cat" />
+                            <div className='modal-body'>
+                                <div className='image-container'>
+                                    <img src='/images/evil_cat.gif' alt='evil_cat' />
                                 </div>
                             </div>
                         </div>
@@ -937,9 +937,9 @@ function Home() {
                 )}
 
                 {showLoveModal && (
-                    <div className="modal-overlay" onClick={() => setShowLoveModal(false)}>
+                    <div className='modal-overlay' onClick={() => setShowLoveModal(false)}>
                         <div 
-                            className="modal cat-response-modals" 
+                            className='modal cat-response-modals' 
                             onClick={(e) => e.stopPropagation()}
                             ref={loveModalRef}
                             style={{
@@ -949,16 +949,16 @@ function Home() {
                             }}
                         >
                             <div 
-                                className="modal-header"
+                                className='modal-header'
                                 onMouseDown={handleLoveMouseDown}
                                 style={{ cursor: 'grab'}}
                             >
                                 <span>That's right, MINION</span>
                                 <button className='x-button' onClick={() => setShowLoveModal(false)}>✕</button>
                             </div>
-                            <div className="modal-body">
-                                <div className="image-container">
-                                    <img src="/images/evil_cat.gif" alt="evil_cat" />
+                            <div className='modal-body'>
+                                <div className='image-container'>
+                                    <img src='/images/evil_cat.gif' alt='evil_cat' />
                                 </div>
                             </div>
                         </div>
@@ -966,10 +966,10 @@ function Home() {
                 )}
 
             {/* calculator icon */}
-            <div className="desktop">
+            <div className='desktop'>
                 <DesktopIcon
-                    icon="/images/calculator.png"
-                    label="Calculator"
+                    icon='/images/calculator.png'
+                    label='Calculator'
                     x={50}
                     y={145}
                     onClick={() => setShowCalculator(true)}
@@ -978,9 +978,9 @@ function Home() {
 
                 {/* calculator modal */}
                 {showCalculator && (
-                    <div className="modal-overlay" onClick={() => setShowCalculator(false)}>
+                    <div className='modal-overlay' onClick={() => setShowCalculator(false)}>
                         <div 
-                            className="modal calculator-modal"
+                            className='modal calculator-modal'
                             onClick={(e) => e.stopPropagation()}
                             ref={calculatorModalRef}
                             style={{
@@ -990,7 +990,7 @@ function Home() {
                             }}
                         >
                             <div 
-                                className="modal-header"
+                                className='modal-header'
                                 onMouseDown={handleCalculatorMouseDown}
                                 style={{ cursor: 'grab' }}
                             >
@@ -998,55 +998,55 @@ function Home() {
                                 <button className='x-button' onClick={() => setShowCalculator(false)}>✕</button>
                             </div>
                             
-                            <div className="calculator-body">
-                                <div className="calculator-display">
-                                    <div className="display-content">{calculatorDisplay}</div>
+                            <div className='calculator-body'>
+                                <div className='calculator-display'>
+                                    <div className='display-content'>{calculatorDisplay}</div>
                                 </div>
 
-                                <div className="calculator-buttons">
+                                <div className='calculator-buttons'>
                                     {/* memory row */}
-                                    <button className="calc-btn function-btn" onClick={clearAll}></button>
-                                    <button className="calc-btn function-btn" onClick={clearEntry}></button>
-                                    <button className="calc-btn function-btn" onClick={clearEntry}></button>
-                                    <button className="calc-btn function-btn-1" onClick={clearAll}>Back</button>
-                                    <button className="calc-btn function-btn-1" onClick={clearEntry}>CE</button>
-                                    <button className="calc-btn function-btn-1" onClick={clearAll}>AC</button>
+                                    <button className='calc-btn function-btn' onClick={clearAll}></button>
+                                    <button className='calc-btn function-btn' onClick={clearEntry}></button>
+                                    <button className='calc-btn function-btn' onClick={clearEntry}></button>
+                                    <button className='calc-btn function-btn-1' onClick={clearAll}>Back</button>
+                                    <button className='calc-btn function-btn-1' onClick={clearEntry}>CE</button>
+                                    <button className='calc-btn function-btn-1' onClick={clearAll}>AC</button>
 
 
                                     {/* row 1 */}
-                                    <button className="calc-btn memory-btn" onClick={() => handleMemory('MC')}>MC</button>
-                                    <button className="calc-btn number-btn" onClick={() => inputDigit('7')}>7</button>
-                                    <button className="calc-btn number-btn" onClick={() => inputDigit('8')}>8</button>
-                                    <button className="calc-btn number-btn" onClick={() => inputDigit('9')}>9</button>
-                                    <button className="calc-btn operator-btn" onClick={() => performOperation('÷')}>÷</button>
+                                    <button className='calc-btn memory-btn' onClick={() => handleMemory('MC')}>MC</button>
+                                    <button className='calc-btn number-btn' onClick={() => inputDigit('7')}>7</button>
+                                    <button className='calc-btn number-btn' onClick={() => inputDigit('8')}>8</button>
+                                    <button className='calc-btn number-btn' onClick={() => inputDigit('9')}>9</button>
+                                    <button className='calc-btn operator-btn' onClick={() => performOperation('÷')}>÷</button>
                                     {/* change to square root */}
-                                    <button className="calc-btn function-btn" onClick={() => performOperation('√')}>√</button>
+                                    <button className='calc-btn function-btn' onClick={() => performOperation('√')}>√</button>
 
                                     
-                                    <button className="calc-btn memory-btn" onClick={() => handleMemory('MR')}>MR</button>
-                                    <button className="calc-btn number-btn" onClick={() => inputDigit('4')}>4</button>
-                                    <button className="calc-btn number-btn" onClick={() => inputDigit('5')}>5</button>
-                                    <button className="calc-btn number-btn" onClick={() => inputDigit('6')}>6</button>
-                                    <button className="calc-btn operator-btn" onClick={() => performOperation('×')}>×</button>
-                                    <button className="calc-btn function-btn" onClick={inputPercent}>%</button>
+                                    <button className='calc-btn memory-btn' onClick={() => handleMemory('MR')}>MR</button>
+                                    <button className='calc-btn number-btn' onClick={() => inputDigit('4')}>4</button>
+                                    <button className='calc-btn number-btn' onClick={() => inputDigit('5')}>5</button>
+                                    <button className='calc-btn number-btn' onClick={() => inputDigit('6')}>6</button>
+                                    <button className='calc-btn operator-btn' onClick={() => performOperation('×')}>×</button>
+                                    <button className='calc-btn function-btn' onClick={inputPercent}>%</button>
                                     
                                     
                                     {/* row 2 */}
-                                    <button className="calc-btn memory-btn" onClick={() => handleMemory('MS')}>MS</button>
-                                    <button className="calc-btn number-btn" onClick={() => inputDigit('1')}>1</button>
-                                    <button className="calc-btn number-btn" onClick={() => inputDigit('2')}>2</button>
-                                    <button className="calc-btn number-btn" onClick={() => inputDigit('3')}>3</button>
-                                    <button className="calc-btn operator-btn" onClick={() => performOperation('-')}>−</button>
+                                    <button className='calc-btn memory-btn' onClick={() => handleMemory('MS')}>MS</button>
+                                    <button className='calc-btn number-btn' onClick={() => inputDigit('1')}>1</button>
+                                    <button className='calc-btn number-btn' onClick={() => inputDigit('2')}>2</button>
+                                    <button className='calc-btn number-btn' onClick={() => inputDigit('3')}>3</button>
+                                    <button className='calc-btn operator-btn' onClick={() => performOperation('-')}>−</button>
                                     {/* change to 1/x */}
-                                    <button className="calc-btn function-btn" onClick={() => performOperation('1/x')}>1/x</button>
+                                    <button className='calc-btn function-btn' onClick={() => performOperation('1/x')}>1/x</button>
 
 
-                                    <button className="calc-btn memory-btn" onClick={() => handleMemory('M+')}>M+</button>
-                                    <button className="calc-btn number-btn zero-btn" onClick={() => inputDigit('0')}>0</button>
-                                    <button className="calc-btn number-btn" onClick={inputDecimal}>.</button>
-                                    <button className="calc-btn function-btn" onClick={toggleSign}>±</button>
-                                    <button className="calc-btn operator-btn" onClick={() => performOperation('+')}>+</button>
-                                    <button className="calc-btn equals-btn" onClick={compute}>=</button>
+                                    <button className='calc-btn memory-btn' onClick={() => handleMemory('M+')}>M+</button>
+                                    <button className='calc-btn number-btn zero-btn' onClick={() => inputDigit('0')}>0</button>
+                                    <button className='calc-btn number-btn' onClick={inputDecimal}>.</button>
+                                    <button className='calc-btn function-btn' onClick={toggleSign}>±</button>
+                                    <button className='calc-btn operator-btn' onClick={() => performOperation('+')}>+</button>
+                                    <button className='calc-btn equals-btn' onClick={compute}>=</button>
                                 </div>
                             </div>
                         </div>
@@ -1056,10 +1056,10 @@ function Home() {
 
             
             {/* horoscope icon */}
-            <div className="desktop">
+            <div className='desktop'>
                 <DesktopIcon
-                    icon="/images/scandique.jpg"
-                    label="Horoscope"
+                    icon='/images/scandique.jpg'
+                    label='Horoscope'
                     x={50}
                     y={255}
                     onClick={() => setShowHoroscopeModal(true)}
@@ -1068,9 +1068,9 @@ function Home() {
                 />
 
                 {showHoroscopeModal && (
-                    <div className="modal-overlay" onClick={() => setShowHoroscopeModal(false)}>
+                    <div className='modal-overlay' onClick={() => setShowHoroscopeModal(false)}>
                         <div 
-                            className="modal horoscope-modal" 
+                            className='modal horoscope-modal' 
                             onClick={(e) => e.stopPropagation()}
                             ref={horoscopeModalRef}
                             style={{
@@ -1080,7 +1080,7 @@ function Home() {
                             }}
                         >
                         <div 
-                            className="modal-header"
+                            className='modal-header'
                             onMouseDown={handleHoroscopeMouseDown}
                             style={{ cursor: 'grab'}}
                         >
@@ -1089,14 +1089,14 @@ function Home() {
                         </div>
 
                         {/* modal body */}
-                        <div className="modal-body horoscope-modal-body">
-                            <div className="horoscope-controls">
+                        <div className='modal-body horoscope-modal-body'>
+                            <div className='horoscope-controls'>
                             <select 
                                 value={sign} 
                                 onChange={(e) => setSign(e.target.value)}
-                                className="horoscope-select"
+                                className='horoscope-select'
                             >
-                                {["aries", "taurus", "gemini", "cancer", "leo", "virgo", "libra", "scorpio", "sagittarius", "capricorn", "aquarius", "pisces"].map((sign) => (
+                                {['aries', 'taurus', 'gemini', 'cancer', 'leo', 'virgo', 'libra', 'scorpio', 'sagittarius', 'capricorn', 'aquarius', 'pisces'].map((sign) => (
                                 <option key={sign} value={sign}>
                                     {sign.charAt(0).toUpperCase() + sign.slice(1)}
                                 </option>
@@ -1105,17 +1105,17 @@ function Home() {
                             
                             <button 
                                 onClick={handleGetHoroscope}
-                                className="horoscope-button"
+                                className='horoscope-button'
                                 disabled={isLoading}
                             >
-                                {isLoading ? "Loading..." : "Get Horoscope"}
+                                {isLoading ? 'Loading...' : 'Get Horoscope'}
                             </button>
                             </div>
 
-                            {error && <div className="error">{error}</div>}
+                            {error && <div className='error'>{error}</div>}
 
                             {horoscopeData && (
-                                <div className="horoscope-results">
+                                <div className='horoscope-results'>
                                     <p><strong>Date:</strong> {horoscopeData.data.date}</p>
                                     <p><strong>Horoscope:</strong> {horoscopeData.data.horoscope}</p> 
                                 </div>
@@ -1128,20 +1128,20 @@ function Home() {
 
 
             {/* media player */}
-            <div className="desktop">
+            <div className='desktop'>
                 <DesktopIcon
-                    icon="/images/play.ico"
-                    label="Media Player"
+                    icon='/images/play.ico'
+                    label='Media Player'
                     x={cdPlayerPosition.x}
                     y={cdPlayerPosition.y}
                     onClick={() => setShowPlayModal(true)}
                 />
 
                 {showPlayModal && (
-                    <div className="modal-overlay" onClick={() => setShowPlayModal(false)}>
+                    <div className='modal-overlay' onClick={() => setShowPlayModal(false)}>
                         
                         <div
-                            className="modal media-modal" 
+                            className='modal media-modal' 
                             onClick={(e) => e.stopPropagation()}
                             ref={playModalRef}
                             style={{
@@ -1151,7 +1151,7 @@ function Home() {
                             }}
                         >
                             <div 
-                                className="modal-header"
+                                className='modal-header'
                                 onMouseDown={handlePlayMouseDown}
                                 style={{ cursor: 'grab'}}
                             >
@@ -1168,12 +1168,12 @@ function Home() {
                                 }}>✕</button>
                             </div>
 
-                            <div className="modal-body">
-                                <div className="media-player-container">
+                            <div className='modal-body'>
+                                <div className='media-player-container'>
                                     {/* Audio element - hidden but controls playback */}
                                     <audio
-                                        id="audio-player"
-                                        src="/public/Miki_Matsubara_-_Stay_With_Me_(mp3.pm).mp3"
+                                        id='audio-player'
+                                        src='/public/Miki_Matsubara_-_Stay_With_Me_(mp3.pm).mp3'
                                         onTimeUpdate={handleTimeUpdate}
                                         onLoadedMetadata={(e) => {
                                             const audioElement = e.currentTarget as HTMLAudioElement;
@@ -1185,50 +1185,50 @@ function Home() {
                                     />
                                     
                                     {/* player controls */}
-                                    <div className="media-controls">
+                                    <div className='media-controls'>
                                         <div className='media-player-image'>
                                             <img src='/images/miki.jpg' className='miki'></img>
                                         </div>
                                         
                                         {/* song progress */}
-                                        <div className="progress-container">
+                                        <div className='progress-container'>
                                             {/* play/pause button */}
                                             <button 
-                                                className="play-button"
+                                                className='play-button'
                                                 onClick={handlePlayAudio}
                                             >
                                                 {audioPlayer.isPlaying ? <img src='/images/pause.png' className='media-player-pause'></img> : <img src='/images/play.png' className='media-player-play'></img>}
                                             </button>
-                                            <span className="time-display current-time">
+                                            <span className='time-display current-time'>
                                                 {formatTime(audioPlayer.currentTime)}
                                             </span>
                                             
                                             <input
-                                                type="range"
-                                                className="progress-bar"
-                                                min="0"
+                                                type='range'
+                                                className='progress-bar'
+                                                min='0'
                                                 max={audioPlayer.duration || 100}
                                                 value={audioPlayer.currentTime}
                                                 onChange={handleSeek}
-                                                step="0.1"
+                                                step='0.1'
                                             />
                                             
-                                            <span className="time-display total-time">
+                                            <span className='time-display total-time'>
                                                 {formatTime(audioPlayer.duration)}
                                             </span>
                                         </div>
                                         
-                                        <div className="volume-controls">
+                                        <div className='volume-controls'>
                                             <span>
-                                                <img src='/images/Volume.ico' className="volume-icon"></img>
+                                                <img src='/images/Volume.ico' className='volume-icon'></img>
                                             </span>
                                             <input
-                                                type="range"
-                                                className="volume-bar"
-                                                min="0"
-                                                max="1"
-                                                step="0.01"
-                                                defaultValue="1"
+                                                type='range'
+                                                className='volume-bar'
+                                                min='0'
+                                                max='1'
+                                                step='0.01'
+                                                defaultValue='1'
                                                 onChange={(e) => {
                                                     const audioElement = document.getElementById('audio-player') as HTMLAudioElement;
                                                     if (audioElement) {
@@ -1240,9 +1240,9 @@ function Home() {
                                     </div>
                                 
                                 {/* Track info */}
-                                <div className="track-info">
-                                    <div className="track-title">Now Playing: "Stay with Me"</div>
-                                    <div className="track-artist">Artist: Miki Matsubara</div>
+                                <div className='track-info'>
+                                    <div className='track-title'>Now Playing: 'Stay with Me'</div>
+                                    <div className='track-artist'>Artist: Miki Matsubara</div>
                                 </div>
                             </div>
                             </div>
@@ -1253,9 +1253,9 @@ function Home() {
 
 
             {/* mystery popup */}
-            <div className="desktop">
+            <div className='desktop'>
                 <DesktopIcon
-                    icon="/images/dark_agent.ico"
+                    icon='/images/dark_agent.ico'
                     label="don't click"
                     x={popupPosition.x}
                     y={popupPosition.y}
@@ -1263,14 +1263,14 @@ function Home() {
                 />
 
                 {showPopUpModal && (
-                    <div className="modal-overlay" onClick={() => setshowPopUpModal(false)}>
+                    <div className='modal-overlay' onClick={() => setshowPopUpModal(false)}>
                         <div 
-                            className="modal" 
+                            className='modal' 
                             onClick={(e) => e.stopPropagation()}
                             ref={popupModalRef}
                         >
                             <div
-                                className="modal-header"
+                                className='modal-header'
                                 onMouseDown={handlePopupMouseDown}
                                 style={{ cursor: 'grab'}}
                             >   
@@ -1278,8 +1278,8 @@ function Home() {
                                 <button className='x-button' onClick={() => setshowPopUpModal(false)}>✕</button>
                             </div>
 
-                                <div className="modal-body">
-                                    <img src="/images/wassup.gif" className='gif' alt="wazzuppp" />
+                                <div className='modal-body'>
+                                    <img src='/images/wassup.gif' className='gif' alt='wazzuppp' />
                                 </div>
                         </div>
                     </div>
@@ -1360,10 +1360,10 @@ function Home() {
                     {/* header */}
                     <header>
                         <section className='blue-bar'>
-                            <img src="/images/connections.ico" className='icon' alt="icon"/>
+                            <img src='/images/connections.ico' className='icon' alt='icon'/>
                             <section className='blue-bar-text'>DevScape - Val Sedano</section>
 
-                            <div className="button-container">
+                            <div className='button-container'>
                                 <button className='x-button' onClick={toggleWindow}>✕</button>
                             </div>
                         </section>
@@ -1374,25 +1374,43 @@ function Home() {
                             <ul>
                                 {/* allows you to style the Home button when it's the router path */}
                                 <li className={`button left-button ${location.pathname === '/' ? 'active-home' : ''}`}>
-                                    <Link to="/">
-                                        <img src="/images/Starfield.ico" className='home-icon' alt='home'/>
+                                    <Link to='/'>
+                                        <img src='/images/Starfield.ico' className='home-icon' alt='home'/>
                                         <p>Home</p>
                                     </Link>
                                 </li>
-                                <li className='button'>
-                                    <Link to="/portfolio">
-                                        <img src="/images/Painting.ico" className='paint-icon' alt='portfolio'/>
-                                        <p>Portfolio</p>
+
+
+                                <li
+                                    className={`button portfolio-dropdown-container ${isPortfolioDropdownOpen ? 'dropdown-active' : ''}`}
+                                    onClick={() => setIsPortfolioDropdownOpen(!isPortfolioDropdownOpen)}
+                                >
+                                    {/* .preventDefault keeps it from routing to /portfolio */}
+                                    <Link to='/portfolio' onClick={(e) => e.preventDefault()}>
+                                        <img src='/images/Painting.ico' className='paint-icon' alt='portfolio'/>
+                                        <p>Portfolio
+                                            <img src='/images/downward-arrow.png' className='caret-down'/>
+                                        </p>
                                     </Link>
+
+                                    {isPortfolioDropdownOpen && (
+                                        <div className='portfolio-dropdown'>
+                                            <Link to='/portfolio' className='dropdown-item'>Websites</Link>
+                                            <Link to='/portfolio' className='dropdown-item'>UX Design</Link>
+                                            <Link to='/portfolio' className='dropdown-item'>Case Studies</Link>
+                                        </div>
+                                    )}
                                 </li>
+
+
                                 <li className='button'>
-                                    <Link to="/resume">
-                                        <img src="/images/resume.png"className='resume-icon' alt='resume'></img>
+                                    <Link to='/resume'>
+                                        <img src='/images/resume.png'className='resume-icon' alt='resume'></img>
                                         <p>Resume</p>
                                     </Link>
                                 </li>
                                 <li className='button'>
-                                    <Link to="/contact">
+                                    <Link to='/contact'>
                                         <img src={send} className='contact-icon' alt='contact'></img>
                                         <p>Contact</p>
                                     </Link>
@@ -1421,21 +1439,21 @@ function Home() {
                     {/* window content */}
                     <div className='content'>
                         <div className='homepage-banners'>
-                            <img className='computer' src="/images/computer_1.png" alt="computer_1" />
+                            <img className='computer' src='/images/computer_1.png' alt='computer_1' />
                             <div className='inner-banner-text'>
                                 <p className='banner'>-- Val Sedano --</p>
                                 <p className='banner-1'>Nostalgic UX Expert</p>
                             </div>
-                            <img className='computer' src="/images/computer-2.png" alt="computer_2" />
+                            <img className='computer' src='/images/computer-2.png' alt='computer_2' />
                         </div>
 
                         
-                        <div className="img-grid">
+                        <div className='img-grid'>
                             {images.map((image, index) => (
                                 <div key={index}>
                                     <div className='image-container'>
                                         <div className='image-title'>{image.title}</div>
-                                        <a href={image.url} rel="noopener noreferrer">
+                                        <a href={image.url} rel='noopener noreferrer'>
                                             <img
                                                 src={`/images/${image.id}.jpg`}
                                                 title={`${image.id} website`}
@@ -1450,7 +1468,7 @@ function Home() {
 
 
                         {/* content footer */}
-                        <div className="footer">
+                        <div className='footer'>
                             <div className='footer-section footer-large'></div>
                             <div className = 'footer-section footer-small'></div>
                             <div className = 'footer-section footer-small'></div>
@@ -1471,21 +1489,21 @@ function Home() {
                     {popups.map((popup) => (
                         <div 
                             key={popup.id}
-                            className="spam-popup"
+                            className='spam-popup'
                             style={{
                                 left: `${popup.x}px`,
                                 top: `${popup.y}px`,
                             }}
                         >
-                            <div className="modal">
-                                <div className="modal-header">
+                            <div className='modal'>
+                                <div className='modal-header'>
                                     <span>🚨 LUL</span>
                                 </div>
-                                <div className="popup-modal-body modal-body" style={{ padding: '20px' }}>
+                                <div className='popup-modal-body modal-body' style={{ padding: '20px' }}>
                                     <img 
-                                        src="/images/wassup.gif" 
+                                        src='/images/wassup.gif' 
                                         className='gif' 
-                                        alt="wazzuppp" 
+                                        alt='wazzuppp' 
                                         style={{ width: '100%' }}
                                     />
                                     <p style={{ marginTop: '10px', fontWeight: 'bold' }}>
@@ -1499,17 +1517,17 @@ function Home() {
                     {/* Final popup to close all */}
                     {showFinalPopup && (
                         <div 
-                            className="spam-popup"
+                            className='spam-popup'
                             style={{
                                 left: `${window.innerWidth / 2 - 230}px`,
                                 top: `${window.innerHeight / 2 - 100}px`,
                             }}
                         >
-                            <div className="final-spam-popup modal">
-                                <div className="modal-header">
+                            <div className='final-spam-popup modal'>
+                                <div className='modal-header'>
                                     <span>⚠️ SYSTEM OVERLOAD</span>
                                 </div>
-                                <div className="modal-body">
+                                <div className='modal-body'>
                                     <p>
                                         Told ya not to click! Hehe 😈
                                     </p>
