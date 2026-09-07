@@ -620,49 +620,52 @@ nav ul li a p{
   margin-top: -3px;
 }
 
+
+
+
 .img-grid {
-  /* makes the elements inside display as a grid */
   display: grid;
-  /* instead of using auto-fill, specify 3 videos wide, otherwise it'll auto-fill to 4 or 5 videos */
   grid-template-columns: repeat(3, 1fr);
   gap: 20px;
-  padding: 5px 20px;
-  flex-grow: 1; /* take up available space */
-  min-height: min-content; /* minimum height needed for content */
-
-  /* CENTER IMAGES WITHOUT CENTERING THE SCROLLBAR */
-  justify-items: center;
-  max-width: 80%;
+  max-width: 1200px;
   margin: 0 auto;
-
-  padding-top: 45px;
 }
-.img-grid img {
-  width: 100%;
-  height: auto;
-  max-width: 250px; /* maintains a reasonable maximum size */
-  aspect-ratio: 16/9;
-  object-fit: cover; /* ensure images maintain aspect ratio */
+.img-grid > div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
-/* add these new styles */
 .image-container {
   position: relative;
-  display: inline-block;
+
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  background-color: #f9f9f9;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  margin: 0;
+  padding: 0;
+
+  /* prevent shrinking */
+  flex-shrink: 0; 
+}
+/* image styling - fixed size */
+.image {
+    width: 100%;
+    height: calc(100% - 40px);
+    object-fit: cover;
+    display: block;
+}
+.image {
+  border-bottom: solid 10px #c3c3c3;
+  border-top: solid 21px #c3c3c3;
+  outline: solid 1px black;
+  position: relative;
 }
 .image-title {
-  justify-content: center;
   position: absolute;
-  text-align: center;
-  left: 5px;
-  right: 5px;
-  color: black;
-  font-size: 14px;
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  z-index: 1;
-  margin-top: -195px;
-  border-bottom: 1px solid black;
+  top: 0;
+  z-index: 2;
 }
 /* update your existing image style */
 .image {
@@ -671,6 +674,59 @@ nav ul li a p{
   outline: solid 1px black;
   position: relative;
 }
+
+
+
+
+/* optional: clickable image hover effect */
+.clickable-image {
+    cursor: pointer;
+    transition: opacity 0.2s ease;
+}
+
+.clickable-image:hover {
+    opacity: 0.8;
+}
+
+/* Responsive adjustments */
+@media (max-width: 1024px) {
+    .image-container {
+        width: 250px;
+        height: 250px;
+    }
+}
+
+@media (max-width: 768px) {
+    .img-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 15px;
+    }
+    .image-container {
+        width: 200px;
+        height: 200px;
+    }
+}
+
+@media (max-width: 480px) {
+    .img-grid {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+    .image-container {
+        width: 280px;
+        height: 280px;
+        margin: 0 auto;
+    }
+}
+
+
+
+
+
+
+
+
+
 
 .webcraft-portfolio-banner {
   font-family: "Single Day", cursive;

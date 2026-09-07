@@ -11,9 +11,11 @@ import './components/Taskbar.css'
 import DesktopIcon from './components/DesktopIcon';
 import './components/DesktopIcon.css';
 
+
 // import images
 import send from './assets/send.png'
 import earth from './assets/earth.ico'
+
 
 type HoroscopeData = {
     data: {
@@ -1416,7 +1418,6 @@ function Home() {
                     </div>
 
 
-
                     {/* window content */}
                     <div className='content'>
                         <div className='homepage-banners'>
@@ -1428,8 +1429,7 @@ function Home() {
                             <img className='computer' src="/images/computer-2.png" alt="computer_2" />
                         </div>
 
-
-
+                        
                         <div className="img-grid">
                             {images.map((image, index) => (
                                 <div key={index}>
@@ -1439,7 +1439,6 @@ function Home() {
                                             <img
                                                 src={`/images/${image.id}.jpg`}
                                                 title={`${image.id} website`}
-                                                style={{ width: '320px', height: '179px' }}
                                                 alt={image.id}
                                                 className='image clickable-image'
                                             />
@@ -1448,7 +1447,6 @@ function Home() {
                                 </div>
                             ))}
                         </div>
-
 
 
                         {/* content footer */}
@@ -1465,6 +1463,7 @@ function Home() {
                     </div>
                 </div>
             )}
+
 
             {/* popup spam section */}
             {isPopupSpamActive && (
