@@ -115,7 +115,7 @@ function Resume() {
     });
 
     // portfolio dropdown
-    // const [isPortfolioDropdownOpen, setIsPortfolioDropdownOpen] = useState(false);
+    const [isPortfolioDropdownOpen, setIsPortfolioDropdownOpen] = useState(false);
 
     // fetch - VITE WAS BLOCKING THIS FROM WORKING, REMEMBER TO UPDATE VITE.CONFIG NEXT
     const fetchHoroscope = async (sign: string) => {
@@ -123,7 +123,7 @@ function Resume() {
         setError(null);
         
         try {
-            const response = await fetch(`/api/horoscope?sign=${sign.toLowerCase()}`); // <-- No full URL needed
+            const response = await fetch(`/api/horoscope?sign=${sign.toLowerCase()}`);
             if (!response.ok) throw new Error(`HTTP error! status: ${response.status}`);
 
             const data = await response.json();
@@ -1213,6 +1213,7 @@ function Resume() {
                 </section>
 
 
+
                 {/* navbar */}
                 <nav className='navbar'>
                     <ul>
@@ -1223,12 +1224,26 @@ function Resume() {
                             </Link>
                         </li>
 
-                        <li className='button'>
-                            <Link to="/portfolio">
+                        {/* tutorial: portfolio dropdown */}
+                        <li
+                            className={`button portfolio-dropdown-container ${isPortfolioDropdownOpen ? 'dropdown-active' : ''}`}
+                            onClick={() => setIsPortfolioDropdownOpen(!isPortfolioDropdownOpen)}
+                        >
+                            {/* .preventDefault keeps it from routing to /portfolio */}
+                            <Link to="/portfolio" onClick={(e) => e.preventDefault()}>
                                 <img src="/images/Painting.ico" className='paint-icon' alt='portfolio'/>
                                 <p>Portfolio</p>
                             </Link>
+
+                            {isPortfolioDropdownOpen && (
+                                <div className="portfolio-dropdown">
+                                    <Link to="/portfolio" className='portfolio-link-wrapper'>Websites</Link>
+                                    <Link to="/portfolio">UX Design</Link>
+                                    <Link to="/portfolio">Case Studies</Link>
+                                </div>
+                            )}
                         </li>
+
 
                         <li className={`button ${location.pathname === '/resume' ? 'active-resume' : ''}`}>
                             <Link to="/resume">

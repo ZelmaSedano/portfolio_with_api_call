@@ -129,17 +129,17 @@ function Home() {
         {
             title:'Websites',
             id: 'webcraft',
-            url: 'https://www.figma.com/design/229APkMFR2DqP819VYDmyY/WebCraft?m=auto&t=vZjGYwJcDZPGZLwW-1'
+            url: '/contact'
         },
         {
             title:'UX Design',
             id: 'ai',
-            url: 'https://www.pinterest.com/pin/9077636744660963/'
+            url: '/contact'
         },
         {
             title:'Case Studies',
             id: 'ai',
-            url: 'https://www.pinterest.com/pin/9077636744660963/'
+            url: '/contact'
         }
     ];
 
@@ -1435,7 +1435,7 @@ function Home() {
                                 <div key={index}>
                                     <div className='image-container'>
                                         <div className='image-title'>{image.title}</div>
-                                        <a href={image.url} target="_blank" rel="noopener noreferrer">
+                                        <a href={image.url} rel="noopener noreferrer">
                                             <img
                                                 src={`/images/${image.id}.jpg`}
                                                 title={`${image.id} website`}
