@@ -2,20 +2,13 @@ import { useState, useEffect, useRef } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import './App.css';
 
-
-
-// hi justine, feel free to look at the comments in the modal section to learn more about how to render modals.  the component is in DesktopIcon.tsx :)
-// component imports
 import Taskbar from './components/Taskbar'
 import './components/Taskbar.css'
 import DesktopIcon from './components/DesktopIcon';
 import './components/DesktopIcon.css';
 
-
-// import images
 import send from './assets/send.png'
 import earth from './assets/earth.ico'
-
 
 type HoroscopeData = {
     data: {
@@ -26,10 +19,8 @@ type HoroscopeData = {
     };
 };
 
-function Home() {
-    // dragging feature
-    const windowRef = useRef<HTMLDivElement | null>(null);
-    // clock
+function Websites() {
+    const windowRef = useRef<HTMLDivElement | null>(null)
     const location = useLocation();
 
     // modal ref
@@ -41,25 +32,24 @@ function Home() {
     const popupModalRef = useRef<HTMLDivElement | null> (null);
     const calculatorModalRef = useRef<HTMLDivElement | null>(null);
 
-    // STATES
+    // states
     const [position, setPosition] = useState(() => {
         const saved = sessionStorage.getItem('windowPosition');
-        // if there isn't a saved position, center the window on default load
         return saved ? JSON.parse(saved) : { 
             x: Math.max(0, (window.innerWidth - 1000) / 2),
             y: Math.max(0, (window.innerHeight - 600) / 2)
         };
     });
-    // taskbar clock
+
+    // when the inner width of the 
+    const [isSmallScreen, setIsSmallScreen] = useState(window.innerWidth <= 539);
+
     const [currentTime, setCurrentTime] = useState(new Date());
-    // window visibility
     const [isVisible, setIsVisible] = useState(true);
-    // drag the content window
     const [isDragging, setIsDragging] = useState(false);
     const [dragOffset, setDragOffset] = useState({ x: 0, y: 0 });
-
+    
     // ICON/MODALS
-    // cat
     const [showCatModal, setShowCatModal] = useState(false);
     const [showYesModal, setShowYesModal] = useState(false);
     const [showLoveModal, setShowLoveModal] = useState(false);
@@ -115,9 +105,17 @@ function Home() {
     const [showFinalPopup, setShowFinalPopup] = useState(false);
     const [isPopupSpamActive, setIsPopupSpamActive] = useState(false);
 
+    // clippy
+    // const [clippyPosition, setClippyPosition] = useState({ x: 0, y: 0 });
+    // const [showClippyModal, setShowClippyModal] = useState(false);
+    // const [chatbotInput, setChatbotInput] = useState('');
+    // const [chatHistory, setChatHistory] = useState<Array<{sender: string, message: string}>>([]);
+    // const [shouldShake, setShouldShake] = useState(false);
 
+    // portfolio dropdown
+    const [isPortfolioDropdownOpen, setIsPortfolioDropdownOpen] = useState(false);
 
-    // media player state
+    // Add this audio state
     const [audioPlayer, setAudioPlayer] = useState({
         isPlaying: false,
         currentTime: 0,
@@ -127,24 +125,23 @@ function Home() {
 
     const images = [
         {
-            title:'Websites',
+            title:'WebCraft Projects',
             id: 'ok',
-            url: '/contact'
+            url: 'https://www.figma.com/design/229APkMFR2DqP819VYDmyY/WebCraft?m=auto&t=vZjGYwJcDZPGZLwW-1'
         },
         {
-            title:'UX Design',
+            title:'Personal Projects',
             id: 'ok',
-            url: '/contact'
+            url: 'https://www.pinterest.com/pin/9077636744660963/'
         },
         {
-            title:'Case Studies',
+            title:'UX/UI Design',
             id: 'ok',
-            url: '/contact'
+            url: 'https://www.pinterest.com/pin/9077636744660963/'
         }
     ];
 
-
-    // API fetches
+    // fetch - VITE WAS BLOCKING THIS FROM WORKING, REMEMBER TO UPDATE VITE.CONFIG NEXT
     const fetchHoroscope = async (sign: string) => {
         setIsLoading(true);
         setError(null);
@@ -162,10 +159,10 @@ function Home() {
             setIsLoading(false);
         }
     };
+
     const handleGetHoroscope = () => {
         fetchHoroscope(sign);
     };
-
 
 
     // calculator-related functions
@@ -225,8 +222,6 @@ function Home() {
             case '-': return a - b;
             case '×': return a * b;
             case '÷': return a / b;
-            case '√': return Math.sqrt(a);
-            case '1/x': return 1/a;
             default: return b;
         }
     };
@@ -263,9 +258,6 @@ function Home() {
         }
     };
 
-
-
-
     // MYSTERY POPUPS
     // pop-ups - generate random position of pop-ups on page
     const getRandomPosition = () => {
@@ -296,7 +288,7 @@ function Home() {
                 count++;
             } else {
                 clearInterval(interval);
-                // how final popup after all 20 are created
+                // show final popup after all 20 are created
                 setTimeout(() => {
                     setShowFinalPopup(true);
                 }, 200);
@@ -314,19 +306,24 @@ function Home() {
 
 
     // USEEFFECTS
-    // save the position of the window to session storage
+    // save the state to sessionStorage
+    useEffect(() => {
+        const handleResize = () => {
+            setIsSmallScreen(window.innerWidth <= 539);
+        };
+        window.addEventListener('resize', handleResize);
+        return () => window.removeEventListener('resize', handleResize);
+    }, []);
     useEffect(() => {
         sessionStorage.setItem('windowPosition', JSON.stringify(position));
     }, [position]);
-
-    // clock
+    // timer
     useEffect(() => {
         const timer = setInterval(() => {
             setCurrentTime(new Date());
         }, 1000);
         return () => clearInterval(timer); // Cleanup
     }, []);
-
     // cd player
     useEffect(() => {
         const updateCDPosition = () => {
@@ -391,6 +388,16 @@ function Home() {
 
     // USEEFFECTS MODALS
     // cat modal
+    // remove this? repeat?
+    useEffect(() => {
+        document.addEventListener('mousemove', handleNativeMouseMove);
+        document.addEventListener('mouseup', handleNativeMouseUp);
+        return () => {
+            document.removeEventListener('mousemove', handleNativeMouseMove);
+            document.removeEventListener('mouseup', handleNativeMouseUp);
+        };
+    }, [isDragging, dragOffset]);
+
     useEffect(() => {
         const handleMouseMove = (e: MouseEvent) => {
             if (isDraggingCat && catModalRef.current) {
@@ -411,7 +418,7 @@ function Home() {
             document.removeEventListener('mouseup', handleMouseUp);
         };
     }, [isDraggingCat, catDragOffset]);
-    // yes modal drag
+    // Yes modal drag
     useEffect(() => {
         const handleMouseMove = (e: MouseEvent) => {
             if (isDraggingYes && yesModalRef.current) {
@@ -432,7 +439,7 @@ function Home() {
             document.removeEventListener('mouseup', handleMouseUp);
         };
     }, [isDraggingYes, yesDragOffset]);
-    // love modal drag
+    // Love modal drag
     useEffect(() => {
         const handleMouseMove = (e: MouseEvent) => {
             if (isDraggingLove && loveModalRef.current) {
@@ -514,7 +521,7 @@ function Home() {
         return () => {
             document.removeEventListener('mousemove', handleMouseMove);
             document.removeEventListener('mouseup', handleMouseUp);
-        };
+        }
     }, [isDraggingPlay, playDragOffset]);
     // mystery popup
     useEffect(() => {
@@ -541,8 +548,9 @@ function Home() {
 
 
 
+
+
     // HANDLERS
-    // window dragging effect
     const handleMouseDown = (e: React.MouseEvent) => {
     // Don't start dragging if clicking on dropdown or its children
         if (
@@ -574,9 +582,8 @@ function Home() {
         }
     };
 
-    // dragging window
     const handleNativeMouseUp = () => setIsDragging(false);
-    // window dragging useEffect
+
     useEffect(() => {
         document.addEventListener('mousemove', handleNativeMouseMove);
         document.addEventListener('mouseup', handleNativeMouseUp);
@@ -585,7 +592,6 @@ function Home() {
             document.removeEventListener('mouseup', handleNativeMouseUp);
         };
     }, [isDragging, dragOffset]);
-
 
     // media player
     const handlePlayAudio = () => {
@@ -623,7 +629,6 @@ function Home() {
         const secs = Math.floor(seconds % 60);
         return `${mins.toString().padStart(2, '0')}:${secs.toString().padStart(2, '0')}`;
     };
-
 
     // modal handlers for dragging
     const handleCatMouseDown = (e: React.MouseEvent) => {
@@ -664,6 +669,7 @@ function Home() {
             });
         }
     };
+    // calculator
     const handleCalculatorMouseDown = (e: React.MouseEvent) => {
         if ((e.target as HTMLElement).closest('.modal-header') && 
             !(e.target as HTMLElement).closest('.x-button')) {
@@ -700,7 +706,7 @@ function Home() {
             });
         }
     };
-    const handlePopupMouseDown = (e: React.MouseEvent) => {
+        const handlePopupMouseDown = (e: React.MouseEvent) => {
         if ((e.target as HTMLElement).closest('.modal-header') && 
             !(e.target as HTMLElement).closest('.x-button')) {
             const rect = popupModalRef.current?.getBoundingClientRect();
@@ -714,256 +720,131 @@ function Home() {
     };
 
 
-    // portfolio dropdown:
-    const portfolioRef = useRef<HTMLLIElement>(null);
-
-    const [isPortfolioDropdownOpen, setIsPortfolioDropdownOpen] = useState(false);
-
-    const handlePortfolioClick = (e: React.MouseEvent) => {
-        // fixes window drag breaking, if you don't include this the blue-bar drag 
-        e.stopPropagation();
-        setIsPortfolioDropdownOpen(!isPortfolioDropdownOpen);
-    };
-    useEffect(() => {
-        const handleClickOutside = (event: MouseEvent) => {
-            if (portfolioRef.current && !portfolioRef.current.contains(event.target as Node)) {
-            setIsPortfolioDropdownOpen(false);
-            }
-        };
-        document.addEventListener('mousedown', handleClickOutside);
-            return () => {
-                document.removeEventListener('mousedown', handleClickOutside);
-        };
-    }, []);
-
-
-    // CLIPPY STUFF, DO NOT NEED FOR NOW
-
-    // const [clippyPosition, setClippyPosition] = useState({ x: 0, y: 0 });
-    // const [showClippyModal, setShowClippyModal] = useState(false);
-    // const [chatbotInput, setChatbotInput] = useState('');
-    // const [chatHistory, setChatHistory] = useState<Array<{sender: string, message: string}>>([]);
-    // const [shouldShake, setShouldShake] = useState(false);
-
-    // GETTERS
-    // const getChatbotResponse = async (input: string): Promise<string> => {
-    //     try {
-    //         const response = await fetch('/api/chatbot', {
-    //             method: 'POST',
-    //             headers: {
-    //                 'Content-Type': 'application/json',
-    //             },
-    //             body: JSON.stringify({ message: input })
-    //         });
-    //         if (!response.ok) {
-    //             throw new Error(`HTTP error! status: ${response.status}`);
-    //         }
-    //         const data = await response.json();
-    //         return data.message;
-    //         } catch (error) {
-    //             console.error('Chatbot error:', error);
-    //             return 'Sorry, I'm having trouble responding right now!';
-    //         }
-    // };
-    // const handleChatbotSubmit = async (e: React.FormEvent) => {
-    //     e.preventDefault();
-    //     if (!chatbotInput.trim()) return;
-    //     // Add user message
-    //     const userMessage = chatbotInput;
-    //     setChatHistory(prev => [...prev, { 
-    //         sender: 'user',
-    //         message: userMessage
-    //     }]);
-    //     setChatbotInput('');
-    //     // Get bot response from server
-    //     const botMessage = await getChatbotResponse(userMessage);
-    //     // Add bot message
-    //     setChatHistory(prev => [...prev, { 
-    //         sender: 'bot', 
-    //         message: botMessage 
-    //     }]);
-    // };
-    // useEffect(() => {
-    //     const updateClippyPosition = () => {
-    //         const documentHeight = Math.max(
-    //             document.body.scrollHeight,
-    //             document.documentElement.scrollHeight,
-    //             document.body.offsetHeight,
-    //             document.documentElement.offsetHeight,
-    //             document.body.clientHeight,
-    //             document.documentElement.clientHeight
-    //         );
-            
-    //         setClippyPosition({
-    //         x: window.innerWidth - 100,
-    //         y: documentHeight - 150
-    //         });
-    //     };
-
-    //     updateClippyPosition();
-
-    //     window.addEventListener('resize', updateClippyPosition);
-    //     window.addEventListener('load', updateClippyPosition);
-    //     return () => {
-    //         window.removeEventListener('resize', updateClippyPosition);
-    //         window.removeEventListener('load', updateClippyPosition);
-    //     };
-    // }, [location.pathname]);
-
-
-
-
-    // clippy shake on initial page load
-    // useEffect(() => {
-
-    //     const hasShaken = sessionStorage.getItem('clippyShaken');
-        
-    //     if (!hasShaken) {
-
-    //         setShouldShake(true);
-
-    //         sessionStorage.setItem('clippyShaken', 'true');
-            
-    //         const shakeTimer = setTimeout(() => {
-    //             setShouldShake(false);
-    //         }, 1000);
-            
-    //         return () => clearTimeout(shakeTimer);
-    //     }
-    // }, []);
-
-    // clippy shakes on page reload, not just first visit
-    // useEffect(() => {
-    //     return () => {
-    //         // Reset on page unload if you want it to shake on next visit
-    //         sessionStorage.removeItem('clippyShaken');
-    //     };
-    // }, []);
 
     // toggle visibility
     const toggleWindow = () => setIsVisible(!isVisible);
 
-
     return (
-        <>
-            {/* cat icon */}
-            <div className='desktop'>
-                {/* when you click the desktop icon, setShowModal is set to true */}
-                <DesktopIcon
-                    icon='images/cat.png'
-                    label='Meow'
-                    x={50}
-                    y={35}
-                    onClick={() => setShowCatModal(true)}
-                />
+    <>
 
-                {showCatModal && (
-                    <div className='modal-overlay' onClick={() => setShowCatModal(false)}>
-                        
-                        <div 
-                            className='modal' 
-                            ref={catModalRef}
-                            onClick={(e) => e.stopPropagation()}
-                            style={{
-                                position: 'fixed',
-                                left: `${catPosition.x}px`,
-                                top: `${catPosition.y}px`,
-                            }}
+        {/* cat icon */}
+        <div className='desktop'>
+            {/* when you click the desktop icon, setShowModal is set to true */}
+            <DesktopIcon
+                icon='images/cat.png'
+                label='Meow'
+                x={50}
+                y={35}
+                onClick={() => setShowCatModal(true)}
+            />
+
+            {showCatModal && (
+                <div className='modal-overlay' onClick={() => setShowCatModal(false)}>
+                    
+                    <div 
+                        className='modal' 
+                        ref={catModalRef}
+                        onClick={(e) => e.stopPropagation()}
+                        style={{
+                            position: 'fixed',
+                            left: `${catPosition.x}px`,
+                            top: `${catPosition.y}px`,
+                        }}
+                    >
+                        <div
+                            className='modal-header'
+                            onMouseDown={handleCatMouseDown}
+                            style={{ cursor: 'grab'}}
                         >
-                            <div
-                                className='modal-header'
-                                onMouseDown={handleCatMouseDown}
-                                style={{ cursor: 'grab'}}
+                            <span>Question...</span>
+                            <button className='x-button' onClick={() => setShowCatModal(false)}>✕</button>
+                        </div>
+                        {/* body of modal */}
+                        <div className='modal-body'>Do you like cats?</div>
+                        {/* CHALLENGE: add two buttons to this modal, 'yes', and 'I love them!', and return a message to the user based on their selection */}
+                        <div className='cat-buttons'>
+                            <button 
+                            className='cat-button'
+                            onClick={() => {
+                                setShowCatModal(false);
+                                setShowYesModal(true);
+                            }}
                             >
-                                <span>Question...</span>
-                                <button className='x-button' onClick={() => setShowCatModal(false)}>✕</button>
-                            </div>
-                            {/* body of modal */}
-                            <div className='modal-body'>Do you like cats?</div>
-                            {/* CHALLENGE: add two buttons to this modal, 'yes', and 'I love them!', and return a message to the user based on their selection */}
-                            <div className='cat-buttons'>
-                                <button 
+                                Yes
+                            </button>
+                            <button 
                                 className='cat-button'
                                 onClick={() => {
                                     setShowCatModal(false);
-                                    setShowYesModal(true);
+                                    setShowLoveModal(true);
                                 }}
-                                >
-                                    Yes
-                                </button>
-                                <button 
-                                    className='cat-button'
-                                    onClick={() => {
-                                        setShowCatModal(false);
-                                        setShowLoveModal(true);
-                                    }}
-                                >
-                                    Yes, I do 
-                                </button>
+                            >
+                                Yes, I do 
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            )}
+        </div>
+
+            {/* define what showYesModal is */}
+            {showYesModal && (
+                <div className='modal-overlay' onClick={() => setShowYesModal(false)}>
+                    <div 
+                    className='modal cat-response-modal' 
+                    onClick={(e) => e.stopPropagation()}
+                    ref={yesModalRef}
+                    style={{
+                        position: 'fixed',
+                        left: `${yesPosition.x}px`,
+                        top: `${yesPosition.y}px`
+                    }}
+                >
+                        <div 
+                            className='modal-header'
+                            onMouseDown={handleYesMouseDown}
+                            style={{ cursor: 'grab'}}
+                        >
+                            <span>Smart Answer</span>
+                            <button className='x-button' onClick={() => setShowYesModal(false)}>✕</button>
+                        </div>
+                        <div className='modal-body'>
+                            <div className='image-container'>
+                                <img src='/images/evil_cat.gif' alt='evil_cat' />
                             </div>
                         </div>
                     </div>
-                )}
-            </div>
+                </div>
+            )}
 
-                {/* define what showYesModal is */}
-                {showYesModal && (
-                    <div className='modal-overlay' onClick={() => setShowYesModal(false)}>
-                        <div 
-                        className='modal cat-response-modal' 
+            {showLoveModal && (
+                <div className='modal-overlay' onClick={() => setShowLoveModal(false)}>
+                    <div 
+                        className='modal cat-response-modals' 
                         onClick={(e) => e.stopPropagation()}
-                        ref={yesModalRef}
+                        ref={loveModalRef}
                         style={{
                             position: 'fixed',
-                            left: `${yesPosition.x}px`,
-                            top: `${yesPosition.y}px`
+                            left: `${lovePosition.x}px`,
+                            top: `${lovePosition.y}px`
                         }}
                     >
-                            <div 
-                                className='modal-header'
-                                onMouseDown={handleYesMouseDown}
-                                style={{ cursor: 'grab'}}
-                            >
-                                <span>Smart Answer</span>
-                                <button className='x-button' onClick={() => setShowYesModal(false)}>✕</button>
-                            </div>
-                            <div className='modal-body'>
-                                <div className='image-container'>
-                                    <img src='/images/evil_cat.gif' alt='evil_cat' />
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                )}
-
-                {showLoveModal && (
-                    <div className='modal-overlay' onClick={() => setShowLoveModal(false)}>
                         <div 
-                            className='modal cat-response-modals' 
-                            onClick={(e) => e.stopPropagation()}
-                            ref={loveModalRef}
-                            style={{
-                                position: 'fixed',
-                                left: `${lovePosition.x}px`,
-                                top: `${lovePosition.y}px`
-                            }}
+                            className='modal-header'
+                            onMouseDown={handleLoveMouseDown}
+                            style={{ cursor: 'grab'}}
                         >
-                            <div 
-                                className='modal-header'
-                                onMouseDown={handleLoveMouseDown}
-                                style={{ cursor: 'grab'}}
-                            >
-                                <span>That's right, MINION</span>
-                                <button className='x-button' onClick={() => setShowLoveModal(false)}>✕</button>
-                            </div>
-                            <div className='modal-body'>
-                                <div className='image-container'>
-                                    <img src='/images/evil_cat.gif' alt='evil_cat' />
-                                </div>
+                            <span>That's right, MINION</span>
+                            <button className='x-button' onClick={() => setShowLoveModal(false)}>✕</button>
+                        </div>
+                        <div className='modal-body'>
+                            <div className='image-container'>
+                                <img src='/images/evil_cat.gif' alt='evil_cat' />
                             </div>
                         </div>
                     </div>
-                )}
+                </div>
+            )}
 
             {/* calculator icon */}
             <div className='desktop'>
@@ -976,85 +857,86 @@ function Home() {
                     className='calculator'
                 />
 
-                {/* calculator modal */}
-                {showCalculator && (
-                    <div className='modal-overlay' onClick={() => setShowCalculator(false)}>
+            {/* calculator modal */}
+            {showCalculator && (
+                <div className='modal-overlay' onClick={() => setShowCalculator(false)}>
+                    <div 
+                        className='modal calculator-modal' 
+                        onClick={(e) => e.stopPropagation()}
+                        ref={calculatorModalRef}
+                        style={{
+                            position: 'fixed',
+                            left: `${calculatorPosition.x}px`,
+                            top: `${calculatorPosition.y}px`
+                        }}
+                    >
                         <div 
-                            className='modal calculator-modal'
-                            onClick={(e) => e.stopPropagation()}
-                            ref={calculatorModalRef}
-                            style={{
-                                position: 'fixed',
-                                left: `${calculatorPosition.x}px`,
-                                top: `${calculatorPosition.y}px`
-                            }}
+                            className='modal-header'
+                            onMouseDown={handleCalculatorMouseDown}
+                            style={{ cursor: 'grab' }}
                         >
-                            <div 
-                                className='modal-header'
-                                onMouseDown={handleCalculatorMouseDown}
-                                style={{ cursor: 'grab' }}
-                            >
-                                <span>Calculator</span>
-                                <button className='x-button' onClick={() => setShowCalculator(false)}>✕</button>
+                            <span>Calculator</span>
+                            <button className='x-button' onClick={() => setShowCalculator(false)}>✕</button>
+                        </div>
+                        
+                        <div className='calculator-body'>
+                            <div className='calculator-display'>
+                                <div className='display-content'>{calculatorDisplay}</div>
                             </div>
-                            
-                            <div className='calculator-body'>
-                                <div className='calculator-display'>
-                                    <div className='display-content'>{calculatorDisplay}</div>
-                                </div>
 
-                                <div className='calculator-buttons'>
-                                    {/* memory row */}
-                                    <button className='calc-btn function-btn' onClick={clearAll}></button>
-                                    <button className='calc-btn function-btn' onClick={clearEntry}></button>
-                                    <button className='calc-btn function-btn' onClick={clearEntry}></button>
-                                    <button className='calc-btn function-btn-1' onClick={clearAll}>Back</button>
-                                    <button className='calc-btn function-btn-1' onClick={clearEntry}>CE</button>
-                                    <button className='calc-btn function-btn-1' onClick={clearAll}>AC</button>
+                            <div className='calculator-buttons'>
+                                {/* memory row */}
+                                <button className='calc-btn function-btn' onClick={clearAll}></button>
+                                <button className='calc-btn function-btn' onClick={clearEntry}></button>
+                                <button className='calc-btn function-btn' onClick={clearEntry}></button>
+                                <button className='calc-btn function-btn-1' onClick={clearAll}>Back</button>
+                                <button className='calc-btn function-btn-1' onClick={clearEntry}>CE</button>
+                                <button className='calc-btn function-btn-1' onClick={clearAll}>AC</button>
 
 
-                                    {/* row 1 */}
-                                    <button className='calc-btn memory-btn' onClick={() => handleMemory('MC')}>MC</button>
-                                    <button className='calc-btn number-btn' onClick={() => inputDigit('7')}>7</button>
-                                    <button className='calc-btn number-btn' onClick={() => inputDigit('8')}>8</button>
-                                    <button className='calc-btn number-btn' onClick={() => inputDigit('9')}>9</button>
-                                    <button className='calc-btn operator-btn' onClick={() => performOperation('÷')}>÷</button>
-                                    {/* change to square root */}
-                                    <button className='calc-btn function-btn' onClick={() => performOperation('√')}>√</button>
+                                {/* row 1 */}
+                                <button className='calc-btn memory-btn' onClick={() => handleMemory('MC')}>MC</button>
+                                <button className='calc-btn number-btn' onClick={() => inputDigit('7')}>7</button>
+                                <button className='calc-btn number-btn' onClick={() => inputDigit('8')}>8</button>
+                                <button className='calc-btn number-btn' onClick={() => inputDigit('9')}>9</button>
+                                <button className='calc-btn operator-btn' onClick={() => performOperation('÷')}>÷</button>
+                                {/* change to square root */}
+                                <button className='calc-btn function-btn' onClick={() => performOperation('√')}>√</button>
 
-                                    
-                                    <button className='calc-btn memory-btn' onClick={() => handleMemory('MR')}>MR</button>
-                                    <button className='calc-btn number-btn' onClick={() => inputDigit('4')}>4</button>
-                                    <button className='calc-btn number-btn' onClick={() => inputDigit('5')}>5</button>
-                                    <button className='calc-btn number-btn' onClick={() => inputDigit('6')}>6</button>
-                                    <button className='calc-btn operator-btn' onClick={() => performOperation('×')}>×</button>
-                                    <button className='calc-btn function-btn' onClick={inputPercent}>%</button>
-                                    
-                                    
-                                    {/* row 2 */}
-                                    <button className='calc-btn memory-btn' onClick={() => handleMemory('MS')}>MS</button>
-                                    <button className='calc-btn number-btn' onClick={() => inputDigit('1')}>1</button>
-                                    <button className='calc-btn number-btn' onClick={() => inputDigit('2')}>2</button>
-                                    <button className='calc-btn number-btn' onClick={() => inputDigit('3')}>3</button>
-                                    <button className='calc-btn operator-btn' onClick={() => performOperation('-')}>−</button>
-                                    {/* change to 1/x */}
-                                    <button className='calc-btn function-btn' onClick={() => performOperation('1/x')}>1/x</button>
+                                
+                                <button className='calc-btn memory-btn' onClick={() => handleMemory('MR')}>MR</button>
+                                <button className='calc-btn number-btn' onClick={() => inputDigit('4')}>4</button>
+                                <button className='calc-btn number-btn' onClick={() => inputDigit('5')}>5</button>
+                                <button className='calc-btn number-btn' onClick={() => inputDigit('6')}>6</button>
+                                <button className='calc-btn operator-btn' onClick={() => performOperation('×')}>×</button>
+                                <button className='calc-btn function-btn' onClick={inputPercent}>%</button>
+                                
+                                
+                                {/* row 2 */}
+                                <button className='calc-btn memory-btn' onClick={() => handleMemory('MS')}>MS</button>
+                                <button className='calc-btn number-btn' onClick={() => inputDigit('1')}>1</button>
+                                <button className='calc-btn number-btn' onClick={() => inputDigit('2')}>2</button>
+                                <button className='calc-btn number-btn' onClick={() => inputDigit('3')}>3</button>
+                                <button className='calc-btn operator-btn' onClick={() => performOperation('-')}>−</button>
+                                {/* change to 1/x */}
+                                <button className='calc-btn function-btn' onClick={() => performOperation('1/x')}>1/x</button>
 
 
-                                    <button className='calc-btn memory-btn' onClick={() => handleMemory('M+')}>M+</button>
-                                    <button className='calc-btn number-btn zero-btn' onClick={() => inputDigit('0')}>0</button>
-                                    <button className='calc-btn number-btn' onClick={inputDecimal}>.</button>
-                                    <button className='calc-btn function-btn' onClick={toggleSign}>±</button>
-                                    <button className='calc-btn operator-btn' onClick={() => performOperation('+')}>+</button>
-                                    <button className='calc-btn equals-btn' onClick={compute}>=</button>
-                                </div>
+                                <button className='calc-btn memory-btn' onClick={() => handleMemory('M+')}>M+</button>
+                                <button className='calc-btn number-btn zero-btn' onClick={() => inputDigit('0')}>0</button>
+                                <button className='calc-btn number-btn' onClick={inputDecimal}>.</button>
+                                <button className='calc-btn function-btn' onClick={toggleSign}>±</button>
+                                <button className='calc-btn operator-btn' onClick={() => performOperation('+')}>+</button>
+                                <button className='calc-btn equals-btn' onClick={compute}>=</button>
                             </div>
                         </div>
                     </div>
-                )}
+                </div>
+            )}
             </div>
 
-            
+
+
             {/* horoscope icon */}
             <div className='desktop'>
                 <DesktopIcon
@@ -1126,7 +1008,6 @@ function Home() {
                     )}
             </div>
 
-
             {/* media player */}
             <div className='desktop'>
                 <DesktopIcon
@@ -1140,7 +1021,7 @@ function Home() {
                 {showPlayModal && (
                     <div className='modal-overlay' onClick={() => setShowPlayModal(false)}>
                         
-                        <div
+                        <div 
                             className='modal media-modal' 
                             onClick={(e) => e.stopPropagation()}
                             ref={playModalRef}
@@ -1259,7 +1140,7 @@ function Home() {
                     label="don't click"
                     x={popupPosition.x}
                     y={popupPosition.y}
-                    onClick = {handleMysteryPopupClick}
+                    onClick={handleMysteryPopupClick}
                 />
 
                 {showPopUpModal && (
@@ -1285,170 +1166,151 @@ function Home() {
                     </div>
                     )}
             </div>
-
             {/* clippy */}
-            {/* <div className="desktop">
-
+            {/* <div className='desktop'>
                 <DesktopIcon
                     icon="/images/mad_clippy.png"
-                    label="Hello?"
+                    label="click me"
                     x={clippyPosition.x}
                     y={clippyPosition.y}
-                    onClick={() => setShowClippyModal(true)}
-                    className={`clippy ${shouldShake ? 'shake-animation' : ''}`}
+                    onClick={() => setShowCatModal(true)}
+                    className='clippy'
                 />
+
                 {showClippyModal && (
                     <div className="modal-overlay" onClick={() => setShowClippyModal(false)}>
-                        <div className="chatbot-modal" onClick={(e) => e.stopPropagation()}>
-                        <div className='chatbot-modal-header'>
-                            <span>ClipBot Messenger</span>
-                            <button className='x-button clippy-x' onClick={() => setShowClippyModal(false)}>✕</button>
-                        </div>
-                        
-                        <div className="chatbot-body">
-                            <div className="chat-history">
-                                {chatHistory.map((chat, index) => (
-                                    <div key={index} className={`chat-message ${chat.sender}`}>
-                                        <div className="message-header">
-                                            <span className="message-sender">
-                                                {chat.sender === 'user' ? 'You:' : 'Clippy:'}
-                                            </span>
-                                        </div>
-                                        <div className="message-content">
-                                            {chat.message}
-                                        </div>
-                                    </div>
-                                ))}
+                        <div className="modal" onClick={(e) => e.stopPropagation()}>
+                            <div className="modal-header">
+                                <span>Hi, I'm ANGRY CLIPPY</span>
+                                <button className='x-button' onClick={() => setShowClippyModal(false)}>✕</button>
                             </div>
-                            
 
-                            <form onSubmit={handleChatbotSubmit} className="chat-input-form">
-                            <input
-                                type="text"
-                                value={chatbotInput}
-                                onChange={(e) => setChatbotInput(e.target.value)}
-                                placeholder="Type your message..."
-                                className="chat-input"
-                            />
-                            <button type="submit" className="end-button">
-                                <img src={send} alt="Send" className="send-icon" />
-                            </button>
-                            </form>
-                        </div>
+                            <div className="modal-body">Are you kidding me??</div>
+
+                            <div className='cat-buttons'>
+                                <button 
+                                className='cat-button'
+                                onClick={() => {
+                                    setShowClippyModal(false);
+                                    setShowYesModal(true);
+                                }}
+                                >
+                                    Yes
+                                </button>
+                                <button 
+                                    className='cat-button'
+                                    onClick={() => {
+                                        setShowClippyModal(false);
+                                        setShowLoveModal(true);
+                                    }}
+                                >
+                                    No
+                                </button>
+                            </div>
                         </div>
                     </div>
-                    )}
-        </div> */}
+                )}
+            </div> */}
 
+        {isVisible && (
+            <div 
+                className={`window ${isVisible ? 'visible' : ''}`}
+                ref={windowRef}
+                style={{
+                    position: 'absolute',
+                    left: `${position.x}px`,
+                    top: `${position.y}px`,
+                    cursor: isDragging ? 'grabbing' : 'default'
+                }}
+                onMouseDown={handleMouseDown}
+            >
+                {/* header */}
+                <header>
+                    <section className='blue-bar'>
+                        <img src='/images/connections.ico' className='icon' alt='icon'/>
+                        <section className='blue-bar-text'>DevScape - Val Sedano</section>
+                        <div className='button-container'>
+                            <button className='x-button' onClick={toggleWindow}>✕</button>
+                        </div>
+                    </section>
 
-        {/* content window - draggable */}
-            {/* if isVisible is true, */}
-            {isVisible && (
-                <div 
-                    className={`window ${isVisible ? 'visible' : ''}`}
-                    ref={windowRef}
-                    style={{
-                        position: 'absolute',
-                        left: `${position.x}px`,
-                        top: `${position.y}px`,
-                        cursor: isDragging ? 'grabbing' : 'default'
-                    }}
-                    onMouseDown={handleMouseDown}
-                >
+                    {/* navbar */}
+                    <nav className='navbar'>
+                        <ul>
+                            <li className='button left-button'>
+                                <Link to='/'>
+                                    <img src='/images/Starfield.ico' className='home-icon' alt='home'/>
+                                    <p>Home</p>
+                                </Link>
+                            </li>
 
+                        {/* tutorial: portfolio dropdown */}
+                        <li
+                            className={`button portfolio-dropdown-container ${isPortfolioDropdownOpen ? 'dropdown-active' : ''}`}
+                            onClick={() => setIsPortfolioDropdownOpen(!isPortfolioDropdownOpen)}
+                        >
+                            {/* .preventDefault keeps it from routing to /portfolio */}
+                            <Link to='/portfolio' onClick={(e) => e.preventDefault()}>
+                                <img src='/images/Painting.ico' className='paint-icon' alt='portfolio'/>
+                                <p>Portfolio
+                                    <img src='/images/downward-arrow.png' className='caret-down'/>
+                                </p>
+                            </Link>
 
-                    {/* header */}
-                    <header>
-                        <section className='blue-bar'>
-                            <img src='/images/connections.ico' className='icon' alt='icon'/>
-                            <section className='blue-bar-text'>DevScape - Val Sedano</section>
+                            {isPortfolioDropdownOpen && (
+                                <div className='portfolio-dropdown'>
+                                    <Link to='/websites' className='dropdown-item'>Websites</Link>
+                                    <Link to='/design' className='dropdown-item'>UX Design</Link>
+                                    <Link to='/studies' className='dropdown-item'>Case Studies</Link>
+                                </div>
+                            )}
+                        </li>
 
-                            <div className='button-container'>
-                                <button className='x-button' onClick={toggleWindow}>✕</button>
-                            </div>
-                        </section>
-
-
-                        {/* *************************** NAVBAR ************************/}
-                        <nav className='navbar'>
-                            <ul>
-                                {/* allows you to style the Home button when it's the router path */}
-                                <li className={`button left-button ${location.pathname === '/' ? 'active-home' : ''}`}>
-                                    <Link to='/'>
-                                        <img src='/images/Starfield.ico' className='home-icon' alt='home'/>
-                                        <p>Home</p>
-                                    </Link>
-                                </li>
-
-
-                                <li
-                                    className={`button portfolio-dropdown-container ${isPortfolioDropdownOpen ? 'dropdown-active' : ''}`}
-                                    onClick={() => setIsPortfolioDropdownOpen(!isPortfolioDropdownOpen)}
-                                >
-                                    {/* .preventDefault keeps it from routing to /portfolio */}
-                                    <Link to='/portfolio' onClick={(e) => e.preventDefault()}>
-                                        <img src='/images/Painting.ico' className='paint-icon' alt='portfolio'/>
-                                        <p>Portfolio
-                                            <img src='/images/downward-arrow.png' className='caret-down'/>
-                                        </p>
-                                    </Link>
-
-                                    {isPortfolioDropdownOpen && (
-                                        <div className='portfolio-dropdown'>
-                                            <Link to='/websites' className='dropdown-item'>Websites</Link>
-                                            <Link to='/design' className='dropdown-item'>UX Design</Link>
-                                            <Link to='/studies' className='dropdown-item'>Case Studies</Link>
-                                        </div>
-                                    )}
-                                </li>
-
-
-                                <li className='button'>
+                            <li className='button'>
                                     <Link to='/resume'>
                                         <img src='/images/resume.png'className='resume-icon' alt='resume'></img>
                                         <p>Resume</p>
                                     </Link>
-                                </li>
-                                <li className='button'>
-                                    <Link to='/contact'>
-                                        <img src={send} className='contact-icon' alt='contact'></img>
+                            </li>
+                            {/* <li className='button'>
+                                <Link to='/about'>
+                                    <img src='/src/assets/resume.png' className='resume-icon' alt='about'></img>
+                                    <p>About</p>
+                                </Link>
+                            </li> */}
+                            <li className='button'>
+                                <Link to='/contact'>
+                                        <img src={send}className='contact-icon'></img>
                                         <p>Contact</p>
-                                    </Link>
-                                </li>   
-                            </ul>
-                        </nav>
-                    </header>
+                                </Link>
+                            </li>   
+                        </ul>
+                    </nav>
+                </header>
 
-
-
-                    {/* URL bar */}
-                    <div className='url-container'>
-                        <div className = 'url-bar'>
-                            <div className = 'url-bar-small-1'>Address</div>
-                            <div className = 'url-bar-large'>
-                                <div className='dropdown-container'>
-                                    <div className='url-text'>http://www.geocities.com/val_is_best_dev</div>
-                                </div>
-                                <button className='url-dropdown-button'>▼</button>
+                {/* URL bar */}
+                <div className='url-container'>
+                    <div className='url-bar'>
+                        <div className='url-bar-small-1'>Address</div>
+                        <div className='url-bar-large'>
+                            <div className='dropdown-container'>
+                                <div className='url-text'>http://www.geocities.com/val_is_best_dev</div>
                             </div>
-                            <div className = 'url-bar-small-2'>Links</div>
+                            <button className='url-dropdown-button'>▼</button>
                         </div>
+                        <div className='url-bar-small-2'>Links</div>
                     </div>
+                </div>
 
 
-                    {/* window content */}
-                    <div className='content'>
-                        <div className='homepage-banners'>
-                            <img className='computer' src='/images/computer_1.png' alt='computer_1' />
-                            <div className='inner-banner-text'>
-                                <p className='banner'>-- Val Sedano --</p>
-                                <p className='banner-1'>Nostalgic UX Expert</p>
-                            </div>
-                            <img className='computer' src='/images/computer-2.png' alt='computer_2' />
-                        </div>
 
-                        
-                        <div className='img-grid'>
+                {/* window content */}
+                <div className='content'>
+                    <div className='portfolio-content'>
+
+                        {/* <div className='portfolio-banner'>PORTFOLIO</div> */}
+
+                        <div className='img-grid portfolio'>
                             {images.map((image, index) => (
                                 <div key={index}>
                                     {/* */}
@@ -1466,25 +1328,28 @@ function Home() {
                                 </div>
                             ))}
                         </div>
+                        
+                    </div>
+                
+                </div>
 
 
-                        {/* content footer */}
-                        <div className='footer'>
-                            <div className='footer-section footer-large'></div>
-                            <div className = 'footer-section footer-small'></div>
-                            <div className = 'footer-section footer-small'></div>
-                            <div className = 'footer-section footer-small'></div>
-                            <div className='footer-section footer-medium'>
-                                <img src={earth} className='content-footer-icon' alt='content_footer'></img>
-                                <p className='footer-section-text'>Internet</p>
-                            </div>
-                        </div>
+                
+                {/* CONTENT FOOTER */}
+                <div className='footer'>
+                    <div className='footer-section footer-large'></div>
+                    <div className='footer-section footer-small'></div>
+                    <div className='footer-section footer-small'></div>
+                    <div className='footer-section footer-small'></div>
+                    <div className='footer-section footer-medium'>
+                        <img src={earth}className='content-footer-icon' alt='internet'/>
+                        <p className='footer-section-text'>Internet</p>
                     </div>
                 </div>
-            )}
+            </div>
+        )}
 
 
-            {/* popup spam section */}
             {isPopupSpamActive && (
                 <>
                     {popups.map((popup) => (
@@ -1546,14 +1411,14 @@ function Home() {
                 </>
             )}
 
-            {/* taskbar */}
-            <Taskbar
-                isVisible={isVisible} 
-                toggleWindow={toggleWindow}
-                currentTime={currentTime}
-            />
-        </>
-    );
+        {/* taskbar */}
+        <Taskbar 
+            isVisible={isVisible} 
+            toggleWindow={toggleWindow}
+            currentTime={currentTime}
+        />
+    </>
+);
 }
 
-export default Home;
+export default Websites;

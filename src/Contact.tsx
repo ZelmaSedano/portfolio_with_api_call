@@ -1311,9 +1311,9 @@ function Contact() {
 
                                     {isPortfolioDropdownOpen && (
                                         <div className='portfolio-dropdown'>
-                                            <Link to='/portfolio' className='dropdown-item'>Websites</Link>
-                                            <Link to='/portfolio' className='dropdown-item'>UX Design</Link>
-                                            <Link to='/portfolio' className='dropdown-item'>Case Studies</Link>
+                                            <Link to='/websites' className='dropdown-item'>Websites</Link>
+                                            <Link to='/design' className='dropdown-item'>UX Design</Link>
+                                            <Link to='/studies' className='dropdown-item'>Case Studies</Link>
                                         </div>
                                     )}
                                 </li>

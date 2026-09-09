@@ -126,22 +126,17 @@ function Portfolio() {
     const images = [
         {
             title:'WebCraft Projects',
-            id: 'webcraft',
+            id: 'ok',
             url: 'https://www.figma.com/design/229APkMFR2DqP819VYDmyY/WebCraft?m=auto&t=vZjGYwJcDZPGZLwW-1'
         },
         {
             title:'Personal Projects',
-            id: 'scandique',
+            id: 'ok',
             url: 'https://www.pinterest.com/pin/9077636744660963/'
         },
         {
             title:'UX/UI Design',
-            id: 'desktop',
-            url: 'https://www.pinterest.com/pin/9077636744660963/'
-        },
-        {
-            title:'AI & Python',
-            id: 'ai',
+            id: 'ok',
             url: 'https://www.pinterest.com/pin/9077636744660963/'
         }
     ];
@@ -1315,16 +1310,16 @@ function Portfolio() {
 
                         {/* <div className='portfolio-banner'>PORTFOLIO</div> */}
 
-                        <div className='img-grid'>
+                        <div className='img-grid portfolio'>
                             {images.map((image, index) => (
                                 <div key={index}>
-                                    <div className='image-container'>
+                                    {/* */}
+                                    <div className='grid-image-container'>
                                         <div className='image-title'>{image.title}</div>
-                                        <a href={image.url} target='_blank' rel='noopener noreferrer'>
+                                        <a href={image.url} rel='noopener noreferrer'>
                                             <img
-                                                src={`/images/${image.id}.jpg`} // Changed to use public folder path
+                                                src={`/images/${image.id}.jpeg`}
                                                 title={`${image.id} website`}
-                                                style={{ width: '320px', height: '160px' }}
                                                 alt={image.id}
                                                 className='image clickable-image'
                                             />
