@@ -66,6 +66,7 @@ function Websites() {
     const [loveDragOffset, setLoveDragOffset] = useState({ x: 0, y: 0 });
 
     // calculator
+    const [calculatorExpression, setCalculatorExpression] = useState('');
     const [showCalculator, setShowCalculator] = useState(false);
     const [calculatorPosition, setCalculatorPosition] = useState({ x: 200, y: 200 });
     const [isDraggingCalculator, setIsDraggingCalculator] = useState(false);
@@ -179,8 +180,24 @@ function Websites() {
         if (waitingForOperand) {
             setCalculatorDisplay(digit);
             setWaitingForOperand(false);
+
+            if (operation && previousValue !== null) {
+                setCalculatorExpression(
+                    `${previousValue}${operation}${digit}`
+                );
+            }
         } else {
-            setCalculatorDisplay(calculatorDisplay === '0' ? digit : calculatorDisplay + digit);
+            setCalculatorDisplay(
+                calculatorDisplay === '0'
+                    ? digit
+                    : calculatorDisplay + digit
+            );
+
+            if (operation && previousValue !== null) {
+                setCalculatorExpression(
+                    `${previousValue}${operation}${calculatorDisplay === '0' ? digit : calculatorDisplay + digit}`
+                );
+            }
         }
     };
     const inputDecimal = () => {
@@ -204,16 +221,18 @@ function Websites() {
     };
     const performOperation = (nextOperation: string) => {
         const currentValue = parseFloat(calculatorDisplay);
-        
+
         if (previousValue !== null && operation && !waitingForOperand) {
             const result = calculate(previousValue, currentValue, operation);
+
             setCalculatorDisplay(String(result));
             setPreviousValue(result);
         } else {
             setPreviousValue(currentValue);
         }
-        
+
         setOperation(nextOperation);
+        setCalculatorExpression(`${currentValue}${nextOperation}`);
         setWaitingForOperand(true);
     };
     const calculate = (a: number, b: number, op: string): number => {
@@ -227,12 +246,16 @@ function Websites() {
     };
     const compute = () => {
         const currentValue = parseFloat(calculatorDisplay);
+
         if (previousValue !== null && operation) {
             const result = calculate(previousValue, currentValue, operation);
+
             setCalculatorDisplay(String(result));
+
             setPreviousValue(null);
             setOperation(null);
             setWaitingForOperand(true);
+            setCalculatorExpression('');
         }
     };
     const handleMemory = (action: string) => {
@@ -881,7 +904,7 @@ function Websites() {
                         
                         <div className='calculator-body'>
                             <div className='calculator-display'>
-                                <div className='display-content'>{calculatorDisplay}</div>
+                                <div className='display-content'>{calculatorExpression ||calculatorDisplay}</div>
                             </div>
 
                             <div className='calculator-buttons'>
