@@ -46,7 +46,7 @@ const Taskbar: React.FC<TaskbarProps> = ({isVisible, toggleWindow, currentTime})
                 className={`start-button ${isStartMenuOpen ? 'active' : ''}`}
                 onClick={toggleStartMenu}
             >
-                <img src="/public/images/flag.png" className="start-icon" alt="start"/>
+                <img src="/images/flag.png" className="start-icon" alt="start"/>
                 <span className="start-text">Start</span>
             </button>
 
